@@ -141,21 +141,17 @@ all:
 object:$(NAME)
 %.o : %$(SRC_FILE_EXT)
 	@if [ -f $@ ]; then rm $@; fi
+	@echo -ne "\r"
 	@$(CC) -o $@ -c $< $(_INCLUDE_GCC) $(_LIB_GCC) $(LIB_FLAGS) $(FLAGS)  && \
 	($(CLS_LINE) ; $(ECHO) -n $(BLINK)" [OK]"$(DEFLT) $<) || \
-	($(CLS_LINE) ; \
-	$(ECHO) $(RED)"===================================== [KO]"$(DEFLT)" $<")
+	($(ECHO) $(RED)"==================================== [KO] "$(TEAL)\
+	"$<"$(DEFLT)" \n\n")
 
 
 
 $(NAME):$(_OBJ)
 	@($(CLS_LINE) ; $(ECHO) $(BLUE)" [OBJECT COMPILATION FINISHED]"$(DEFLT))
-	@for ErrLog in $(shell find -name "*$(_ERROR_LOG_EXT_NAME)"); do \
-		$(ECHO); \
-		cat $$ErrLog; \
-		$(ECHO) "\n"; \
-	done
-	@find -name "*$(_ERROR_LOG_EXT_NAME)" -delete
+
 
 
 
