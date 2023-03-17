@@ -152,13 +152,10 @@ all: lib
 object:$(NAME)
 %.o : %$(SRC_FILE_EXT)
 	@if [ -f $@ ]; then rm $@; fi
-	@$(CC) -o $@ -c $< $(_INCLUDE_GCC) $(_LIB_GCC) $(LIB_FLAGS) $(FLAGS) \
-		2> $(shell tr -s / _ <<< "$<$(_ERROR_LOG_EXT_NAME)") && \
-	($(CLS_LINE) ; $(ECHO) -n $(BLINK)" [OK]"$(DEFLT) $<; \
-		rm -f $(shell tr -s / _ <<< "$<$(_ERROR_LOG_EXT_NAME)")) || \
-	($(CLS_LINE) ; $(ECHO) $(RED)" [KO]"$(DEFLT) $<; \
-	$(ECHO) $(RED)"===================================== [KO]"$(DEFLT)" $<" \
-		>> $(shell tr -s / _ <<< "$<$(_ERROR_LOG_EXT_NAME)"))
+	@$(CC) -o $@ -c $< $(_INCLUDE_GCC) $(_LIB_GCC) $(LIB_FLAGS) $(FLAGS)  && \
+	($(CLS_LINE) ; $(ECHO) -n $(BLINK)" [OK]"$(DEFLT) $<) || \
+	($(CLS_LINE) ; \
+	$(ECHO) $(RED)"===================================== [KO]"$(DEFLT)" $<")
 
 
 
