@@ -31,22 +31,12 @@ re: fclean all
 core:
 	@make -C $(CORE_SRC) --no-print-directory
 
-# core_re:
-# 	@make re -C $(CORE_SRC) --no-print-directory
-
 games: .FORCE
 	@for dir in $(GAME_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
 		make so -C $$dir --no-print-directory; \
 		cp $$dir/*.so $$dir/../; \
 	done
-
-# games_re: .FORCE
-# 	@for dir in $(GAME_SRC); do \
-# 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
-# 		make re -C $$dir --no-print-directory; \
-# 		cp $$dir/*.so $$dir/../; \
-# 	done
 
 graphicals: .FORCE
 	@for dir in $(GRAPHIC_SRC); do \
@@ -55,26 +45,30 @@ graphicals: .FORCE
 		cp $$dir/*.so $$dir/../; \
 	done
 
-# graphicals_re: .FORCE
-# 	@for dir in $(GRAPHIC_SRC); do \
-# 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
-# 		make re -C $$dir --no-print-directory; \
-# 		cp $$dir/*.so $$dir/../; \
-# 	done
-
 clean:
-	@find . -name "*.o" -delete \
-		-or -name "*~" -delete && \
-	$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
+	@make clean -C $(CORE_SRC) --no-print-directory
+	@for dir in $(GRAPHIC_SRC); do \
+		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
+		make clean -C $$dir --no-print-directory; \
+		cp $$dir/*.so $$dir/../; \
+	done
+	@for dir in $(GAME_SRC); do \
+		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
+		make clean -C $$dir --no-print-directory; \
+		cp $$dir/*.so $$dir/../; \
+	done
 
-fclean: clean
-	@find .	-name "*.a" -delete \
-		-or -name "*.exe" -delete \
-		-or -name "a.out" -delete \
-		-or -name "*.so" -delete  \
-		-or -name "vgcore*" -delete
-	@$(ECHO) $(GREEN) "All temporal file deleted!" $(DEFLT)
-	@find -maxdepth 1 -name $(NAME) -delete
-	@$(ECHO) $(GREEN) "Executable deleted!" $(DEFLT)
+fclean:
+	@make fclean -C $(CORE_SRC) --no-print-directory
+	@for dir in $(GRAPHIC_SRC); do \
+		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
+		make fclean -C $$dir --no-print-directory; \
+		cp $$dir/*.so $$dir/../; \
+	done
+	@for dir in $(GAME_SRC); do \
+		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
+		make fclean -C $$dir --no-print-directory; \
+		cp $$dir/*.so $$dir/../; \
+	done
 
 .FORCE:
