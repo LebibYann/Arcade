@@ -1,0 +1,48 @@
+/*
+** EPITECH PROJECT, 2023
+** DLLoader
+** File description:
+** The class can open and manipulate a dynamic library.
+*/
+
+#pragma once
+
+#include <dlfcn.h>
+#include <string>
+#include <memory>
+
+namespace Arcade
+{
+    class DLLoader
+    {
+    public:
+        class BadLibrary : public std::exception
+        {
+        public:
+            BadLibrary(std::string msg);
+            const char *what();
+
+        private:
+            const std::string _msg;
+        };
+
+        DLLoader(std::string lib);
+        template <typename T>
+        std::unique_ptr<T> getInstance(std::string symbol)
+        {
+            void *sym;
+            std::unique_ptr<T> (*func)();
+            char *error;
+
+            sym = dlsym(handle, symbol.c_str());
+            if ((error = dlerror()) != NULL)
+                throw BadLibrary(error);
+            func = reinterpret_cast<std::unique_ptr<T> (*)()>(sym);
+            return (func());
+        }
+        ~DLLoader();
+
+    private:
+        void *handle;
+    };
+}

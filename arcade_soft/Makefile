@@ -22,7 +22,7 @@ INCLUDE_DIRS_REC = include/
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++11
+FLAGS = -g -g3 -Wextra -Wall -Werror -W
 
 #LIB
 LIB_DIRS =
