@@ -13,7 +13,6 @@
 
 namespace Arcade
 {
-
     typedef enum e_arcade_input
     {
         UP_ARROW,
