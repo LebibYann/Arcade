@@ -50,12 +50,10 @@ clean:
 	@for dir in $(GRAPHIC_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make clean -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
 	done
 	@for dir in $(GAME_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
 		make clean -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
 	done
 
 fclean:
@@ -63,12 +61,10 @@ fclean:
 	@for dir in $(GRAPHIC_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make fclean -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
 	done
 	@for dir in $(GAME_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
 		make fclean -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
 	done
 
 .FORCE:
