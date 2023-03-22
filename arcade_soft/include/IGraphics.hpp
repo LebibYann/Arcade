@@ -33,13 +33,12 @@ namespace Arcade
          */
         void *loadImage(const std::string &path);
         /**
-         * @brief Loads an image.
+         * @brief Loads a font.
          *
          * @param path The path of the image to load
-         * @return Always return a texture even if the loading fails, however,
-         * if it fails it will the texture with the minecraft unknown block texture.
+         * @return
          */
-        void loadConfiguration(const std::string &path);
+        void loadFont(const std::string &path);
         /**
          * @brief Draws a tile a the specified position with the specified color.
          * A tile is based on the size of one character in ASCII rendered library.
