@@ -23,13 +23,12 @@ namespace Arcade
          */
         void openWindow(int width, int height);
         void closeWindow();
-
         /**
          * @brief Loads an image.
          *
          * @param path The path of the image to load
          * @return Always return a texture even if the loading fails, however,
-         * if it fails it will the texture with the minecraft unknown block texture.
+         * if it fails it will be an unknown block texture black and purple.
          */
         void *loadImage(const std::string &path);
         /**
@@ -52,6 +51,14 @@ namespace Arcade
          */
         void drawTile(int x, int y, uint32_t color);
         /**
+         * @brief Draws an image at the specified position
+         * 
+         * @param x X position of the tile to draw
+         * @param y Y position of the tile to draw
+         * @param img The image to draw 
+         */
+        void drawImage(int x, int y, void *img);
+        /**
          * @brief Draw text
          *
          * @param text The text to draw
@@ -66,31 +73,26 @@ namespace Arcade
          *
          */
         void display();
-
         /**
-         * @brief Get the Mouse Button object in int pointer of 2 occurences.a
-         * Where the first occurence contains x position and
-         * the second the y position.
-         *
-         * @return true
-         * @return false
+         * @brief Get the Mouse Button in an int table object in 
+         * 
+         * @param coords Int table of 2 occurences.
+         * Which contains in the first occurence the position x and 
+         * the second the position y.
          */
         void getMousePos(int *coords);
         /**
-         * @brief Get the Buttons object in bool pointer of 3 occurences.
-         * The first occurence contain the left click state,
-         * the second one contain the middle click state,
-         * the third one contain the right click state
-         *
-         * @return true
-         * @return false
+         * @brief Get the mouse Buttons in a bool table.
+         * 
+         * @param buttons Bool table of 3 occurences which
+         * return the buttons pressed during the call.
          */
-        void getMouseButton(bool *mouseButtons);
+        void getMouseButton(bool *buttons);
         /**
-         * @brief Fill the t_button struct with the information about
-         * what buttons have been triggered.
-         *
-         * @return t_button*
+         * @brief Get the Buttons in a bool table.
+         * 
+         * @param buttons Bool table of TOTAL_INPUT occurences which
+         * return the buttons pressed during the call.
          */
         void getButtons(bool *buttons);
     };

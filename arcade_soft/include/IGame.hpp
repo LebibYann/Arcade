@@ -7,16 +7,15 @@
 
 #pragma once
 
+#include <Instruction.hpp>
+
 #include <cstddef>
 #include <vector>
 #include <string>
+#include <list>
 
 namespace Arcade
 {
-    typedef struct s_game_data
-    {
-        void *data;
-    } t_game_data;
     typedef struct s_tile_config {
         int id; // Same id as the one InstDrawTile
         int color; // Normally an enum with fixed color
@@ -27,24 +26,24 @@ namespace Arcade
     {
     public:
         /**
-         * @brief Call the main equivalent function to start the game
+         * @brief Call the main equivalent function to compute a frame of the game.
          *
-         * @param graphics
-         * @return std::size_t
+         * @param buttons A bool table which represent the buttons pressed in the current frame.
+         * @return List of instructions to execute.
          */
-        std::size_t computeFrame(t_game_data &gdata, bool *inputs);
+        std::list<IInstruction> computeFrame(bool *buttons);
         /**
          ** @brief Gives information about the game tiles
          ** their id, color, and potentialy texture.
          **
          ** @return std::vector<t_tile_config>
          */
-        std::vector<t_tile_config> getTilesConfig(void) const;
+        std::list<t_tile_config> getTilesConfig(void) const;
         /**
          ** @brief Get the game's score
          **
          ** @return int
          */
-        int getScore(void) const;
+        std::size_t getScore(void) const;
     };
 }

@@ -22,30 +22,27 @@ public:
     virtual ~IInstruction() = default;
 
     virtual int getId(void) const = 0;
-    virtual void setId(int id) = 0;
 };
 
-class AInstruction: public IInstruction {
+class InstFill: public IInstruction {
 public:
-    int getId(void) const {return (this->_id);}
-    void setId(int id) {this->_id = id;}
-protected:
-    int _id;
-};
-
-class InstFill: public AInstruction {
+    int getId(void) const {return (INST_FILL);}
 protected:
     int _color;
 };
 
-class InstDrawTile: public AInstruction {
+class InstDrawTile: public IInstruction {
+public:
+    int getId(void) const {return (INST_DRAW_TILE);}
 protected:
     int _x;
     int _y;
     int _textureId;
 };
 
-class InstDrawText: public AInstruction {
+class InstDrawText: public IInstruction {
+public:
+    int getId(void) const {return (INST_DRAW_TEXT);}
 protected:
     int _color;
     int _x;
@@ -53,7 +50,9 @@ protected:
     std::string _text;
 };
 
-class InstPlaySound: public AInstruction {
+class InstPlaySound: public IInstruction {
+public:
+    int getId(void) const {return (INST_PLAY_SOUND);}
 protected:
     std::string _audioPath;
 };
