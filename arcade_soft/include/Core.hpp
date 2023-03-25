@@ -13,26 +13,6 @@
 
 namespace Arcade
 {
-    typedef enum e_arcade_input
-    {
-        UP_ARROW,
-        DOWN_ARROW,
-        LEFT_ARROW,
-        RIGHT_ARROW,
-        BUTTON1,
-        BUTTON2,
-        BUTTON3,
-        BUTTON4,
-        PREV_GAME,
-        NEXT_GAME,
-        PREV_LIB,
-        NEXT_LIB,
-        RESTART,
-        HOME_MENU,
-        EXIT,
-        TOTAL_INPUT
-    } t_arcade_input;
-
     typedef struct s_tile_data
     {
         int id;

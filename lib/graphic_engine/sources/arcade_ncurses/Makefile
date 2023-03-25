@@ -18,7 +18,7 @@ SRC_DIRS =
 SRC_FILES =
 
 #INCLUDE
-INCLUDE_DIRS_REC = include/
+INCLUDE_DIRS_REC = include/ ../../../../arcade_soft/include/
 INCLUDE_DIRS =
 
 #FLAGS

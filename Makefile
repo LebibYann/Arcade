@@ -6,8 +6,8 @@
 ##
 
 CORE_SRC = ./arcade_soft
-GAME_SRC = $(shell find ./games/sources -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
-GRAPHIC_SRC = $(shell find ./graphic_engine/sources -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+GAME_SRC = $(shell find ./lib/games/sources -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+GRAPHIC_SRC = $(shell find ./lib/graphic_engine/sources -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
 
 ECHO = echo -e
 CAT = /usr/bin/cat
