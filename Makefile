@@ -42,7 +42,7 @@ graphicals: .FORCE
 	@for dir in $(GRAPHIC_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make so -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
+		cp $$dir/*.so $$dir/../../; \
 	done
 
 clean:
