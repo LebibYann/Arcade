@@ -40,10 +40,17 @@ namespace Arcade
          */
         std::list<t_tile_config> getTilesConfig(void) const;
         /**
+         ** @brief Gives information about the number of tiles
+         ** in width and height required by the game.
+         **
+         ** @return std::vector<int>
+         */
+        std::vector<int> getWindowSize(void) const;
+        /**
          ** @brief Get the game's score
          **
          ** @return int
          */
         std::size_t getScore(void) const;
     };
-}
+};

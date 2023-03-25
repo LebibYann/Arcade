@@ -18,11 +18,11 @@ SRC_DIRS =
 SRC_FILES =
 
 #INCLUDE
-INCLUDE_DIRS_REC = include/
+INCLUDE_DIRS_REC = include/ ../../../../arcade_soft/include/
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++11
+FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++11 -fPIC 
 
 #EXCLUDED
 GLOB_EXCL_DIRS = ./bonus/
@@ -147,8 +147,6 @@ object:$(NAME)
 	($(ECHO) $(RED)"==================================== [KO] "$(TEAL)\
 	"$<"$(DEFLT)" \n\n")
 
-
-
 $(NAME):$(_OBJ)
 	@($(CLS_LINE) ; $(ECHO) $(BLUE)" [OBJECT COMPILATION FINISHED]"$(DEFLT))
 
@@ -161,7 +159,7 @@ build_a:
 	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).a;
 
 build_so:
-	@ld -shared -o $(ROOT)$(NAME).so $(_OBJ) && \
+	@g++ -shared -o $(ROOT)$(NAME).so $(_OBJ) && \
 	($(CLS_LINE) ; $(ECHO) $(BLINK)" [OK]"$(DEFLT) $(NAME).so) || \
 	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).so;
 

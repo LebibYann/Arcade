@@ -11,6 +11,26 @@
 
 namespace Arcade
 {
+    typedef enum e_arcade_input
+    {
+        UP_ARROW,
+        DOWN_ARROW,
+        LEFT_ARROW,
+        RIGHT_ARROW,
+        BUTTON1,
+        BUTTON2,
+        BUTTON3,
+        BUTTON4,
+        PREV_GAME,
+        NEXT_GAME,
+        PREV_LIB,
+        NEXT_LIB,
+        RESTART,
+        HOME_MENU,
+        EXIT,
+        TOTAL_INPUT
+    } t_arcade_input;
+
     class IGraphics
     {
     public:
@@ -21,8 +41,8 @@ namespace Arcade
          * @param height Y position of the tile to draw
          * @param scale
          */
-        void openWindow(int width, int height);
-        void closeWindow();
+        virtual void openWindow(int width, int height) = 0;
+        virtual void closeWindow() = 0;
         /**
          * @brief Loads an image.
          *
@@ -30,14 +50,14 @@ namespace Arcade
          * @return Always return a texture even if the loading fails, however,
          * if it fails it will be an unknown block texture black and purple.
          */
-        void *loadImage(const std::string &path);
+        virtual void *loadImage(const std::string &path) = 0;
         /**
          * @brief Loads a font.
          *
          * @param path The path of the image to load
          * @return
          */
-        void loadFont(const std::string &path);
+        virtual void loadFont(const std::string &path) = 0;
         /**
          * @brief Draws a tile a the specified position with the specified color.
          * A tile is based on the size of one character in ASCII rendered library.
@@ -49,15 +69,15 @@ namespace Arcade
          * @param color An unsigned int where each byte is in the following order -> rgba
          * You can use the setColor method to get a well formed unsigned int color.
          */
-        void drawTile(int x, int y, uint32_t color);
+        virtual void drawTile(int x, int y, uint32_t color) = 0;
         /**
          * @brief Draws an image at the specified position
-         * 
+         *
          * @param x X position of the tile to draw
          * @param y Y position of the tile to draw
-         * @param img The image to draw 
+         * @param img The image to draw
          */
-        void drawImage(int x, int y, void *img);
+        virtual void drawImage(int x, int y, void *img) = 0;
         /**
          * @brief Draw text
          *
@@ -67,33 +87,33 @@ namespace Arcade
          * @param color An unsigned int where each byte is in the following order -> rgba
          * You can use the setColor method to get a well formed unsigned int color.
          */
-        void drawText(std::string &text, int x, int y, int color);
+        virtual void drawText(std::string &text, int x, int y, int color) = 0;
         /**
          * @brief Refresh the window with every element that have been drawn with any draw function.
          *
          */
-        void display();
+        virtual void display() = 0;
         /**
-         * @brief Get the Mouse Button in an int table object in 
-         * 
-         * @param coords Int table of 2 occurences.
-         * Which contains in the first occurence the position x and 
+         * @brief Get the Mouse Button in an int table object in
+         *
+         * @return coords Int table of 2 occurences.
+         * Which contains in the first occurence the position x and
          * the second the position y.
          */
-        void getMousePos(int *coords);
+        virtual std::vector<int> getMousePos(void) = 0;
         /**
          * @brief Get the mouse Buttons in a bool table.
-         * 
-         * @param buttons Bool table of 3 occurences which
+         *
+         * @return buttons Bool table of 3 occurences which
          * return the buttons pressed during the call.
          */
-        void getMouseButton(bool *buttons);
+        virtual std::vector<bool> getMouseButton(void) = 0;
         /**
          * @brief Get the Buttons in a bool table.
-         * 
-         * @param buttons Bool table of TOTAL_INPUT occurences which
+         *
+         * @return buttons Bool table of TOTAL_INPUT occurences which
          * return the buttons pressed during the call.
          */
-        void getButtons(bool *buttons);
+        virtual std::vector<bool> getButtons(void) = 0;
     };
 }
