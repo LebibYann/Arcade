@@ -12,6 +12,7 @@
 #include "DLLoader.hpp"
 #include <memory>
 #include <iostream>
+#include <unistd.h>
 
 int main(int argc, char **argv)
 {
@@ -26,6 +27,9 @@ int main(int argc, char **argv)
     Arcade::DLLoader libLoader(argv[1]);
     std::unique_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
     graphics->openWindow(20, 20);
+    graphics->fill(COLOR(255,0,0,255));
+    graphics->display();
+    sleep(3);
     graphics->closeWindow();
     return (0);
 }

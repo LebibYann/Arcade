@@ -24,25 +24,25 @@ void ArcadeSdl2::openWindow(int width, int height)
         this->_window = SDL_CreateWindow("Arcade SDL2",
                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                         width * this->tileSize, height * this->tileSize, 0);
-    if (this->_surface == nullptr)
-        this->_surface = SDL_GetWindowSurface(this->_window);
+    // if (this->_surface == nullptr)
+    //     this->_surface = SDL_GetWindowSurface(this->_window);
     if (this->_render == nullptr)
         this->_render = SDL_CreateRenderer(this->_window, -1, 0);
 }
 
 void ArcadeSdl2::closeWindow(void)
 {
-    if (this->_window != nullptr) {
-        SDL_DestroyWindow(this->_window);
-        this->_window = nullptr;
-    }
-    if (this->_surface != nullptr) {
-        SDL_FreeSurface(this->_surface);
-        this->_surface = nullptr;
-    }
     if (this->_render != nullptr) {
         SDL_DestroyRenderer(this->_render);
         this->_render = nullptr;
+    }
+    // if (this->_surface != nullptr) {
+    //     SDL_FreeSurface(this->_surface);
+    //     this->_surface = nullptr;
+    // }
+    if (this->_window != nullptr) {
+        SDL_DestroyWindow(this->_window);
+        this->_window = nullptr;
     }
 
 }
@@ -61,7 +61,10 @@ void ArcadeSdl2::loadFont(const std::string &path)
 
 void ArcadeSdl2::fill(uint32_t color)
 {
-    (void)color;
+    char *c = (char*) &color;
+
+    SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
+    SDL_RenderClear(this->_render);
 }
 
 void ArcadeSdl2::drawTile(int x, int y, uint32_t color)

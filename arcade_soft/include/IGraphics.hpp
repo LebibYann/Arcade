@@ -9,6 +9,8 @@
 
 #include <string>
 
+#define COLOR(r, g, b, a) (a | b << 8 | g << 16 | r << 24)
+
 namespace Arcade
 {
     typedef enum e_arcade_input
