@@ -29,4 +29,3 @@ Arcade::DLLoader::~DLLoader()
 {
     dlclose(handle);
 }
-
