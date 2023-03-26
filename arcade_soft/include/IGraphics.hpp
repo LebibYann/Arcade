@@ -59,6 +59,13 @@ namespace Arcade
          */
         virtual void loadFont(const std::string &path) = 0;
         /**
+         * @brief Fill the windows with a single color.
+         *
+         * @param color An unsigned int where each byte is in the following order -> rgba
+         * You can use the setColor method to get a well formed unsigned int color.
+         */
+        virtual void fill(uint32_t color) = 0;
+        /**
          * @brief Draws a tile a the specified position with the specified color.
          * A tile is based on the size of one character in ASCII rendered library.
          * Using non-integer numbers is only useful for library
@@ -69,6 +76,7 @@ namespace Arcade
          * @param color An unsigned int where each byte is in the following order -> rgba
          * You can use the setColor method to get a well formed unsigned int color.
          */
+
         virtual void drawTile(int x, int y, uint32_t color) = 0;
         /**
          * @brief Draws an image at the specified position

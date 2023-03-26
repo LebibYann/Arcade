@@ -9,7 +9,5 @@
 
 extern "C" std::unique_ptr<ArcadeSdl2> entry_point()
 {
-    std::unique_ptr<ArcadeSdl2> graphicLib;
-
-    return (graphicLib);
+    return (std::make_unique<ArcadeSdl2>());
 }

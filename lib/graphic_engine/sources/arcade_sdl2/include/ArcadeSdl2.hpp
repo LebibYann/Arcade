@@ -24,6 +24,7 @@ public:
     void closeWindow();
     void *loadImage(const std::string &path);
     void loadFont(const std::string &path);
+    void fill(uint32_t color);
     void drawTile(int x, int y, uint32_t color);
     void drawImage(int x, int y, void *img);
     void drawText(std::string &text, int x, int y, int color);
@@ -36,4 +37,5 @@ public:
 private:
     int tileSize = 10;
     SDL_Window *_window = nullptr;
+    SDL_Surface *_surface = nullptr;
 };

@@ -15,8 +15,6 @@
 
 int main(int argc, char **argv)
 {
-    ;
-
     if (argc < 2) {
         std::cerr << "USAGE:\n";
         std::cerr << "\t./arcade [Graphic library]\n\n";
@@ -25,9 +23,9 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
-    // Arcade::DLLoader libLoader(argv[1]);
-    // std::unique_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
-    // graphics->openWindow(20, 20);
-    // graphics->closeWindow();
+    Arcade::DLLoader libLoader(argv[1]);
+    std::unique_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
+    graphics->openWindow(20, 20);
+    graphics->closeWindow();
     return (0);
 }
