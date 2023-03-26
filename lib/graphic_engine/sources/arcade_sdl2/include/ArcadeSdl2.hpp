@@ -38,4 +38,5 @@ private:
     int tileSize = 10;
     SDL_Window *_window = nullptr;
     SDL_Surface *_surface = nullptr;
+    SDL_Renderer *_render = nullptr;
 };

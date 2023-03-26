@@ -26,6 +26,8 @@ void ArcadeSdl2::openWindow(int width, int height)
                         width * this->tileSize, height * this->tileSize, 0);
     if (this->_surface == nullptr)
         this->_surface = SDL_GetWindowSurface(this->_window);
+    if (this->_render == nullptr)
+        this->_render = SDL_CreateRenderer(this->_window, -1, 0);
 }
 
 void ArcadeSdl2::closeWindow(void)
@@ -37,6 +39,10 @@ void ArcadeSdl2::closeWindow(void)
     if (this->_surface != nullptr) {
         SDL_FreeSurface(this->_surface);
         this->_surface = nullptr;
+    }
+    if (this->_render != nullptr) {
+        SDL_DestroyRenderer(this->_render);
+        this->_render = nullptr;
     }
 
 }
@@ -82,7 +88,7 @@ void ArcadeSdl2::drawText(std::string &text, int x, int y, int color)
 
 void ArcadeSdl2::display(void)
 {
-
+    SDL_RenderPresent(this->_render);
 }
 
 std::vector<int> ArcadeSdl2::getMousePos(void)
