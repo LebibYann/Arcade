@@ -35,8 +35,9 @@ public:
     std::vector<bool> getButtons(void);
 
 private:
-    int tileSize = 10;
+    int _tileSize = 30;
     SDL_Window *_window = nullptr;
     SDL_Surface *_surface = nullptr;
     SDL_Renderer *_render = nullptr;
+    SDL_Rect _rect;
 };

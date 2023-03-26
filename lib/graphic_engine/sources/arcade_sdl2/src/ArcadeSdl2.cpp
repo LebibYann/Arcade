@@ -9,7 +9,6 @@
 
 ArcadeSdl2::ArcadeSdl2()
 {
-    this->_window = nullptr;
 }
 
 ArcadeSdl2::~ArcadeSdl2()
@@ -23,7 +22,7 @@ void ArcadeSdl2::openWindow(int width, int height)
     if (this->_window == nullptr)
         this->_window = SDL_CreateWindow("Arcade SDL2",
                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                        width * this->tileSize, height * this->tileSize, 0);
+                        width * this->_tileSize, height * this->_tileSize, 0);
     // if (this->_surface == nullptr)
     //     this->_surface = SDL_GetWindowSurface(this->_window);
     if (this->_render == nullptr)
@@ -69,9 +68,14 @@ void ArcadeSdl2::fill(uint32_t color)
 
 void ArcadeSdl2::drawTile(int x, int y, uint32_t color)
 {
-    (void)x;
-    (void)y;
-    (void)color;
+    char *c = (char*) &color;
+
+    SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
+    this->_rect.x = x * this->_tileSize;
+    this->_rect.y = y * this->_tileSize;
+    this->_rect.w = this->_tileSize;
+    this->_rect.h = this->_tileSize;
+    SDL_RenderFillRect(this->_render, &(this->_rect));
 }
 
 void ArcadeSdl2::drawImage(int x, int y, void *img)

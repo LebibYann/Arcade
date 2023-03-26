@@ -9,10 +9,14 @@
 
 #include <string>
 
-#define COLOR(r, g, b, a) (a | b << 8 | g << 16 | r << 24)
+#define COLOR(r, g, b, a) (0 | a | b << 8 | g << 16 | r << 24)
 
 namespace Arcade
 {
+    typedef union u_color_custom {
+        uint32_t full;
+        char part[4];
+    } t_color_custom;
     typedef enum e_arcade_input
     {
         UP_ARROW,
