@@ -9,12 +9,23 @@
 
 ArcadeSdl2::ArcadeSdl2()
 {
+    // std::string termFontPath = std::getenv("TERM");
+    // std::string termFontPath = "Minecraft.ttf";
+
+    TTF_Init();
+    SDL_Init(SDL_INIT_VIDEO);
+    // this->_font = nullptr;
+    // if (termFontPath.c_str() != nullptr)
+    //     this->loadFont(termFontPath);
+
 }
 
 ArcadeSdl2::~ArcadeSdl2()
 {
     this->closeWindow();
+    TTF_Quit();
     SDL_Quit();
+    this->unloadFont();
 }
 
 void ArcadeSdl2::openWindow(int width, int height)
@@ -54,8 +65,17 @@ void *ArcadeSdl2::loadImage(const std::string &path)
 
 void ArcadeSdl2::loadFont(const std::string &path)
 {
-    (void)path;
+    this->unloadFont();
+    this->_font = TTF_OpenFont(path.c_str(), this->_tileSize);
+    std::cout << this->_font << std::endl;
+}
 
+void ArcadeSdl2::unloadFont(void)
+{
+    if (this->_font != nullptr) {
+        TTF_CloseFont(this->_font);
+        this->_font = nullptr;
+    }
 }
 
 void ArcadeSdl2::fill(uint32_t color)
@@ -85,12 +105,20 @@ void ArcadeSdl2::drawImage(int x, int y, void *img)
     (void)img;
 }
 
-void ArcadeSdl2::drawText(std::string &text, int x, int y, int color)
+void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
 {
-    (void)text;
-    (void)x;
-    (void)y;
-    (void)color;
+    int xSize = 0;
+    unsigned char *c = (unsigned char*) &color;
+    SDL_Color sdlColor = {c[0], c[1], c[2], c[3]};
+    SDL_Surface *surface = TTF_RenderText_Solid(this->_font, text.c_str(), sdlColor);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(this->_render, surface);
+
+    SDL_QueryTexture(texture, nullptr, nullptr, &xSize, nullptr);
+    this->_rect = {x * this->_tileSize, y * this->_tileSize, xSize, this->_tileSize};
+    SDL_RenderCopy(this->_render, texture, nullptr, &this->_rect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
 }
 
 void ArcadeSdl2::display(void)

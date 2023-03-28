@@ -8,6 +8,8 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <cstdlib>
 #include <vector>
 #include <memory>
 #include <iomanip>
@@ -27,7 +29,7 @@ public:
     void fill(uint32_t color);
     void drawTile(int x, int y, uint32_t color);
     void drawImage(int x, int y, void *img);
-    void drawText(std::string &text, int x, int y, int color);
+    void drawText(const std::string &text, int x, int y, int color);
     void display(void);
 
     std::vector<int> getMousePos(void);
@@ -35,9 +37,12 @@ public:
     std::vector<bool> getButtons(void);
 
 private:
+    // void unloadImage();
+    void unloadFont(void);
     int _tileSize = 30;
     SDL_Window *_window = nullptr;
     SDL_Surface *_surface = nullptr;
     SDL_Renderer *_render = nullptr;
+    TTF_Font *_font;
     SDL_Rect _rect;
 };

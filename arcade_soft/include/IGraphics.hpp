@@ -102,7 +102,7 @@ namespace Arcade
          * @param color An unsigned int where each byte is in the following order -> rgba
          * You can use the setColor method to get a well formed unsigned int color.
          */
-        virtual void drawText(std::string &text, int x, int y, int color) = 0;
+        virtual void drawText(const std::string &text, int x, int y, int color) = 0;
         /**
          * @brief Refresh the window with every element that have been drawn with any draw function.
          *
