@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #define COLOR(r, g, b, a) (0 | a | b << 8 | g << 16 | r << 24)
 
