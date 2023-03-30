@@ -6,8 +6,8 @@
 ##
 
 CORE_SRC = ./arcade_soft
-GAME_SRC = $(shell find ./lib/games/sources -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
-GRAPHIC_SRC = $(shell find ./lib/graphic_engine/sources -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+GAME_SRC = $(shell find ./lib/games/ -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+GRAPHIC_SRC = $(shell find ./lib/graphic_engine/ -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
 
 ECHO = echo -e
 CAT = /usr/bin/cat
@@ -42,7 +42,7 @@ graphicals: .FORCE
 	@for dir in $(GRAPHIC_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make so -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../../; \
+		cp $$dir/*.so $$dir/../; \
 	done
 
 clean:
@@ -57,11 +57,14 @@ clean:
 	done
 
 fclean:
+	$(ECHO) $(GRAPHIC_SRC)
 	@make fclean -C $(CORE_SRC) --no-print-directory
+	@find $(GRAPHIC_SRC) -name "*.so" -delete
 	@for dir in $(GRAPHIC_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make fclean -C $$dir --no-print-directory; \
 	done
+	@find $(GAME_SRC) -name "*.so" -delete
 	@for dir in $(GAME_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
 		make fclean -C $$dir --no-print-directory; \

@@ -1,0 +1,163 @@
+/*
+** EPITECH PROJECT, 2023
+** B-OOP-400-PAR-4-1-arcade-yann.lebib
+** File description:
+** ArcadeSdl2
+*/
+
+#include "ArcadeSdl2.hpp"
+
+ArcadeSdl2::ArcadeSdl2()
+{
+    // std::string termFontPath = std::getenv("TERM");
+    // std::string termFontPath = "Minecraft.ttf";
+
+    TTF_Init();
+    SDL_Init(SDL_INIT_EVERYTHING);
+    // this->_font = nullptr;
+    // if (termFontPath.c_str() != nullptr)
+    //     this->loadFont(termFontPath);
+
+    this->_keyId.resize(Arcade::TOTAL_INPUT);
+    this->_keyId[Arcade::UP_ARROW] = SDLK_UP;
+}
+
+ArcadeSdl2::~ArcadeSdl2()
+{
+    this->closeWindow();
+    TTF_Quit();
+    SDL_Quit();
+    this->unloadFont();
+}
+
+void ArcadeSdl2::openWindow(int width, int height)
+{
+    if (this->_window == nullptr)
+        this->_window = SDL_CreateWindow("Arcade SDL2",
+                        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                        width * this->_tileSize, height * this->_tileSize, 0);
+    // if (this->_surface == nullptr)
+    //     this->_surface = SDL_GetWindowSurface(this->_window);
+    if (this->_render == nullptr)
+        this->_render = SDL_CreateRenderer(this->_window, -1, 0);
+}
+
+void ArcadeSdl2::closeWindow(void)
+{
+    if (this->_render != nullptr) {
+        SDL_DestroyRenderer(this->_render);
+        this->_render = nullptr;
+    }
+    // if (this->_surface != nullptr) {
+    //     SDL_FreeSurface(this->_surface);
+    //     this->_surface = nullptr;
+    // }
+    if (this->_window != nullptr) {
+        SDL_DestroyWindow(this->_window);
+        this->_window = nullptr;
+    }
+
+}
+
+void *ArcadeSdl2::loadImage(const std::string &path)
+{
+    (void)path;
+    return (nullptr);
+}
+
+void ArcadeSdl2::loadFont(const std::string &path)
+{
+    this->unloadFont();
+    this->_font = TTF_OpenFont(path.c_str(), this->_tileSize);
+    std::cout << this->_font << std::endl;
+}
+
+void ArcadeSdl2::unloadFont(void)
+{
+    if (this->_font != nullptr) {
+        TTF_CloseFont(this->_font);
+        this->_font = nullptr;
+    }
+}
+
+void ArcadeSdl2::fill(uint32_t color)
+{
+    char *c = (char*) &color;
+
+    SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
+    SDL_RenderClear(this->_render);
+}
+
+void ArcadeSdl2::drawTile(int x, int y, uint32_t color)
+{
+    char *c = (char*) &color;
+
+    SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
+    this->_rect.x = x * this->_tileSize;
+    this->_rect.y = y * this->_tileSize;
+    this->_rect.w = this->_tileSize;
+    this->_rect.h = this->_tileSize;
+    SDL_RenderFillRect(this->_render, &(this->_rect));
+}
+
+void ArcadeSdl2::drawImage(int x, int y, void *img)
+{
+    (void)x;
+    (void)y;
+    (void)img;
+}
+
+void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
+{
+    int xSize = 0;
+    unsigned char *c = (unsigned char*) &color;
+    SDL_Color sdlColor = {c[0], c[1], c[2], c[3]};
+    SDL_Surface *surface = TTF_RenderText_Solid(this->_font, text.c_str(), sdlColor);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(this->_render, surface);
+
+    SDL_QueryTexture(texture, nullptr, nullptr, &xSize, nullptr);
+    this->_rect = {x * this->_tileSize, y * this->_tileSize, xSize, this->_tileSize};
+    SDL_RenderCopy(this->_render, texture, nullptr, &this->_rect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+}
+
+void ArcadeSdl2::display(void)
+{
+    SDL_RenderPresent(this->_render);
+}
+
+std::vector<int> ArcadeSdl2::getMousePos(void)
+{
+    std::vector<int> mousePos;
+
+    return (mousePos);
+}
+
+std::vector<bool> ArcadeSdl2::getMouseButton(void)
+{
+    std::vector<bool> mouseButtons;
+
+    return (mouseButtons);
+}
+
+std::vector<bool> ArcadeSdl2::getButtons(void)
+{
+    SDL_Event event;
+    std::vector<bool> arcadeButtons(Arcade::TOTAL_INPUT);
+
+    std::fill(arcadeButtons.begin(), arcadeButtons.end(), false);
+        std::cout << "wa" << std::endl;
+    while (SDL_PollEvent(&event)) {
+        std::cout << "wo" << std::endl;
+        if (event.type == SDL_KEYDOWN) {
+            for (int i = 0; i < Arcade::TOTAL_INPUT; ++i) {
+                arcadeButtons[i] = (arcadeButtons[i] ||
+                    event.key.keysym.sym == this->_keyId[i]);
+                std::cout << event.key.keysym.sym << " " << this->_keyId[i] << std::endl;
+            }
+        }
+    }
+    return (arcadeButtons);
+}
