@@ -9,5 +9,5 @@
 
 extern "C" std::shared_ptr<ArcadeSdl2> entry_point()
 {
-    return (std::make_unique<ArcadeSdl2>());
+    return (std::make_shared<ArcadeSdl2>());
 }
