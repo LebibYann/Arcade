@@ -14,6 +14,14 @@
 #include <iostream>
 #include <unistd.h>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <cstdlib>
+#include <vector>
+#include <memory>
+#include <iomanip>
+#include <iostream>
+
 int main(int argc, char **argv)
 {
     if (argc < 2) {
@@ -25,11 +33,23 @@ int main(int argc, char **argv)
         return (84);
     }
     std::vector<bool> buttons;
+    std::vector<bool> mbuttons;
+    std::vector<int> mpos;
     Arcade::t_color_custom color;
     Arcade::DLLoader libLoader(argv[1]);
-    std::unique_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
-    for (size_t i = 1; i != 100000; ++i) {
-        graphics->openWindow(20, 20);
+    std::shared_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
+
+    graphics->openWindow(20, 20);
+    for (size_t i = 1; i != 100; ++i) {
+        buttons = graphics->getButtons();
+        for (size_t k = 0; k < buttons.size(); ++k) {
+            std::cout << buttons[k] << ", ";
+        }
+        std::cout << std::endl;
+        mpos = graphics->getMousePos();
+        std::cout << mpos[0] << ", " << mpos[1] << std::endl;
+        mbuttons = graphics->getMouseButton();
+        std::cout << mbuttons[0] << ", " << mbuttons[1] << ", " << mbuttons[2] << std::endl;
         color.part[0] = 255;
         color.part[1] = 0;
         color.part[2] = 0;
@@ -53,8 +73,8 @@ int main(int argc, char **argv)
         color.part[3] = 255;
         graphics->drawText("Prout", 0, 5, color.full);
         graphics->display();
-        buttons = graphics->getButtons();
     }
+
     graphics->closeWindow();
     return (0);
 }
