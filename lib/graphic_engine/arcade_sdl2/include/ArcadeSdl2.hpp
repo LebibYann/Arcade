@@ -40,9 +40,11 @@ private:
     // void unloadImage();
     void unloadFont(void);
     int _tileSize = 30;
+    std::vector<int> _keyId;
     SDL_Window *_window = nullptr;
     SDL_Surface *_surface = nullptr;
     SDL_Renderer *_render = nullptr;
+    SDL_Event _event;
     TTF_Font *_font;
     SDL_Rect _rect;
 };
