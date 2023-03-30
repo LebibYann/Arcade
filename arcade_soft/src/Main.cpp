@@ -14,14 +14,6 @@
 #include <iostream>
 #include <unistd.h>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <cstdlib>
-#include <vector>
-#include <memory>
-#include <iomanip>
-#include <iostream>
-
 int main(int argc, char **argv)
 {
     if (argc < 2) {
