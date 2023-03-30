@@ -26,23 +26,26 @@ namespace Arcade
             const std::string _msg;
         };
 
-        DLLoader(std::string lib);
+        DLLoader(std::string lib = "");
+        void Load(std::string lib);
         template <typename T>
-        std::unique_ptr<T> getInstance(std::string symbol)
+        std::shared_ptr<T> getInstance(std::string symbol)
         {
             void *sym;
-            std::unique_ptr<T> (*func)();
+            std::shared_ptr<T> (*func)();
             char *error;
 
-            sym = dlsym(handle, symbol.c_str());
+            if (_handle == NULL)
+                throw BadLibrary("Library not loaded");
+            sym = dlsym(_handle, symbol.c_str());
             if ((error = dlerror()) != NULL)
                 throw BadLibrary(error);
-            func = reinterpret_cast<std::unique_ptr<T> (*)()>(sym);
+            func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym);
             return (func());
         }
         ~DLLoader();
 
     private:
-        void *handle;
+        void *_handle;
     };
 }

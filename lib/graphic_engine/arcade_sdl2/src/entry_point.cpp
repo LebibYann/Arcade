@@ -7,9 +7,7 @@
 
 #include "ArcadeSdl2.hpp"
 
-extern "C" std::unique_ptr<ArcadeSdl2> entry_point()
+extern "C" std::shared_ptr<ArcadeSdl2> entry_point()
 {
-    std::unique_ptr<ArcadeSdl2> graphicLib;
-
-    return (graphicLib);
+    return (std::make_shared<ArcadeSdl2>());
 }
