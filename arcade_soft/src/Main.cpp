@@ -24,10 +24,11 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
+    std::vector<bool> buttons;
     Arcade::t_color_custom color;
     Arcade::DLLoader libLoader(argv[1]);
     std::unique_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
-    for (size_t i = 0; i < 3; ++i) {
+    for (size_t i = 1; i != 100000; ++i) {
         graphics->openWindow(20, 20);
         color.part[0] = 255;
         color.part[1] = 0;
@@ -52,7 +53,7 @@ int main(int argc, char **argv)
         color.part[3] = 255;
         graphics->drawText("Prout", 0, 5, color.full);
         graphics->display();
-        sleep(1);
+        buttons = graphics->getButtons();
     }
     graphics->closeWindow();
     return (0);

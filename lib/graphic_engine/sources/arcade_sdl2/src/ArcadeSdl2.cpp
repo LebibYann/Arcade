@@ -13,11 +13,13 @@ ArcadeSdl2::ArcadeSdl2()
     // std::string termFontPath = "Minecraft.ttf";
 
     TTF_Init();
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_EVERYTHING);
     // this->_font = nullptr;
     // if (termFontPath.c_str() != nullptr)
     //     this->loadFont(termFontPath);
 
+    this->_keyId.resize(Arcade::TOTAL_INPUT);
+    this->_keyId[Arcade::UP_ARROW] = SDLK_UP;
 }
 
 ArcadeSdl2::~ArcadeSdl2()
@@ -142,7 +144,20 @@ std::vector<bool> ArcadeSdl2::getMouseButton(void)
 
 std::vector<bool> ArcadeSdl2::getButtons(void)
 {
-    std::vector<bool> arcadeButtons;
+    SDL_Event event;
+    std::vector<bool> arcadeButtons(Arcade::TOTAL_INPUT);
 
+    std::fill(arcadeButtons.begin(), arcadeButtons.end(), false);
+        std::cout << "wa" << std::endl;
+    while (SDL_PollEvent(&event)) {
+        std::cout << "wo" << std::endl;
+        if (event.type == SDL_KEYDOWN) {
+            for (int i = 0; i < Arcade::TOTAL_INPUT; ++i) {
+                arcadeButtons[i] = (arcadeButtons[i] ||
+                    event.key.keysym.sym == this->_keyId[i]);
+                std::cout << event.key.keysym.sym << " " << this->_keyId[i] << std::endl;
+            }
+        }
+    }
     return (arcadeButtons);
 }
