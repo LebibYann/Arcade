@@ -44,9 +44,8 @@ namespace Arcade
         /**
          * @brief
          *
-         * @param width X position of the tile to draw
-         * @param height Y position of the tile to draw
-         * @param scale
+         * @param width Number of tile that could fit in the width of the window
+         * @param height Number of tile that could fit in the width of the window
          */
         virtual void openWindow(int width, int height) = 0;
         virtual void closeWindow() = 0;
