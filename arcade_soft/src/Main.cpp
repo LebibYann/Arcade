@@ -32,16 +32,17 @@ int main(int argc, char **argv)
     std::shared_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
 
     graphics->openWindow(20, 20);
-    for (size_t i = 1; i != 100; ++i) {
+    buttons = graphics->getButtons();
+    while (!buttons[Arcade::EXIT]) {
         buttons = graphics->getButtons();
-        for (size_t k = 0; k < buttons.size(); ++k) {
-            std::cout << buttons[k] << ", ";
-        }
-        std::cout << std::endl;
-        mpos = graphics->getMousePos();
-        std::cout << mpos[0] << ", " << mpos[1] << std::endl;
-        mbuttons = graphics->getMouseButton();
-        std::cout << mbuttons[0] << ", " << mbuttons[1] << ", " << mbuttons[2] << std::endl;
+        // for (size_t k = 0; k < buttons.size(); ++k) {
+        //     std::cout << buttons[k] << ", ";
+        // }
+        // std::cout << std::endl;
+        // mpos = graphics->getMousePos();
+        // std::cout << mpos[0] << ", " << mpos[1] << std::endl;
+        // mbuttons = graphics->getMouseButton();
+        // std::cout << mbuttons[0] << ", " << mbuttons[1] << ", " << mbuttons[2] << std::endl;
         color.part[0] = 255;
         color.part[1] = 0;
         color.part[2] = 0;
@@ -63,7 +64,7 @@ int main(int argc, char **argv)
         color.part[1] = 255;
         color.part[2] = 255;
         color.part[3] = 255;
-        graphics->drawText("Prout", 0, 5, color.full);
+        graphics->drawText("Prout", 0, 0, color.full);
         graphics->display();
     }
 
