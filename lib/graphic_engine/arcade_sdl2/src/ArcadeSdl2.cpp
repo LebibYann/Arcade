@@ -7,16 +7,35 @@
 
 #include "ArcadeSdl2.hpp"
 
+static std::string getTermFont(void)
+{
+    char buffer[128];
+    std::string termFontPath = "";
+    std::string termFont = std::getenv("TERM");
+    std::string command = "fc-match --format=%{file} ";
+
+    command.append(termFont);
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe)
+        return (termFontPath);
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL)
+            termFontPath += buffer;
+    }
+    pclose(pipe);
+    return (termFontPath);
+}
+
 ArcadeSdl2::ArcadeSdl2()
 {
-    // std::string termFontPath = std::getenv("TERM");
-    // std::string termFontPath = "Minecraft.ttf";
+    std::string termFontPath = getTermFont();
+
 
     TTF_Init();
     SDL_Init(SDL_INIT_EVERYTHING);
     this->_font = nullptr;
-    // if (termFontPath.c_str() != nullptr)
-    //     this->loadFont(termFontPath);
+    if (termFontPath.c_str() != nullptr)
+        this->loadFont(termFontPath);
 
     this->_arcadeButtons.resize(Arcade::TOTAL_INPUT);
     std::fill(this->_arcadeButtons.begin(), this->_arcadeButtons.end(), false);
@@ -87,7 +106,6 @@ void ArcadeSdl2::loadFont(const std::string &path)
 {
     this->unloadFont();
     this->_font = TTF_OpenFont(path.c_str(), this->_tileSize);
-    std::cout << this->_font << std::endl;
 }
 
 void ArcadeSdl2::unloadFont(void)
