@@ -13,6 +13,21 @@
 #include <fstream>
 #include "Instruction.hpp"
 
+typedef enum e_snake_tiles {
+    GROUND = 0,
+    WALL = 1,
+    SNAKE_HEAD = 2,
+    SNAKE_BODY = 3,
+    FOOD = 4
+} t_snake_tiles;
+
+typedef enum e_snake_direction {
+    UP = 0,
+    DOWN = 1,
+    LEFT = 2,
+    RIGHT = 3,
+} t_snake_direction;
+
 typedef struct s_game_data {
     void *data;
 } t_game_data;
@@ -20,6 +35,7 @@ typedef struct s_game_data {
 typedef struct s_snake {
     int direction;
     std::vector <int> headPos;
+    std::vector <std::vector<int>> body;
     int size;
 } t_snake;
 
@@ -30,4 +46,6 @@ typedef struct s_snake_data {
 } t_snake_data;
 
 std::vector <std::vector<int>> loadMap();
-t_snake_data loadConfig();
+t_snake_data *loadConfig();
+std::vector <int> findHead(std::vector <std::vector<int>> map);
+std::vector <IInstruction> computeGame(t_snake_data *game, std::vector<bool> inputs);

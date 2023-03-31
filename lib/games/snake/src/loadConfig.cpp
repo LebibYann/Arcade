@@ -13,9 +13,9 @@ std::vector <int> findHead(std::vector <std::vector<int>> map)
     headPos.push_back(0);
     headPos.push_back(0);
 
-    for (int i = 0; i < map.size(); ++i) {
-        for (int j = 0; j < map[i].size(); ++j) {
-            if (map[i][j] == 2) {
+    for (size_t i = 0; i < map.size(); ++i) {
+        for (size_t j = 0; j < map[i].size(); ++j) {
+            if (map[i][j] == SNAKE_HEAD) {
                 headPos[0] = j;
                 headPos[1] = i;
                 return (headPos);
@@ -25,13 +25,28 @@ std::vector <int> findHead(std::vector <std::vector<int>> map)
     return (headPos);
 }
 
-t_snake_data loadConfig()
+void initSnake(t_snake_data *game_data)
 {
-    t_snake_data game_data;
+    std::vector <int> pos;
+    pos.push_back(0);
+    pos.push_back(0);
+    
+    game_data->snake.headPos = findHead(game_data->map);
+    game_data->snake.direction = 0;
+    game_data->snake.size = 3;
+    for (int i = 0; i < game_data->snake.size; ++i) {
+        pos[0] = game_data->snake.headPos[0];
+        pos[1] = game_data->snake.headPos[1] + i;
+        game_data->snake.body.push_back(pos);
+    }
+}
 
-    game_data.map = loadMap();
-    game_data.snake.direction = 0;
-    game_data.snake.size = 3;
-    game_data.score = 0;
+t_snake_data *loadConfig()
+{
+    t_snake_data *game_data = new t_snake_data;
+
+    game_data->map = loadMap();
+    game_data->score = 0;
+    initSnake(game_data);
     return (game_data);
 }

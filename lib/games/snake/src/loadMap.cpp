@@ -21,6 +21,6 @@ std::vector <std::vector<int>> loadMap()
         for (int i = 0; line[i] != 0; i++)
             tmp.push_back(line[i] - '0');
         vect.push_back(tmp);
-    return (vect);
     }
+    return (vect);
 }
