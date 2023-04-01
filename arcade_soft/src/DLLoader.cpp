@@ -27,7 +27,7 @@ Arcade::DLLoader::DLLoader(std::string lib) : _handle(NULL)
     }
 }
 
-void Arcade::DLLoader::Load(std::string lib)
+void Arcade::DLLoader::Load(const std::string &lib)
 {
     char *error;
 
@@ -40,5 +40,6 @@ void Arcade::DLLoader::Load(std::string lib)
 
 Arcade::DLLoader::~DLLoader()
 {
-    dlclose(_handle);
+    if (_handle != NULL)
+        dlclose(_handle);
 }
