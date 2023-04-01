@@ -22,8 +22,6 @@ public:
     ArcadeSdl2();
     ~ArcadeSdl2();
 
-    void openWindow(int width, int height);
-    void closeWindow();
     void *loadImage(const std::string &path);
     void loadFont(const std::string &path);
     void fill(uint32_t color);
@@ -35,8 +33,11 @@ public:
     std::vector<int> getMousePos(void);
     std::vector<bool> getMouseButton(void);
     std::vector<bool> getButtons(void);
+    std::string getKeyboard(void) {std::string yes; return yes;}
 
 private:
+    void openWindow(int width, int height);
+    void closeWindow();
     // void unloadImage();
     void unloadFont(void);
     void handleEvent(void);

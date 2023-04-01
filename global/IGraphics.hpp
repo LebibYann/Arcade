@@ -10,8 +10,6 @@
 #include <string>
 #include <vector>
 
-#define COLOR(r, g, b, a) (0 | a | b << 8 | g << 16 | r << 24)
-
 namespace Arcade
 {
     typedef union u_color_custom {
@@ -37,18 +35,21 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
+    enum ArcadeColor
+    {
+        BLACK,
+        RED,
+        GREEN,
+        YELLOW,
+        BLUE,
+        MAGENTA,
+        CYAN,
+        WHITE
+    };
 
     class IGraphics
     {
     public:
-        /**
-         * @brief
-         *
-         * @param width Number of tile that could fit in the width of the window
-         * @param height Number of tile that could fit in the width of the window
-         */
-        virtual void openWindow(int width, int height) = 0;
-        virtual void closeWindow() = 0;
         /**
          * @brief Loads an image.
          *
@@ -129,5 +130,6 @@ namespace Arcade
          * return the buttons pressed during the call.
          */
         virtual std::vector<bool> getButtons(void) = 0;
+        virtual std::string getKeyboard(void) = 0;
     };
-}
+};
