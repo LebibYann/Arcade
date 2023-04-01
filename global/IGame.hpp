@@ -12,7 +12,6 @@
 #include <cstddef>
 #include <vector>
 #include <string>
-#include <list>
 
 namespace Arcade
 {
@@ -31,26 +30,26 @@ namespace Arcade
          * @param buttons A bool table which represent the buttons pressed in the current frame.
          * @return List of instructions to execute.
          */
-        std::list<IInstruction> computeFrame(bool *buttons);
+        virtual std::vector<IInstruction> computeFrame(bool *buttons) = 0;
         /**
          ** @brief Gives information about the game tiles
          ** their id, color, and potentialy texture.
          **
          ** @return std::vector<t_tile_config>
          */
-        std::list<t_tile_config> getTilesConfig(void) const;
+        virtual std::vector<t_tile_config> getTilesConfig(void) const = 0;
         /**
          ** @brief Gives information about the number of tiles
          ** in width and height required by the game.
          **
          ** @return std::vector<int>
          */
-        std::vector<int> getWindowSize(void) const;
+        virtual std::vector<int> getWindowSize(void) const = 0;
         /**
          ** @brief Get the game's score
          **
          ** @return int
          */
-        std::size_t getScore(void) const;
+        virtual std::size_t getScore(void) const = 0;
     };
 };

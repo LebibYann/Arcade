@@ -7,27 +7,64 @@
 
 #include "ArcadeSdl2.hpp"
 
+static std::string getTermFont(void)
+{
+    char buffer[128];
+    std::string termFontPath = "";
+    std::string termFont = std::getenv("TERM");
+    std::string command = "fc-match --format=%{file} ";
+
+    command.append(termFont);
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe)
+        return (termFontPath);
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL)
+            termFontPath += buffer;
+    }
+    pclose(pipe);
+    return (termFontPath);
+}
+
 ArcadeSdl2::ArcadeSdl2()
 {
-    // std::string termFontPath = std::getenv("TERM");
-    // std::string termFontPath = "Minecraft.ttf";
+    std::string termFontPath = getTermFont();
+
 
     TTF_Init();
     SDL_Init(SDL_INIT_EVERYTHING);
-    // this->_font = nullptr;
-    // if (termFontPath.c_str() != nullptr)
-    //     this->loadFont(termFontPath);
+    this->_font = nullptr;
+    if (termFontPath.c_str() != nullptr)
+        this->loadFont(termFontPath);
+
+    this->_arcadeButtons.resize(Arcade::TOTAL_INPUT);
+    std::fill(this->_arcadeButtons.begin(), this->_arcadeButtons.end(), false);
 
     this->_keyId.resize(Arcade::TOTAL_INPUT);
+    std::fill(this->_keyId.begin(), this->_keyId.end(), 0);
     this->_keyId[Arcade::UP_ARROW] = SDLK_UP;
+    this->_keyId[Arcade::DOWN_ARROW] = SDLK_DOWN;
+    this->_keyId[Arcade::LEFT_ARROW] = SDLK_LEFT;
+    this->_keyId[Arcade::RIGHT_ARROW] = SDLK_RIGHT;
+    this->_keyId[Arcade::BUTTON1] = SDLK_a;
+    this->_keyId[Arcade::BUTTON2] = SDLK_z;
+    this->_keyId[Arcade::BUTTON3] = SDLK_e;
+    this->_keyId[Arcade::BUTTON4] = SDLK_r;
+    this->_keyId[Arcade::PREV_GAME] = SDLK_F2;
+    this->_keyId[Arcade::NEXT_GAME] = SDLK_F3;
+    this->_keyId[Arcade::PREV_LIB] = SDLK_F4;
+    this->_keyId[Arcade::NEXT_LIB] = SDLK_F5;
+    this->_keyId[Arcade::RESTART] = SDLK_F6;
+    this->_keyId[Arcade::HOME_MENU] = SDLK_F1;
+    this->_keyId[Arcade::EXIT] = SDLK_ESCAPE;
 }
 
 ArcadeSdl2::~ArcadeSdl2()
 {
     this->closeWindow();
+    this->unloadFont();
     TTF_Quit();
     SDL_Quit();
-    this->unloadFont();
 }
 
 void ArcadeSdl2::openWindow(int width, int height)
@@ -69,7 +106,6 @@ void ArcadeSdl2::loadFont(const std::string &path)
 {
     this->unloadFont();
     this->_font = TTF_OpenFont(path.c_str(), this->_tileSize);
-    std::cout << this->_font << std::endl;
 }
 
 void ArcadeSdl2::unloadFont(void)
@@ -130,34 +166,49 @@ void ArcadeSdl2::display(void)
 
 std::vector<int> ArcadeSdl2::getMousePos(void)
 {
-    std::vector<int> mousePos;
+    std::vector<int> mousePos(2);
 
+    SDL_GetMouseState(&mousePos[0], &mousePos[1]);
     return (mousePos);
 }
 
 std::vector<bool> ArcadeSdl2::getMouseButton(void)
 {
-    std::vector<bool> mouseButtons;
+    int tmp;
+    uint32_t buttons;
+    std::vector<bool> mouseButtons(3);
 
+    buttons = SDL_GetMouseState(&tmp, &tmp);
+    mouseButtons[0] = buttons & SDL_BUTTON(1);
+    mouseButtons[1] = buttons & SDL_BUTTON(2);
+    mouseButtons[2] = buttons & SDL_BUTTON(3);
     return (mouseButtons);
 }
 
 std::vector<bool> ArcadeSdl2::getButtons(void)
 {
-    SDL_Event event;
-    std::vector<bool> arcadeButtons(Arcade::TOTAL_INPUT);
+    this->handleEvent();
+    return (this->_arcadeButtons);
+}
 
-    std::fill(arcadeButtons.begin(), arcadeButtons.end(), false);
-        std::cout << "wa" << std::endl;
-    while (SDL_PollEvent(&event)) {
-        std::cout << "wo" << std::endl;
-        if (event.type == SDL_KEYDOWN) {
-            for (int i = 0; i < Arcade::TOTAL_INPUT; ++i) {
-                arcadeButtons[i] = (arcadeButtons[i] ||
-                    event.key.keysym.sym == this->_keyId[i]);
-                std::cout << event.key.keysym.sym << " " << this->_keyId[i] << std::endl;
-            }
+void ArcadeSdl2::updateMatchingKey(SDL_Event event, bool toState)
+{
+    for (int i = 0; i < Arcade::TOTAL_INPUT; ++i) {
+        if (event.key.keysym.sym == this->_keyId[i])
+            this->_arcadeButtons[i] = toState;
+    }
+}
+
+void ArcadeSdl2::handleEvent(void)
+{
+    while (SDL_PollEvent(&this->_event)) {
+        switch (this->_event.type) {
+            case SDL_KEYDOWN:
+                this->updateMatchingKey(this->_event, true);
+                break;
+            case SDL_KEYUP:
+                this->updateMatchingKey(this->_event, false);
+                break;
         }
     }
-    return (arcadeButtons);
 }

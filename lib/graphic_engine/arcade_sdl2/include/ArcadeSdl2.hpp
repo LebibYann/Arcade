@@ -39,8 +39,11 @@ public:
 private:
     // void unloadImage();
     void unloadFont(void);
+    void handleEvent(void);
+    void updateMatchingKey(SDL_Event event, bool toState);
     int _tileSize = 30;
     std::vector<int> _keyId;
+    std::vector<bool> _arcadeButtons;
     SDL_Window *_window = nullptr;
     SDL_Surface *_surface = nullptr;
     SDL_Renderer *_render = nullptr;
