@@ -7,6 +7,11 @@
 
 #pragma once
 
+#include <filesystem>
+#include <iostream>
+#include <cstring>
+#include <memory.h>
+
 #include "IGame.hpp"
 #include "IGraphics.hpp"
 #include "DLLoader.hpp"
@@ -27,9 +32,9 @@ namespace Arcade
         Core();
         ~Core();
 
-        void loadGame(std::string game);
         std::size_t runGame();
-        void loadGraphics(std::string graphic);
+        void loadGame(const std::string &gameLibNamegame);
+        void loadGraphics(const std::string &graphicLibName);
         /**
          * @brief Limit the number of refresh per second.
          * If the code run faster than the time needed for one tick to happen,
@@ -41,9 +46,19 @@ namespace Arcade
          * @param tickPerSecond Number of time the game must refresh per second
          */
         double setTickRate(double tickPerSecond);
+        void getSOFiles(std::vector<std::string> &list, const std::string &path);
+        void getAvailableLib(void);
+        void run(void);
+        void interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr);
 
     private:
-        std::unique_ptr<IGame> _game;
-        std::unique_ptr<IGraphics> _graphic;
+        std::string _graphicPath = "./lib/graphic_engine/";
+        std::string _gamePath = "./lib/games/";
+        std::vector<std::string> _gameList;
+        std::vector<std::string> _graphicList;
+        std::shared_ptr<IGame> _game = nullptr;
+        std::shared_ptr<IGraphics> _graphic = nullptr;
+        Arcade::DLLoader _gameLib;
+        Arcade::DLLoader _graphicLib;
     };
 }
