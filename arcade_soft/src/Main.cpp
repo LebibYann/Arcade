@@ -27,7 +27,7 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
-    std::vector<bool> buttons;
+   std::vector<bool> buttons;
     buttons.resize(Arcade::TOTAL_INPUT);
     try
     {
@@ -57,5 +57,6 @@ int main(int argc, char **argv)
         if (buttons[Arcade::EXIT])
             break;
     }
+>>>>>>> dev
     return (0);
 }

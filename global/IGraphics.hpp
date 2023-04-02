@@ -34,6 +34,17 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
+    enum ArcadeColor
+    {
+        BLACK,
+        RED,
+        GREEN,
+        YELLOW,
+        BLUE,
+        MAGENTA,
+        CYAN,
+        WHITE
+    };
 
     enum ArcadeColor
     {
@@ -132,4 +143,4 @@ namespace Arcade
         virtual void getButtons(std::vector<bool> &input) = 0;
         virtual char  getKeyboard(void) = 0;
     };
-}
+};

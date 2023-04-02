@@ -27,7 +27,7 @@ namespace Arcade
         };
 
         DLLoader(std::string lib = "");
-        void Load(std::string lib);
+        void Load(const std::string &lib);
         template <typename T>
         std::shared_ptr<T> getInstance(std::string symbol)
         {
@@ -46,6 +46,6 @@ namespace Arcade
         ~DLLoader();
 
     private:
-        void *_handle;
+        void *_handle = NULL;
     };
 }

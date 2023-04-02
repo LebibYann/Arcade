@@ -27,7 +27,7 @@ Arcade::DLLoader::DLLoader(std::string lib) : _handle(nullptr)
     }
 }
 
-void Arcade::DLLoader::Load(std::string lib)
+void Arcade::DLLoader::Load(const std::string &lib)
 {
     char *error;
 
