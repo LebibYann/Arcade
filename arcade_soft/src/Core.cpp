@@ -73,11 +73,12 @@ void Arcade::Core::initTileData(void)
 
 void Arcade::Core::run(void)
 {
-    std::vector<bool> buttons = this->_graphic->getButtons();
+    std::vector<bool> buttons;
     std::vector<std::shared_ptr<IInstruction>> inst;
 
+    this->_graphic->getButtons(buttons);
     while (!buttons[Arcade::EXIT]) {
-        buttons = this->_graphic->getButtons();
+        this->_graphic->getButtons(buttons);
         if (this->_game == nullptr) {
 
         } else {

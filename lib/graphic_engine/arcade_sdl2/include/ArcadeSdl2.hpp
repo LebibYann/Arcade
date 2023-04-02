@@ -30,11 +30,12 @@ public:
     void drawText(const std::string &text, int x, int y, int color);
     void display(void);
 
-    std::vector<int> getMousePos(void);
-    std::vector<bool> getMouseButton(void);
-    std::vector<bool> getButtons(void);
-    std::string getKeyboard(void) {std::string yes; return yes;}
+    void getMousePos(std::vector<int> &coords);
+    void getMouseButton(std::vector<bool> &buttons);
+    void getButtons(std::vector<bool> &buttons);
+    char getKeyboard(void) {return 'c';}
 
+    
 private:
     void openWindow(int width, int height);
     void closeWindow();

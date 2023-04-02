@@ -10,12 +10,11 @@
 #include <string>
 #include <vector>
 
+#define TILES_X 64
+#define TILES_Y 36
+
 namespace Arcade
 {
-    typedef union u_color_custom {
-        uint32_t full;
-        char part[4];
-    } t_color_custom;
     typedef enum e_arcade_input
     {
         UP_ARROW,
@@ -35,6 +34,7 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
+
     enum ArcadeColor
     {
         BLACK,
@@ -115,21 +115,21 @@ namespace Arcade
          * Which contains in the first occurence the position x and
          * the second the position y.
          */
-        virtual std::vector<int> getMousePos(void) = 0;
+        virtual void getMousePos(std::vector<int> &coords) = 0;
         /**
          * @brief Get the mouse Buttons in a bool table.
          *
          * @return buttons Bool table of 3 occurences which
          * return the buttons pressed during the call.
          */
-        virtual std::vector<bool> getMouseButton(void) = 0;
+        virtual void getMouseButton(std::vector<bool> &coord) = 0;
         /**
          * @brief Get the Buttons in a bool table.
          *
          * @return buttons Bool table of TOTAL_INPUT occurences which
          * return the buttons pressed during the call.
          */
-        virtual std::vector<bool> getButtons(void) = 0;
-        virtual std::string getKeyboard(void) = 0;
+        virtual void getButtons(std::vector<bool> &input) = 0;
+        virtual char  getKeyboard(void) = 0;
     };
 };
