@@ -57,6 +57,5 @@ int main(int argc, char **argv)
         if (buttons[Arcade::EXIT])
             break;
     }
->>>>>>> dev
     return (0);
 }

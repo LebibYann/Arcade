@@ -165,31 +165,32 @@ void ArcadeSdl2::display(void)
     SDL_RenderPresent(this->_render);
 }
 
-std::vector<int> ArcadeSdl2::getMousePos(void)
+void ArcadeSdl2::getMousePos(std::vector<int> &coords)
 {
-    std::vector<int> mousePos(2);
-
-    SDL_GetMouseState(&mousePos[0], &mousePos[1]);
-    return (mousePos);
+    coords.clear();
+    coords.resize(2);
+    SDL_GetMouseState(&coords[0], &coords[1]);
 }
 
-std::vector<bool> ArcadeSdl2::getMouseButton(void)
+void ArcadeSdl2::getMouseButton(std::vector<bool> &buttons)
 {
     int tmp;
-    uint32_t buttons;
-    std::vector<bool> mouseButtons(3);
+    uint32_t state;
 
-    buttons = SDL_GetMouseState(&tmp, &tmp);
-    mouseButtons[0] = buttons & SDL_BUTTON(1);
-    mouseButtons[1] = buttons & SDL_BUTTON(2);
-    mouseButtons[2] = buttons & SDL_BUTTON(3);
-    return (mouseButtons);
+    buttons.clear();
+    buttons.resize(3);
+    state = SDL_GetMouseState(&tmp, &tmp);
+    buttons[0] = state & SDL_BUTTON(1);
+    buttons[1] = state & SDL_BUTTON(2);
+    buttons[2] = state & SDL_BUTTON(3);
 }
 
-std::vector<bool> ArcadeSdl2::getButtons(void)
+void ArcadeSdl2::getButtons(std::vector<bool> &buttons)
 {
     this->handleEvent();
-    return (this->_arcadeButtons);
+    buttons.clear();
+    buttons.resize(Arcade::TOTAL_INPUT);
+    buttons = this->_arcadeButtons;
 }
 
 void ArcadeSdl2::updateMatchingKey(SDL_Event event, bool toState)
