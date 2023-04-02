@@ -50,8 +50,15 @@ namespace Arcade
         void getAvailableLib(void);
         void run(void);
         void interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr);
+        void fill(std::shared_ptr<IInstruction> instr);
+        void drawTile(std::shared_ptr<IInstruction> instr);
+        void initTileData(void);
+        t_tile_data getTileData(int id);
 
     private:
+        std::vector<t_tile_config> _tileCnf;
+        std::vector<t_tile_data> _tileData;
+
         std::string _graphicPath = "./lib/graphic_engine/";
         std::string _gamePath = "./lib/games/";
         std::vector<std::string> _gameList;
