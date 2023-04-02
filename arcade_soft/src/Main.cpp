@@ -16,7 +16,8 @@
 
 int main(int argc, char **argv)
 {
-    Arcade::Core core;
+    std::shared_ptr<Arcade::IGraphics> graphics;
+    Arcade::DLLoader libLoader;
 
     if (argc < 2) {
         std::cerr << "USAGE:\n";
@@ -26,45 +27,36 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
-    core.loadGraphics(argv[1]);
-    core.run();
-    // graphics->openWindow(20, 20);
-    // buttons = graphics->getButtons();
-    // while (!buttons[Arcade::EXIT]) {
-    //     buttons = graphics->getButtons();
-    //     // for (size_t k = 0; k < buttons.size(); ++k) {
-    //     //     std::cout << buttons[k] << ", ";
-    //     // }
-    //     // std::cout << std::endl;
-    //     // mpos = graphics->getMousePos();
-    //     // std::cout << mpos[0] << ", " << mpos[1] << std::endl;
-    //     // mbuttons = graphics->getMouseButton();
-    //     // std::cout << mbuttons[0] << ", " << mbuttons[1] << ", " << mbuttons[2] << std::endl;
-    //     color.part[0] = 255;
-    //     color.part[1] = 0;
-    //     color.part[2] = 0;
-    //     color.part[3] = 255;
-    //     graphics->fill(color.full);
-    //     color.part[0] = 0;
-    //     color.part[1] = 255;
-    //     color.part[2] = 0;
-    //     color.part[3] = 255;
-    //     graphics->drawTile(0, 0, color.full);
-    //     color.part[0] = 0;
-    //     color.part[1] = 0;
-    //     color.part[2] = 255;
-    //     color.part[3] = 255;
-    //     graphics->drawTile(0, 1, color.full);
-    //     graphics->drawTile(1, 0, color.full);
-    //     graphics->drawTile(1, 1, color.full);
-    //     color.part[0] = 255;
-    //     color.part[1] = 255;
-    //     color.part[2] = 255;
-    //     color.part[3] = 255;
-    //     graphics->drawText("Prout", 0, 0, color.full);
-    //     graphics->display();
-    // }
-
-    // graphics->closeWindow();
+   std::vector<bool> buttons;
+    buttons.resize(Arcade::TOTAL_INPUT);
+    try
+    {
+        libLoader.Load(argv[1]);
+        graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
+    }
+    catch(Arcade::DLLoader::BadLibrary& e)
+    {
+        std::cerr << e.what() << '\n';
+        return (84);
+    }
+    std::string str("prout");
+    for (size_t i = 1; i != 100000; ++i) {
+        graphics->fill(Arcade::BLACK);
+        graphics->drawTile(0, 0, Arcade::GREEN);
+        graphics->drawTile(0, 1, Arcade::BLUE);
+        graphics->drawTile(1, 0, Arcade::BLUE);
+        graphics->drawTile(1, 1, Arcade::BLUE);
+        graphics->drawText(str.c_str(), 0, 5, Arcade::WHITE);
+        graphics->display();
+        char c = graphics->getKeyboard();
+        if (c == 127 && str.size() != 0)
+            str.pop_back();
+        else if (c != 0 && c != 127)
+            str += c;
+        graphics->getButtons(buttons);
+        if (buttons[Arcade::EXIT])
+            break;
+    }
+>>>>>>> dev
     return (0);
 }

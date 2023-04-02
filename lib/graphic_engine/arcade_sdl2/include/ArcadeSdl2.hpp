@@ -33,7 +33,7 @@ public:
     std::vector<int> getMousePos(void);
     std::vector<bool> getMouseButton(void);
     std::vector<bool> getButtons(void);
-    std::string getKeyboard(void) {std::string yes; return yes;}
+    char getKeyboard(void) {return 'c';}
 
 private:
     void openWindow(int width, int height);

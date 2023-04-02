@@ -33,6 +33,7 @@ protected:
 
 class InstDrawTile: public IInstruction {
 public:
+    InstDrawTile(int x, int y, int textureId) : _x(x), _y(y), _textureId(textureId) {}
     int getId(void) const {return (INST_DRAW_TILE);}
 protected:
     int _x;
