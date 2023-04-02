@@ -16,6 +16,9 @@
 
 int main(int argc, char **argv)
 {
+    std::shared_ptr<Arcade::IGraphics> graphics;
+    Arcade::DLLoader libLoader;
+
     if (argc < 2) {
         std::cerr << "USAGE:\n";
         std::cerr << "\t./arcade [Graphic library]\n\n";
@@ -25,36 +28,34 @@ int main(int argc, char **argv)
         return (84);
     }
     std::vector<bool> buttons;
-    Arcade::t_color_custom color;
-    Arcade::DLLoader libLoader(argv[1]);
-    std::unique_ptr<Arcade::IGraphics> graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
-    for (size_t i = 1; i != 100000; ++i) {
-        graphics->openWindow(20, 20);
-        color.part[0] = 255;
-        color.part[1] = 0;
-        color.part[2] = 0;
-        color.part[3] = 255;
-        graphics->fill(color.full);
-        color.part[0] = 0;
-        color.part[1] = 255;
-        color.part[2] = 0;
-        color.part[3] = 255;
-        graphics->drawTile(0, 0, color.full);
-        color.part[0] = 0;
-        color.part[1] = 0;
-        color.part[2] = 255;
-        color.part[3] = 255;
-        graphics->drawTile(0, 1, color.full);
-        graphics->drawTile(1, 0, color.full);
-        graphics->drawTile(1, 1, color.full);
-        color.part[0] = 255;
-        color.part[1] = 255;
-        color.part[2] = 255;
-        color.part[3] = 255;
-        graphics->drawText("Prout", 0, 5, color.full);
-        graphics->display();
-        buttons = graphics->getButtons();
+    buttons.resize(Arcade::TOTAL_INPUT);
+    try
+    {
+        libLoader.Load(argv[1]);
+        graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
     }
-    graphics->closeWindow();
+    catch(Arcade::DLLoader::BadLibrary& e)
+    {
+        std::cerr << e.what() << '\n';
+        return (84);
+    }
+    std::string str("prout");
+    for (size_t i = 1; i != 100000; ++i) {
+        graphics->fill(Arcade::BLACK);
+        graphics->drawTile(0, 0, Arcade::GREEN);
+        graphics->drawTile(0, 1, Arcade::BLUE);
+        graphics->drawTile(1, 0, Arcade::BLUE);
+        graphics->drawTile(1, 1, Arcade::BLUE);
+        graphics->drawText(str.c_str(), 0, 5, Arcade::WHITE);
+        graphics->display();
+        char c = graphics->getKeyboard();
+        if (c == 127 && str.size() != 0)
+            str.pop_back();
+        else if (c != 0 && c != 127)
+            str += c;
+        graphics->getButtons(buttons);
+        if (buttons[Arcade::EXIT])
+            break;
+    }
     return (0);
 }
