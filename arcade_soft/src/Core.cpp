@@ -20,6 +20,8 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
 {
     this->_gameLib.Load(gameLibName);
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
+    this->_tileCnf = this->_game->getTilesConfig();
+    this->initTileData();
 }
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
@@ -54,6 +56,21 @@ void Arcade::Core::getAvailableLib(void)
     this->getSOFiles(this->_gameList, this->_gamePath);
 }
 
+void Arcade::Core::initTileData(void)
+{
+    t_tile_data tmpData;
+
+    this->_tileData.clear();
+    for (size_t i = 0; i < this->_tileCnf.size(); ++i) {
+        tmpData.id = this->_tileCnf[i].id;
+        tmpData.color = this->_tileCnf[i].color;
+        tmpData.img = nullptr;
+        // if (this->_tileCnf[i].path.c_str() != nullptr)
+        //     tmpData.img = this->_graphic->loadImage(this->_tileCnf[i].path);
+        this->_tileData.push_back(tmpData);
+    }
+}
+
 void Arcade::Core::run(void)
 {
     std::vector<bool> buttons;
@@ -68,13 +85,47 @@ void Arcade::Core::run(void)
             inst = this->_game->computeFrame(buttons);
             this->interpretInstruction(inst);
         }
-
+        this->interpretInstruction(inst);
+        this->_graphic->display();
     }
 }
 
 void Arcade::Core::interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr)
 {
     for (size_t i = 0; i < instr.size(); ++i) {
-
+        switch (instr[i]->getId()) {
+            case INST_FILL:
+                this->fill(instr[i]);
+                break;
+            case INST_DRAW_TILE:
+                this->drawTile(instr[i]);
+                break;
+            case INST_DRAW_TEXT:
+                this->drawText(instr[i]);
+                break;
+        }
     }
+}
+
+void Arcade::Core::fill(const std::shared_ptr<IInstruction> &instr)
+{
+    InstFill *cast_instr = dynamic_cast<InstFill*>(instr.get());
+
+    this->_graphic->fill(cast_instr->get_color());
+}
+
+void Arcade::Core::drawTile(const std::shared_ptr<IInstruction> &instr)
+{
+    InstDrawTile *cast_instr = dynamic_cast<InstDrawTile*>(instr.get());
+
+    this->_graphic->drawTile(cast_instr->get_x(), cast_instr->get_y(), 255);
+    // this->_graphic->draw(cast_instr->get_color());
+}
+
+void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
+{
+    InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
+
+    this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x(), cast_instr->get_y(), cast_instr->get_color());
+    // this->_graphic->draw(cast_instr->get_color());
 }
