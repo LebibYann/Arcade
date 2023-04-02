@@ -57,6 +57,7 @@ ArcadeSdl2::ArcadeSdl2()
     this->_keyId[Arcade::RESTART] = SDLK_F6;
     this->_keyId[Arcade::HOME_MENU] = SDLK_F1;
     this->_keyId[Arcade::EXIT] = SDLK_ESCAPE;
+    this->openWindow(64, 36);
 }
 
 ArcadeSdl2::~ArcadeSdl2()
