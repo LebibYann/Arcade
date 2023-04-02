@@ -35,9 +35,9 @@ namespace Arcade
             std::shared_ptr<T> (*func)();
             char *error;
 
-            sym = dlsym(_handle, symbol.c_str());
-            if (_handle == NULL)
+            if (_handle == nullptr)
                 throw BadLibrary("Library not loaded");
+            sym = dlsym(_handle, symbol.c_str());
             if ((error = dlerror()) != NULL)
                 throw BadLibrary(error);
             func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym);
