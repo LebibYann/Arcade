@@ -5,11 +5,12 @@
 ** main
 */
 
-#include "../include/snake.hpp"
+#include "snake.hpp"
+#include <unistd.h>
 
 int main()
 {
-    int i = 0;
+    int slow = 0;
     std::vector <bool> inputs;
     inputs.push_back(false);
     inputs.push_back(false);
@@ -18,7 +19,7 @@ int main()
 
     t_snake_data *game_data = loadConfig();
     while (1) {
-        if (i % 100000 == 0) {
+        if (slow % 3 == 0) {
             computeGame(game_data, inputs);
             for (size_t i = 0; i < game_data->map.size(); ++i) {
                 for (size_t j = 0; j < game_data->map[i].size(); ++j) {
@@ -28,7 +29,8 @@ int main()
             }
             std::cout << "---------------------------------------------------------\n";
         }
-        i++;
+        slow++;
+        usleep(1.0/7.0 * 1000000);
     }
     return (0);
 }
