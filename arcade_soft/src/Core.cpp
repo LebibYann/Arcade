@@ -76,7 +76,6 @@ void Arcade::Core::run(void)
     std::vector<bool> buttons = this->_graphic->getButtons();
     std::vector<std::shared_ptr<IInstruction>> inst;
 
-    inst.push_back(std::make_shared<InstDrawTile>(0, 0, 0));
     while (!buttons[Arcade::EXIT]) {
         buttons = this->_graphic->getButtons();
         if (this->_game == nullptr) {
@@ -100,21 +99,32 @@ void Arcade::Core::interpretInstruction(const std::vector<std::shared_ptr<IInstr
             case INST_DRAW_TILE:
                 this->drawTile(instr[i]);
                 break;
+            case INST_DRAW_TEXT:
+                this->drawText(instr[i]);
+                break;
         }
     }
 }
 
-void Arcade::Core::fill(std::shared_ptr<IInstruction> instr)
+void Arcade::Core::fill(const std::shared_ptr<IInstruction> &instr)
 {
     InstFill *cast_instr = dynamic_cast<InstFill*>(instr.get());
 
     this->_graphic->fill(cast_instr->get_color());
 }
 
-void Arcade::Core::drawTile(std::shared_ptr<IInstruction> instr)
+void Arcade::Core::drawTile(const std::shared_ptr<IInstruction> &instr)
 {
     InstDrawTile *cast_instr = dynamic_cast<InstDrawTile*>(instr.get());
 
     this->_graphic->drawTile(cast_instr->get_x(), cast_instr->get_y(), 255);
+    // this->_graphic->draw(cast_instr->get_color());
+}
+
+void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
+{
+    InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
+
+    this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x(), cast_instr->get_y(), cast_instr->get_color());
     // this->_graphic->draw(cast_instr->get_color());
 }

@@ -50,8 +50,9 @@ namespace Arcade
         void getAvailableLib(void);
         void run(void);
         void interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr);
-        void fill(std::shared_ptr<IInstruction> instr);
-        void drawTile(std::shared_ptr<IInstruction> instr);
+        void fill(const std::shared_ptr<IInstruction> &instr);
+        void drawTile(const std::shared_ptr<IInstruction> &instr);
+        void drawText(const std::shared_ptr<IInstruction> &instr);
         void initTileData(void);
         t_tile_data getTileData(int id);
 
