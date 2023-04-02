@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <iostream>
 #include <cstring>
+#include <memory.h>
 
 #include "IGame.hpp"
 #include "IGraphics.hpp"
@@ -31,9 +32,9 @@ namespace Arcade
         Core();
         ~Core();
 
-        void loadGame(std::string game);
         std::size_t runGame();
-        void loadGraphics(const std::string &graphic);
+        void loadGame(const std::string &gameLibNamegame);
+        void loadGraphics(const std::string &graphicLibName);
         /**
          * @brief Limit the number of refresh per second.
          * If the code run faster than the time needed for one tick to happen,
@@ -48,6 +49,7 @@ namespace Arcade
         void getSOFiles(std::vector<std::string> &list, const std::string &path);
         void getAvailableLib(void);
         void run(void);
+        void interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr);
 
     private:
         std::string _graphicPath = "./lib/graphic_engine/";

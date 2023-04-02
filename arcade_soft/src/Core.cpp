@@ -16,6 +16,12 @@ Arcade::Core::~Core()
 {
 }
 
+void Arcade::Core::loadGame(const std::string &gameLibName)
+{
+    this->_gameLib.Load(gameLibName);
+    this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
+}
+
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
 {
     this->_graphicLib.Load(graphicLibName);
@@ -50,4 +56,24 @@ void Arcade::Core::getAvailableLib(void)
 
 void Arcade::Core::run(void)
 {
+    std::vector<bool> buttons = this->_graphic->getButtons();
+    std::vector<std::shared_ptr<IInstruction>> inst;
+
+    while (!buttons[Arcade::EXIT]) {
+        buttons = this->_graphic->getButtons();
+        if (this->_game == nullptr) {
+
+        } else {
+            inst = this->_game->computeFrame(buttons);
+            this->interpretInstruction(inst);
+        }
+
+    }
+}
+
+void Arcade::Core::interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr)
+{
+    for (size_t i = 0; i < instr.size(); ++i) {
+
+    }
 }

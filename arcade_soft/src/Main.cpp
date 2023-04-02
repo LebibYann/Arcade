@@ -17,7 +17,7 @@
 int main(int argc, char **argv)
 {
     Arcade::Core core;
-    (void)argv;
+
     if (argc < 2) {
         std::cerr << "USAGE:\n";
         std::cerr << "\t./arcade [Graphic library]\n\n";
