@@ -12,6 +12,10 @@
 
 namespace Arcade
 {
+    typedef union u_color_custom {
+        uint32_t full;
+        char part[4];
+    } t_color_custom;
     typedef enum e_arcade_input
     {
         UP_ARROW,
@@ -31,7 +35,6 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
-
     enum ArcadeColor
     {
         BLACK,
@@ -127,6 +130,6 @@ namespace Arcade
          * return the buttons pressed during the call.
          */
         virtual void getButtons(std::vector<bool> &input) = 0;
-        virtual char  getKeyboard(void) = 0;
+        virtual char getKeyboard(void) = 0;
     };
 };
