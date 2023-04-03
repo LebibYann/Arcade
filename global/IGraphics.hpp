@@ -10,11 +10,12 @@
 #include <string>
 #include <vector>
 
-#define TILES_X 64
-#define TILES_Y 36
-
 namespace Arcade
 {
+    typedef union u_color_custom {
+        uint32_t full;
+        char part[4];
+    } t_color_custom;
     typedef enum e_arcade_input
     {
         UP_ARROW,
@@ -34,6 +35,17 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
+    enum ArcadeColor
+    {
+        BLACK,
+        RED,
+        GREEN,
+        YELLOW,
+        BLUE,
+        MAGENTA,
+        CYAN,
+        WHITE
+    };
 
     class IGraphics
     {

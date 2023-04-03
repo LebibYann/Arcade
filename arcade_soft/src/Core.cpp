@@ -89,7 +89,6 @@ void Arcade::Core::run(void)
 
     std::fill(buttons.begin(), buttons.end(), false);
     while (!buttons[Arcade::EXIT]) {
-        // buttons = this->_graphic->getButtons();
         this->_graphic->getButtons(buttons);
         if (this->_game == nullptr) {
 
