@@ -57,6 +57,17 @@ ArcadeSdl2::ArcadeSdl2()
     this->_keyId[Arcade::RESTART] = SDLK_F6;
     this->_keyId[Arcade::HOME_MENU] = SDLK_F1;
     this->_keyId[Arcade::EXIT] = SDLK_ESCAPE;
+
+    this->_colors.resize(8);
+    this->_colors[Arcade::BLACK].full = SDL_SETCOLOR(0, 0, 0, 255);
+    this->_colors[Arcade::RED].full = SDL_SETCOLOR(255, 0, 0, 255);
+    this->_colors[Arcade::GREEN].full = SDL_SETCOLOR(0, 255, 0, 255);
+    this->_colors[Arcade::YELLOW].full = SDL_SETCOLOR(255, 255, 0, 255);
+    this->_colors[Arcade::BLUE].full = SDL_SETCOLOR(0, 0, 255, 255);
+    this->_colors[Arcade::MAGENTA].full = SDL_SETCOLOR(255, 0, 255, 255);
+    this->_colors[Arcade::CYAN].full = SDL_SETCOLOR(0, 255, 255, 255);
+    this->_colors[Arcade::WHITE].full = SDL_SETCOLOR(255, 255, 255, 255);
+
     this->openWindow(64, 36);
 }
 
@@ -119,7 +130,7 @@ void ArcadeSdl2::unloadFont(void)
 
 void ArcadeSdl2::fill(uint32_t color)
 {
-    char *c = (char*) &color;
+    uint8_t *c = this->_colors[color].rgba;
 
     SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
     SDL_RenderClear(this->_render);
@@ -127,7 +138,7 @@ void ArcadeSdl2::fill(uint32_t color)
 
 void ArcadeSdl2::drawTile(int x, int y, uint32_t color)
 {
-    char *c = (char*) &color;
+    uint8_t *c = this->_colors[color].rgba;
 
     SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
     this->_rect.x = x * this->_tileSize;
