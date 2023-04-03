@@ -27,7 +27,7 @@ namespace Arcade
         };
 
         DLLoader(std::string lib = "");
-        void Load(const std::string &lib);
+        void Load(std::string lib);
         template <typename T>
         std::shared_ptr<T> getInstance(std::string symbol)
         {
@@ -35,7 +35,7 @@ namespace Arcade
             std::shared_ptr<T> (*func)();
             char *error;
 
-            if (_handle == nullptr)
+            if (_handle == NULL)
                 throw BadLibrary("Library not loaded");
             sym = dlsym(_handle, symbol.c_str());
             if ((error = dlerror()) != NULL)
@@ -43,9 +43,9 @@ namespace Arcade
             func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym);
             return (func());
         }
-        void unLoad(void);
         ~DLLoader();
+
     private:
-        void *_handle = NULL;
+        void *_handle;
     };
 }

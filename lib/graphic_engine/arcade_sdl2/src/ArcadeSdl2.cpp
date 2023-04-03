@@ -57,18 +57,6 @@ ArcadeSdl2::ArcadeSdl2()
     this->_keyId[Arcade::RESTART] = SDLK_F6;
     this->_keyId[Arcade::HOME_MENU] = SDLK_F1;
     this->_keyId[Arcade::EXIT] = SDLK_ESCAPE;
-
-    this->_colors.resize(SDL_TOTALCOLOR);
-    this->_colors[Arcade::BLACK].full = SDL_SETCOLOR(0, 0, 0, 255);
-    this->_colors[Arcade::RED].full = SDL_SETCOLOR(255, 0, 0, 255);
-    this->_colors[Arcade::GREEN].full = SDL_SETCOLOR(0, 255, 0, 255);
-    this->_colors[Arcade::YELLOW].full = SDL_SETCOLOR(255, 255, 0, 255);
-    this->_colors[Arcade::BLUE].full = SDL_SETCOLOR(0, 0, 255, 255);
-    this->_colors[Arcade::MAGENTA].full = SDL_SETCOLOR(255, 0, 255, 255);
-    this->_colors[Arcade::CYAN].full = SDL_SETCOLOR(0, 255, 255, 255);
-    this->_colors[Arcade::WHITE].full = SDL_SETCOLOR(255, 255, 255, 255);
-
-    this->openWindow(64, 36);
 }
 
 ArcadeSdl2::~ArcadeSdl2()
@@ -128,58 +116,24 @@ void ArcadeSdl2::unloadFont(void)
     }
 }
 
-void ArcadeSdl2::drawRect(int x, int y, int width, int height, uint32_t color)
-{
-    t_sdl_color colorU;
-
-    colorU.full = color;
-    SDL_SetRenderDrawColor(this->_render,
-        colorU.rgba[0], colorU.rgba[1], colorU.rgba[2], colorU.rgba[3]);
-    this->_rect.x = x;
-    this->_rect.y = y;
-    this->_rect.w = width;
-    this->_rect.h = height;
-    SDL_RenderFillRect(this->_render, &(this->_rect));
-}
-
-void ArcadeSdl2::drawUnknownTexture(int x, int y, int width, int height, uint32_t color)
-{
-    int w = width / 2;
-    int h = height / 2;
-
-    this->drawRect(x, y, w, h, color);
-    this->drawRect(x + w, y + h, w, h, color);
-    this->drawRect(x + w, y, w, h, SDL_SETCOLOR(0, 0, 0, 255));
-    this->drawRect(x, y + h, w, h, SDL_SETCOLOR(0, 0, 0, 255));
-}
-
 void ArcadeSdl2::fill(uint32_t color)
 {
-    uint8_t *c;
-    int w;
-    int h;
+    char *c = (char*) &color;
 
-    if (color >= SDL_TOTALCOLOR) {
-        SDL_GetWindowSize(this->_window, &w, &h);
-        this->drawUnknownTexture(0, 0, w, h, SDL_SETCOLOR(255, 0, 0, 255));
-        return;
-    }
-    c = this->_colors[color].rgba;
     SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
     SDL_RenderClear(this->_render);
 }
 
 void ArcadeSdl2::drawTile(int x, int y, uint32_t color)
 {
-    x *= this->_tileSize;
-    y *= this->_tileSize;
-    if (color >= SDL_TOTALCOLOR) {
-        this->drawUnknownTexture(x , y, this->_tileSize, this->_tileSize,
-            SDL_SETCOLOR(255, 0, 255, 255));
-        return;
-    }
-    this->drawRect(x , y, this->_tileSize, this->_tileSize,
-        this->_colors[color].full);
+    char *c = (char*) &color;
+
+    SDL_SetRenderDrawColor(this->_render, c[0], c[1], c[2], c[3]);
+    this->_rect.x = x * this->_tileSize;
+    this->_rect.y = y * this->_tileSize;
+    this->_rect.w = this->_tileSize;
+    this->_rect.h = this->_tileSize;
+    SDL_RenderFillRect(this->_render, &(this->_rect));
 }
 
 void ArcadeSdl2::drawImage(int x, int y, void *img)
@@ -191,12 +145,9 @@ void ArcadeSdl2::drawImage(int x, int y, void *img)
 
 void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
 {
-    t_sdl_color colorU;
     int xSize = 0;
-    colorU.full = SDL_SETCOLOR(255, 255, 255, 255);
-    if (color >= SDL_TOTALCOLOR)
-        colorU.full = this->_colors[color].full;
-    SDL_Color sdlColor = {colorU.rgba[0], colorU.rgba[1], colorU.rgba[2], colorU.rgba[3]};
+    unsigned char *c = (unsigned char*) &color;
+    SDL_Color sdlColor = {c[0], c[1], c[2], c[3]};
     SDL_Surface *surface = TTF_RenderText_Solid(this->_font, text.c_str(), sdlColor);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(this->_render, surface);
 
@@ -213,31 +164,31 @@ void ArcadeSdl2::display(void)
     SDL_RenderPresent(this->_render);
 }
 
-void ArcadeSdl2::getMousePos(std::vector<int> &coords)
+std::vector<int> ArcadeSdl2::getMousePos(void)
 {
-    coords.clear();
-    coords.resize(2);
+    std::vector<int> mousePos(2);
 
-    SDL_GetMouseState(&coords[0], &coords[1]);
+    SDL_GetMouseState(&mousePos[0], &mousePos[1]);
+    return (mousePos);
 }
 
-void ArcadeSdl2::getMouseButton(std::vector<bool> &coord)
+std::vector<bool> ArcadeSdl2::getMouseButton(void)
 {
     int tmp;
     uint32_t buttons;
+    std::vector<bool> mouseButtons(3);
 
-    coord.clear();
-    coord.resize(3);
     buttons = SDL_GetMouseState(&tmp, &tmp);
-    coord[0] = buttons & SDL_BUTTON(1);
-    coord[1] = buttons & SDL_BUTTON(2);
-    coord[2] = buttons & SDL_BUTTON(3);
+    mouseButtons[0] = buttons & SDL_BUTTON(1);
+    mouseButtons[1] = buttons & SDL_BUTTON(2);
+    mouseButtons[2] = buttons & SDL_BUTTON(3);
+    return (mouseButtons);
 }
 
-void ArcadeSdl2::getButtons(std::vector<bool> &input)
+std::vector<bool> ArcadeSdl2::getButtons(void)
 {
     this->handleEvent();
-    input = this->_arcadeButtons;
+    return (this->_arcadeButtons);
 }
 
 void ArcadeSdl2::updateMatchingKey(SDL_Event event, bool toState)

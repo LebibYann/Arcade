@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+#define COLOR(r, g, b, a) (0 | a | b << 8 | g << 16 | r << 24)
+
 namespace Arcade
 {
     typedef union u_color_custom {
@@ -35,21 +37,18 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
-    enum ArcadeColor
-    {
-        BLACK,
-        RED,
-        GREEN,
-        YELLOW,
-        BLUE,
-        MAGENTA,
-        CYAN,
-        WHITE
-    };
 
     class IGraphics
     {
     public:
+        /**
+         * @brief
+         *
+         * @param width Number of tile that could fit in the width of the window
+         * @param height Number of tile that could fit in the width of the window
+         */
+        virtual void openWindow(int width, int height) = 0;
+        virtual void closeWindow() = 0;
         /**
          * @brief Loads an image.
          *
@@ -115,21 +114,20 @@ namespace Arcade
          * Which contains in the first occurence the position x and
          * the second the position y.
          */
-        virtual void getMousePos(std::vector<int> &coords) = 0;
+        virtual std::vector<int> getMousePos(void) = 0;
         /**
          * @brief Get the mouse Buttons in a bool table.
          *
          * @return buttons Bool table of 3 occurences which
          * return the buttons pressed during the call.
          */
-        virtual void getMouseButton(std::vector<bool> &coord) = 0;
+        virtual std::vector<bool> getMouseButton(void) = 0;
         /**
          * @brief Get the Buttons in a bool table.
          *
          * @return buttons Bool table of TOTAL_INPUT occurences which
          * return the buttons pressed during the call.
          */
-        virtual void getButtons(std::vector<bool> &input) = 0;
-        virtual char getKeyboard(void) = 0;
+        virtual std::vector<bool> getButtons(void) = 0;
     };
-};
+}
