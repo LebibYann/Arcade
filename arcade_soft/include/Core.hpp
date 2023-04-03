@@ -35,8 +35,8 @@ namespace Arcade
         Core();
         ~Core();
 
-        bool runGame(void);
-        bool runMenu(void);
+        void runGame(std::vector<bool> inputs);
+        void runMenu(std::vector<bool> inputs);
         void loadGame(const std::string &gameLibNamegame);
         void loadGraphics(const std::string &graphicLibName);
         /**
@@ -68,6 +68,7 @@ namespace Arcade
         std::string _gamePath = "./lib/games/";
         std::vector<std::string> _gameList;
         std::vector<std::string> _graphicList;
+        std::size_t _selected;
         std::shared_ptr<IGame> _game = nullptr;
         std::shared_ptr<IGraphics> _graphic = nullptr;
         Arcade::DLLoader _gameLib;
