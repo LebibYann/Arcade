@@ -16,29 +16,38 @@ const char *Arcade::DLLoader::BadLibrary::what()
     return (_msg.c_str());
 }
 
-Arcade::DLLoader::DLLoader(std::string lib) : _handle(NULL)
+Arcade::DLLoader::DLLoader(std::string lib) : _handle(nullptr)
 {
     char *error;
 
-    if (lib.compare("")){
+    if (lib.compare("") == 0){
         _handle = dlopen(lib.c_str(), RTLD_LAZY);
         if ((error = dlerror()) != NULL)
             throw BadLibrary(error);
     }
 }
 
-void Arcade::DLLoader::Load(std::string lib)
+void Arcade::DLLoader::Load(const std::string &lib)
 {
     char *error;
 
-    if (_handle != NULL)
+    if (_handle != nullptr)
         dlclose(_handle);
     _handle = dlopen(lib.c_str(), RTLD_LAZY);
     if ((error = dlerror()) != NULL)
         throw BadLibrary(error);
 }
 
+void Arcade::DLLoader::unLoad(void)
+{
+    if (_handle != nullptr){
+        dlclose(_handle);
+        _handle = nullptr;
+    }
+}
+
 Arcade::DLLoader::~DLLoader()
 {
-    dlclose(_handle);
+    if (_handle != nullptr)
+        dlclose(_handle);
 }

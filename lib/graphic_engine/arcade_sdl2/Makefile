@@ -23,7 +23,7 @@ INCLUDE_DIRS =
 
 #FLAGS
 FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++14 \
--shared -fPIC -lSDL2 -lSDL2_ttf -lSDL2_image -g -g3
+-shared -fPIC -lSDL2 -lSDL2_ttf -lSDL2_image -g -g3 -lncurses
 
 #EXCLUDED
 GLOB_EXCL_DIRS = ./bonus/
