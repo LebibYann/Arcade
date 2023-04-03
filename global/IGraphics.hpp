@@ -35,18 +35,6 @@ namespace Arcade
         TOTAL_INPUT
     } t_arcade_input;
 
-    enum ArcadeColor
-    {
-        BLACK,
-        RED,
-        GREEN,
-        YELLOW,
-        BLUE,
-        MAGENTA,
-        CYAN,
-        WHITE
-    };
-
     class IGraphics
     {
     public:
@@ -130,6 +118,6 @@ namespace Arcade
          * return the buttons pressed during the call.
          */
         virtual void getButtons(std::vector<bool> &input) = 0;
-        virtual char  getKeyboard(void) = 0;
+        virtual char getKeyboard(void) = 0;
     };
 };

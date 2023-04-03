@@ -87,8 +87,9 @@ void Arcade::Core::run(void)
     std::vector<bool> buttons;
     std::vector<std::shared_ptr<IInstruction>> inst;
 
-    this->_graphic->getButtons(buttons);
+    std::fill(buttons.begin(), buttons.end(), false);
     while (!buttons[Arcade::EXIT]) {
+        // buttons = this->_graphic->getButtons();
         this->_graphic->getButtons(buttons);
         if (this->_game == nullptr) {
 
