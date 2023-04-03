@@ -125,7 +125,7 @@ void Arcade::Core::run(void)
 
     do{
         this->_graphic->getButtons(buttons);
-        if (buttons[Arcade::HOME_MENU]){
+        if (buttons[Arcade::HOME_MENU]) {
             _game = nullptr;
             _gameLib.unLoad();
         }
