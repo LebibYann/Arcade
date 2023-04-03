@@ -28,35 +28,35 @@ int main(int argc, char **argv)
         return (84);
     }
     (void)argv;
-//    std::vector<bool> buttons;
-//     buttons.resize(Arcade::TOTAL_INPUT);
-//     try
-//     {
-//         libLoader.Load(argv[1]);
-//         graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
-//     }
-//     catch(Arcade::DLLoader::BadLibrary& e)
-//     {
-//         std::cerr << e.what() << '\n';
-//         return (84);
-//     }
-//     std::string str("prout");
-//     for (size_t i = 1; i != 100000; ++i) {
-//         graphics->fill(Arcade::BLACK);
-//         graphics->drawTile(0, 0, Arcade::GREEN);
-//         graphics->drawTile(0, 1, Arcade::BLUE);
-//         graphics->drawTile(1, 0, Arcade::BLUE);
-//         graphics->drawTile(1, 1, Arcade::BLUE);
-//         graphics->drawText(str.c_str(), 0, 5, Arcade::WHITE);
-//         graphics->display();
-//         char c = graphics->getKeyboard();
-//         if (c == 127 && str.size() != 0)
-//             str.pop_back();
-//         else if (c != 0 && c != 127)
-//             str += c;
-//         graphics->getButtons(buttons);
-//         if (buttons[Arcade::EXIT])
-//             break;
-//     }
+    std::vector<bool> buttons;
+    buttons.resize(Arcade::TOTAL_INPUT);
+    try
+    {
+        libLoader.Load(argv[1]);
+        graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
+    }
+    catch(Arcade::DLLoader::BadLibrary& e)
+    {
+        std::cerr << e.what() << '\n';
+        return (84);
+    }
+    std::string str("prout");
+    for (size_t i = 1; i != 100000; ++i) {
+        graphics->fill(-1);
+        graphics->drawTile(0, 0, Arcade::GREEN);
+        graphics->drawTile(0, 1, Arcade::BLUE);
+        graphics->drawTile(1, 0, Arcade::BLUE);
+        graphics->drawTile(1, 1, -1);
+        graphics->drawText(str.c_str(), 0, 5, -1);
+        graphics->display();
+        // char c = graphics->getKeyboard();
+        // if (c == 127 && str.size() != 0)
+        //     str.pop_back();
+        // else if (c != 0 && c != 127)
+        //     str += c;
+        graphics->getButtons(buttons);
+        if (buttons[Arcade::EXIT])
+            break;
+    }
     return (0);
 }

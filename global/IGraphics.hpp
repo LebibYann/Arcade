@@ -129,6 +129,6 @@ namespace Arcade
          * return the buttons pressed during the call.
          */
         virtual void getButtons(std::vector<bool> &input) = 0;
-        virtual char  getKeyboard(void) = 0;
+        virtual char getKeyboard(void) = 0;
     };
 };
