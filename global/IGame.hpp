@@ -30,7 +30,7 @@ namespace Arcade
          * @param buttons A bool table which represent the buttons pressed in the current frame.
          * @return List of instructions to execute.
          */
-        virtual std::vector<std::shared_ptr<IInstruction>> computeFrame(std::vector<bool> buttons) = 0;
+        virtual std::vector<IInstruction> computeFrame(bool *buttons) = 0;
         /**
          ** @brief Gives information about the game tiles
          ** their id, color, and potentialy texture.
