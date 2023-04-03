@@ -11,7 +11,19 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include "Instruction.hpp"
+
+typedef enum e_ArcadeColor {
+    BLACK,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYAN,
+    WHITE
+} t_ArcadeColor;
 
 typedef enum e_snake_tiles {
     GROUND = 0,
@@ -48,4 +60,5 @@ typedef struct s_snake_data {
 std::vector <std::vector<int>> loadMap();
 t_snake_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
-std::vector <IInstruction> computeGame(t_snake_data *game, std::vector<bool> inputs);
+std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::vector<bool> inputs);
+std::vector<std::shared_ptr<IInstruction>> computeFrame(t_game_data *game_data, std::vector<bool> buttons);

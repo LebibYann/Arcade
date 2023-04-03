@@ -5,13 +5,13 @@
 ** getAction
 */
 
-#include "../include/snake.hpp"
+#include "snake.hpp"
 
-std::vector <IInstruction> computeFrame(t_game_data *game_data, std::vector<bool> inputs)
+std::vector<std::shared_ptr<IInstruction>> computeFrame(t_game_data *game_data, std::vector<bool> buttons)
 {
-    std::vector <IInstruction> instructions;
+    std::vector<std::shared_ptr<IInstruction>> instructions;
     t_snake_data *game = static_cast<t_snake_data*> (game_data->data);
 
-    instructions = computeGame(game, inputs);
+    instructions = computeGame(game, buttons);
     return (instructions);
 }
