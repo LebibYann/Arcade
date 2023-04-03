@@ -43,8 +43,8 @@ namespace Arcade
             func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym);
             return (func());
         }
+        void unLoad(void);
         ~DLLoader();
-
     private:
         void *_handle = NULL;
     };

@@ -10,9 +10,6 @@
 #include <string>
 #include <vector>
 
-#define TILES_X 64
-#define TILES_Y 36
-
 namespace Arcade
 {
     typedef enum e_arcade_input

@@ -16,6 +16,9 @@
 #include "IGraphics.hpp"
 #include "DLLoader.hpp"
 
+#define TILES_X 64
+#define TILES_Y 36
+
 namespace Arcade
 {
     typedef struct s_tile_data
@@ -32,7 +35,8 @@ namespace Arcade
         Core();
         ~Core();
 
-        std::size_t runGame();
+        bool runGame(void);
+        bool runMenu(void);
         void loadGame(const std::string &gameLibNamegame);
         void loadGraphics(const std::string &graphicLibName);
         /**
@@ -45,7 +49,7 @@ namespace Arcade
          *
          * @param tickPerSecond Number of time the game must refresh per second
          */
-        double setTickRate(double tickPerSecond);
+        //double setTickRate(double tickPerSecond);
         void getSOFiles(std::vector<std::string> &list, const std::string &path);
         void getAvailableLib(void);
         void run(void);
