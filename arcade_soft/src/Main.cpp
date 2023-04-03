@@ -16,8 +16,7 @@
 
 int main(int argc, char **argv)
 {
-    std::shared_ptr<Arcade::IGraphics> graphics;
-    Arcade::DLLoader libLoader;
+    Arcade::Core core;
 
     if (argc < 2) {
         std::cerr << "USAGE:\n";
@@ -27,35 +26,15 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
-   std::vector<bool> buttons;
-    buttons.resize(Arcade::TOTAL_INPUT);
     try
     {
-        libLoader.Load(argv[1]);
-        graphics = libLoader.getInstance<Arcade::IGraphics>("entry_point");
+        core.loadGraphics(argv[1]);
     }
     catch(Arcade::DLLoader::BadLibrary& e)
     {
         std::cerr << e.what() << '\n';
         return (84);
     }
-    std::string str("prout");
-    for (size_t i = 1; i != 100000; ++i) {
-        graphics->fill(Arcade::BLACK);
-        graphics->drawTile(0, 0, Arcade::GREEN);
-        graphics->drawTile(0, 1, Arcade::BLUE);
-        graphics->drawTile(1, 0, Arcade::BLUE);
-        graphics->drawTile(1, 1, Arcade::BLUE);
-        graphics->drawText(str.c_str(), 0, 5, Arcade::WHITE);
-        graphics->display();
-        char c = graphics->getKeyboard();
-        if (c == 127 && str.size() != 0)
-            str.pop_back();
-        else if (c != 0 && c != 127)
-            str += c;
-        graphics->getButtons(buttons);
-        if (buttons[Arcade::EXIT])
-            break;
-    }
+    core.run();
     return (0);
 }
