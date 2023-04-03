@@ -5,7 +5,8 @@
 ** main
 */
 
-#include "../include/snake.hpp"
+#include "nibbler.hpp"
+#include <unistd.h>
 
 int main()
 {
@@ -16,7 +17,7 @@ int main()
     inputs.push_back(true);
     inputs.push_back(false);
 
-    t_snake_data *game_data = loadConfig();
+    t_nibbler_data *game_data = loadConfig();
     while (1) {
         if (i % 100000 == 0) {
             computeGame(game_data, inputs);
@@ -28,6 +29,7 @@ int main()
             }
             std::cout << "---------------------------------------------------------\n";
         }
+        usleep(1.0/7.0 * 1000000);
         i++;
     }
     return (0);

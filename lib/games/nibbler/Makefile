@@ -18,11 +18,11 @@ SRC_DIRS =
 SRC_FILES =
 
 #INCLUDE
-INCLUDE_DIRS_REC = include/
+INCLUDE_DIRS_REC = include/../../../global/
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W
+FLAGS = -g -g3 -Wextra -Wall -Werror -W -lstdc++
 
 #LIB
 LIB_DIRS =

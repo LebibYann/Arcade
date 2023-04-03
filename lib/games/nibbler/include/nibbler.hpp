@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include "Instruction.hpp"
 
 typedef enum e_snake_tiles {
@@ -42,10 +43,18 @@ typedef struct s_snake {
 typedef struct s_nibbler_data {
     std::vector <std::vector<int>> map;
     t_snake snake;
+    int timer;
     int score;
+    bool gameOver;
+    int lastEaten;
 } t_nibbler_data;
 
 std::vector <std::vector<int>> loadMap();
 t_nibbler_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
-std::vector <IInstruction> computeGame(t_nibbler_data *game, std::vector<bool> inputs);
+std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std::vector<bool> inputs);
+std::vector<std::shared_ptr<IInstruction>> computeFrame(t_game_data *game_data, std::vector<bool> buttons);
+
+void moveHandler(t_nibbler_data *game, std::vector<bool> inputs);
+void move_snake(t_nibbler_data *game, int collision);
+int collisionHandler(t_nibbler_data *game);
