@@ -34,17 +34,6 @@ namespace Arcade
         EXIT,
         TOTAL_INPUT
     } t_arcade_input;
-    enum ArcadeColor
-    {
-        BLACK,
-        RED,
-        GREEN,
-        YELLOW,
-        BLUE,
-        MAGENTA,
-        CYAN,
-        WHITE
-    };
 
     class IGraphics
     {
