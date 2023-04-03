@@ -46,18 +46,6 @@ namespace Arcade
         WHITE
     };
 
-    enum ArcadeColor
-    {
-        BLACK,
-        RED,
-        GREEN,
-        YELLOW,
-        BLUE,
-        MAGENTA,
-        CYAN,
-        WHITE
-    };
-
     class IGraphics
     {
     public:
