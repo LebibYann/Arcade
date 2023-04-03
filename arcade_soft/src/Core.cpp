@@ -107,7 +107,7 @@ bool Arcade::Core::runMenu(void)
 
 void Arcade::Core::run(void)
 {
-    std::vector<bool> buttons;
+    std::vector<bool> buttons(Arcade::TOTAL_INPUT);
     std::vector<std::shared_ptr<IInstruction>> inst;
 
     std::fill(buttons.begin(), buttons.end(), false);
@@ -115,7 +115,8 @@ void Arcade::Core::run(void)
         this->_graphic->getButtons(buttons);
         if (this->_game == nullptr && !runMenu()) {
                 break;
-        } else if (!runGame()) {
+        }
+        if (this->_game != nullptr && !runGame()) {
             _game = nullptr;
             _gameLib.unLoad();
         }
