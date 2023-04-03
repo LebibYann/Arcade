@@ -71,6 +71,17 @@ void Arcade::Core::initTileData(void)
     }
 }
 
+Arcade::t_tile_data Arcade::Core::getTileData(int id)
+{
+    Arcade::t_tile_data errorTile = {-1, false, nullptr, -1};
+
+    for (size_t i = 0; i < this->_tileData.size(); ++i) {
+        if (this->_tileData[i].id == id)
+            return (this->_tileData[i]);
+    }
+    return (errorTile);
+}
+
 bool Arcade::Core::runGame(void)
 {
     std::vector<bool> buttons;
@@ -96,16 +107,18 @@ bool Arcade::Core::runMenu(void)
 
 void Arcade::Core::run(void)
 {
-    while (1){
-        if (_game != nullptr){
-            if (!runGame()){
-                _game = nullptr;
-                _gameLib.unLoad();
-            }
-        }
-        else
-            if (!runMenu())
+    std::vector<bool> buttons;
+    std::vector<std::shared_ptr<IInstruction>> inst;
+
+    std::fill(buttons.begin(), buttons.end(), false);
+    while (!buttons[Arcade::EXIT]) {
+        this->_graphic->getButtons(buttons);
+        if (this->_game == nullptr && !runMenu()) {
                 break;
+        } else if (!runGame()) {
+            _game = nullptr;
+            _gameLib.unLoad();
+        }
         this->_graphic->display();
     }
 }
@@ -137,9 +150,9 @@ void Arcade::Core::fill(const std::shared_ptr<IInstruction> &instr)
 void Arcade::Core::drawTile(const std::shared_ptr<IInstruction> &instr)
 {
     InstDrawTile *cast_instr = dynamic_cast<InstDrawTile*>(instr.get());
+    Arcade::t_tile_data tileData = this->getTileData(cast_instr->get_texture());
 
-    this->_graphic->drawTile(cast_instr->get_x(), cast_instr->get_y(), 255);
-    // this->_graphic->draw(cast_instr->get_color());
+    this->_graphic->drawTile(cast_instr->get_x(), cast_instr->get_y(), tileData.color);
 }
 
 void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
@@ -147,5 +160,4 @@ void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
     InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
 
     this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x(), cast_instr->get_y(), cast_instr->get_color());
-    // this->_graphic->draw(cast_instr->get_color());
 }
