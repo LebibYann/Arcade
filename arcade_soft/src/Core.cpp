@@ -82,6 +82,29 @@ Arcade::t_tile_data Arcade::Core::getTileData(int id)
     return (errorTile);
 }
 
+bool Arcade::Core::runGame(void)
+{
+    std::vector<bool> buttons;
+    std::vector<std::shared_ptr<IInstruction>> inst;
+
+    this->_graphic->getButtons(buttons);
+    inst = this->_game->computeFrame(buttons);
+    this->interpretInstruction(inst);
+    return (!buttons[Arcade::EXIT]);
+}
+
+bool Arcade::Core::runMenu(void)
+{
+    std::vector<bool> buttons;
+
+    this->_graphic->getButtons(buttons);
+    for (size_t i = 0; i < _gameList.size(); i++)
+        _graphic->drawText(_gameList[i], 0, i, BLACK);
+    for (size_t i = 0; i < _graphicList.size(); i++)
+        _graphic->drawText(_graphicList[i], 0, i, BLACK);
+    return (!buttons[Arcade::EXIT]);
+}
+
 void Arcade::Core::run(void)
 {
     std::vector<bool> buttons;
@@ -90,13 +113,12 @@ void Arcade::Core::run(void)
     std::fill(buttons.begin(), buttons.end(), false);
     while (!buttons[Arcade::EXIT]) {
         this->_graphic->getButtons(buttons);
-        if (this->_game == nullptr) {
-
-        } else {
-            inst = this->_game->computeFrame(buttons);
-            this->interpretInstruction(inst);
+        if (this->_game == nullptr && !runMenu()) {
+                break;
+        } else if (!runGame()) {
+            _game = nullptr;
+            _gameLib.unLoad();
         }
-        this->interpretInstruction(inst);
         this->_graphic->display();
     }
 }
