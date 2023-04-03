@@ -6,10 +6,10 @@
 ## that you don't need to modify this variable.
 ##
 
-NAME = arcade
+NAME = snake
 CC = g++
 ROOT =
-OUTPUT = ./
+OUTPUT =
 SRC_FILE_EXT = .cpp
 
 #SRC
@@ -18,16 +18,12 @@ SRC_DIRS =
 SRC_FILES =
 
 #INCLUDE
-INCLUDE_DIRS_REC = include/../../../global/
+INCLUDE_DIRS_REC = include/ ../../../global/
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W -lstdc++
-
-#LIB
-LIB_DIRS =
-LIB_FLAGS =
-LIB_INCL_PATH = include/
+FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++14 \
+-shared -fPIC -g -g3
 
 #EXCLUDED
 GLOB_EXCL_DIRS = ./bonus/
@@ -86,13 +82,6 @@ _INCLUDE_DIRS_REC_SUBDIRS = $(foreach dir, $(INCLUDE_DIRS_REC), \
 _INCLUDE = $(INCLUDE_DIRS) $(_INCLUDE_DIRS_REC_SUBDIRS)
 _INCLUDE_GCC = $(foreach dir,$(_INCLUDE),-I$(dir))
 
-
-# Lib
-_LIB = $(LIB_DIRS)
-_LIB_GCC = $(foreach dir,$(_LIB),-L$(dir))
-_FIND_LIB_EXCL_DIRS = $(foreach dir,$(_LIB),-not -path "$(dir)*")
-
-
 # Excluded
 _FIND_GLOB_EXCL_DIRS = $(foreach dir,$(GLOB_EXCL_DIRS),-not -path "$(dir)*")
 _FIND_GLOB_EXCL_FILES = $(foreach file,$(GLOB_EXCL_FILES),-not -iname "$(file)")
@@ -142,10 +131,11 @@ _OBJ = $(_SRC:$(SRC_FILE_EXT)=.o)
 
 
 
-all: lib
+all:
 	@$(ECHO) $(BLINK)$(PURPLE)"[COMPILING: $(NAME)]"$(DEFLT)
 	@make object --no-print-directory && \
-	make build --no-print-directory
+	make build_a --no-print-directory; \
+	make build_so --no-print-directory
 
 
 
@@ -158,18 +148,29 @@ object:$(NAME)
 	($(ECHO) $(RED)"==================================== [KO] "$(TEAL)\
 	"$<"$(DEFLT)" \n\n")
 
-
-
 $(NAME):$(_OBJ)
 	@($(CLS_LINE) ; $(ECHO) $(BLUE)" [OBJECT COMPILATION FINISHED]"$(DEFLT))
 
 
 
-build:
-	@$(CC) $(_OBJ) -o $(OUTPUT)$(NAME) $(_INCLUDE_GCC) $(_LIB_GCC) \
-	$(LIB_FLAGS) $(FLAGS) && \
-	($(CLS_LINE) ; $(ECHO) $(BLINK)" [OK]"$(DEFLT) $(NAME)) || \
-	$(ECHO) $(RED) "[KO]" $(DEFLT)$(NAME);
+
+build_a:
+	@ar -rsc $(ROOT)$(NAME).a $(_OBJ) && \
+	($(CLS_LINE) ; $(ECHO) $(BLINK)" [OK]"$(DEFLT) $(NAME).a) || \
+	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).a;
+
+build_so:
+	@g++ $(FLAGS) -o $(ROOT)$(NAME).so $(_OBJ) && \
+	($(CLS_LINE) ; $(ECHO) $(BLINK)" [OK]"$(DEFLT) $(NAME).so) || \
+	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).so;
+
+
+
+a: object build_a
+
+
+
+so: object build_so
 
 
 
@@ -192,7 +193,7 @@ fclean: clean_test_file clean
 		-or -name "*.so" -delete  \
 		-or -name "vgcore*" -delete
 	@$(ECHO) $(GREEN) "All temporal file deleted!" $(DEFLT)
-	@find $(OUTPUT) -maxdepth 1 -name $(NAME) -delete
+	@find -maxdepth 1 -name $(NAME) -delete
 	@$(ECHO) $(GREEN) "Executable deleted!" $(DEFLT)
 
 
@@ -213,47 +214,13 @@ uninstall:
 
 
 
-lib: FORCE
-	@for lib_dir in $(LIB_DIRS); do \
-		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING LIBRARIES IN: $$lib_dir]"$(DEFLT);\
-		dirs=$$(find $$lib_dir -maxdepth 1 -mindepth 1 -type d 2>/dev/null); \
-		for lib_path in $$dirs; do \
-			$(ECHO) $(BLINK)$(BLUE)"[COMPILING LIBRARY: $$lib_path]"$(DEFLT);\
-			make -C $$lib_path --no-print-directory; \
-			lib_name=$$(basename $$lib_path); \
-			mkdir -p $(LIB_INCL_PATH)$$lib_name; \
-			cp -r $$lib_path/include/* $(LIB_INCL_PATH)$$lib_name; \
-			cp $$lib_path/*.a $$lib_dir; \
-		done \
-	done
-
-
-
-lib_clean:
-	@find .	-name "*.a" -delete
-	@$(ECHO) $(GREEN) "[.a static libraries files deleted.]" $(DEFLT)
-	@for lib_dir in $(LIB_DIRS); do \
-		$(ECHO) $(BLINK)$(PURPLE)"[CLEANING LIBRARIES IN $$lib_dir]"$(DEFLT); \
-		dirs=$$(find $$lib_dir -maxdepth 1 -mindepth 1 -type d 2>/dev/null); \
-		for lib_path in $$dirs; do \
-			$(ECHO) $(BLINK)$(BLUE)"[CLEANING LIBRARY : $$lib_path]"$(DEFLT); \
-			make -C $$lib_path fclean --no-print-directory; \
-			lib_name=$$(basename $$lib_path); \
-			rm -rf $(LIB_INCL_PATH)$$lib_name; \
-		done \
-	done
-
-
-
-lib_re: lib_clean lib
-
-
-
 clean_test_file:
 	@find .	-name "*.gcno" -delete \
 		-or -name "*.gcda" -delete \
 		-or -name "*.gcov" -delete
 	@find -maxdepth 1 -name $(TEST_NAME) -delete
+
+
 
 unit_tests: clean_test_file lib
 	@$(CC) -o $(TEST_NAME) $(_TEST) \
@@ -310,8 +277,6 @@ show:
 	@$(ECHO) "  FLAGS    : $(FLAGS)"
 	@$(ECHO) "  SRC_DIRS : $(SRC_DIRS) $(SRC_DIRS_REC)"
 	@$(ECHO) "  INCL_DIRS: $(_INCLUDE)"
-	@$(ECHO) "  LIB_DIRS : $(LIB_DIRS)"
-	@$(ECHO) "  LIB_FLAGS: $(LIB_FLAGS)"
 
 
 

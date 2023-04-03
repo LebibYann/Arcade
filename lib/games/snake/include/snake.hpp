@@ -13,6 +13,7 @@
 #include <fstream>
 #include <memory>
 #include "Instruction.hpp"
+#include "IGame.hpp"
 
 typedef enum e_ArcadeColor {
     BLACK,
@@ -62,3 +63,14 @@ t_snake_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::vector<bool> inputs);
 std::vector<std::shared_ptr<IInstruction>> computeFrame(t_game_data *game_data, std::vector<bool> buttons);
+
+class ArcadeSnake: public Arcade::IGame {
+public:
+    ArcadeSnake();
+    ~ArcadeSnake();
+
+    std::vector<std::shared_ptr<IInstruction>> computeFrame(std::vector<bool> buttons);
+    std::vector<Arcade::t_tile_config> getTilesConfig(void) const;
+    std::vector<int> getWindowSize(void) const;
+    std::size_t getScore(void) const;
+};
