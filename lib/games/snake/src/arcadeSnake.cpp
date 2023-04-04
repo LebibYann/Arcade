@@ -9,6 +9,20 @@
 
 ArcadeSnake::ArcadeSnake()
 {
+    t_snake_data *game = static_cast<t_snake_data*> (_game_data->data);
+
+    game = new t_snake_data;
+    game->map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 2, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    game->map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     _window_size.push_back(10);
     _window_size.push_back(10);
     _tiles_config.push_back({0, BLACK, " "});

@@ -5,7 +5,7 @@
 ** loadConfig
 */
 
-#include "../include/snake.hpp"
+#include "snake.hpp"
 
 std::vector <int> findHead(std::vector <std::vector<int>> map)
 {
@@ -41,11 +41,8 @@ void initSnake(t_snake_data *game_data)
     }
 }
 
-t_snake_data *loadConfig()
+t_snake_data *loadConfig(t_snake_data *game_data)
 {
-    t_snake_data *game_data = new t_snake_data;
-
-    game_data->map = loadMap();
     game_data->score = 0;
     initSnake(game_data);
     return (game_data);
