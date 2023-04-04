@@ -43,6 +43,7 @@ int collisionHandler(t_nibbler_data *game)
     else if (next_tile == FOOD) {
         game->snake.size += 1;
         game->score += 10;
+        game->lastEaten = 0;
         return (2);
     }
     return (1);

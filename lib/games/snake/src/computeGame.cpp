@@ -133,6 +133,8 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::
     std::vector<std::shared_ptr<IInstruction>> instructions;
     int collision = -1;
 
+    if (game == nullptr)
+        game = loadConfig();
     if (collision != 0) {
         moveHandler(game, inputs);
         collision = collisionHandler(game);

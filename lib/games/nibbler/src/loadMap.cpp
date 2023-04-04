@@ -5,7 +5,7 @@
 ** loadMap
 */
 
-#include "../include/snake.hpp"
+#include "nibbler.hpp"
 
 std::vector <std::vector<int>> loadMap()
 {

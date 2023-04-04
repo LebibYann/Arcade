@@ -49,6 +49,7 @@ t_nibbler_data *loadConfig()
     game_data->score = 0;
     game_data->timer = 999;
     game_data->gameOver = false;
+    game_data->lastEaten = 0;
     initSnake(game_data);
     return (game_data);
 }

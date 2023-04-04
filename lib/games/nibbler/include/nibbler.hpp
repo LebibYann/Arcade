@@ -13,6 +13,7 @@
 #include <fstream>
 #include <memory>
 #include "Instruction.hpp"
+#include "IGame.hpp"
 
 typedef enum e_snake_tiles {
     GROUND = 0,
@@ -53,8 +54,24 @@ std::vector <std::vector<int>> loadMap();
 t_nibbler_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std::vector<bool> inputs);
-std::vector<std::shared_ptr<IInstruction>> computeFrame(t_game_data *game_data, std::vector<bool> buttons);
 
 void moveHandler(t_nibbler_data *game, std::vector<bool> inputs);
 void move_snake(t_nibbler_data *game, int collision);
 int collisionHandler(t_nibbler_data *game);
+
+class ArcadeNibbler: public Arcade::IGame {
+public:
+    ArcadeNibbler();
+    ~ArcadeNibbler();
+
+    std::vector<std::shared_ptr<IInstruction>> computeFrame(std::vector<bool> buttons);
+    std::vector<Arcade::t_tile_config> getTilesConfig(void) const;
+    std::vector<int> getWindowSize(void) const;
+    std::size_t getScore(void) const;
+
+    private:
+        t_game_data *_game_data;
+        std::vector<Arcade::t_tile_config> _tiles_config;
+        std::vector<int> _window_size;
+        std::size_t _score;
+};
