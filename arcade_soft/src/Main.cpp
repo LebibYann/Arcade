@@ -26,16 +26,13 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
-    try
-    {
+    try {
         core.loadGraphics(argv[1]);
-        core.loadGame("./lib/games/snake.so");
+        core.run();
     }
-    catch(Arcade::DLLoader::BadLibrary& e)
-    {
+    catch(Arcade::DLLoader::BadLibrary& e) {
         std::cerr << e.what() << '\n';
         return (84);
     }
-    core.run();
     return (0);
 }

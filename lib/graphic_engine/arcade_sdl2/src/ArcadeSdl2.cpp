@@ -42,20 +42,20 @@ ArcadeSdl2::ArcadeSdl2()
 
     this->_keyId.resize(Arcade::TOTAL_INPUT);
     std::fill(this->_keyId.begin(), this->_keyId.end(), 0);
-    this->_keyId[Arcade::UP_ARROW] = SDLK_UP;
-    this->_keyId[Arcade::DOWN_ARROW] = SDLK_DOWN;
-    this->_keyId[Arcade::LEFT_ARROW] = SDLK_LEFT;
-    this->_keyId[Arcade::RIGHT_ARROW] = SDLK_RIGHT;
-    this->_keyId[Arcade::BUTTON1] = SDLK_a;
-    this->_keyId[Arcade::BUTTON2] = SDLK_z;
-    this->_keyId[Arcade::BUTTON3] = SDLK_e;
-    this->_keyId[Arcade::BUTTON4] = SDLK_r;
-    this->_keyId[Arcade::PREV_GAME] = SDLK_F2;
-    this->_keyId[Arcade::NEXT_GAME] = SDLK_F3;
-    this->_keyId[Arcade::PREV_LIB] = SDLK_F4;
-    this->_keyId[Arcade::NEXT_LIB] = SDLK_F5;
-    this->_keyId[Arcade::RESTART] = SDLK_F6;
-    this->_keyId[Arcade::HOME_MENU] = SDLK_F1;
+    this->_keyId[Arcade::UP_ARROW] = SDLK_z;
+    this->_keyId[Arcade::DOWN_ARROW] = SDLK_s;
+    this->_keyId[Arcade::LEFT_ARROW] = SDLK_q;
+    this->_keyId[Arcade::RIGHT_ARROW] = SDLK_d;
+    this->_keyId[Arcade::BUTTON1] = SDLK_i;
+    this->_keyId[Arcade::BUTTON2] = SDLK_j;
+    this->_keyId[Arcade::BUTTON3] = SDLK_k;
+    this->_keyId[Arcade::BUTTON4] = SDLK_l;
+    this->_keyId[Arcade::PREV_GAME] = SDLK_LEFT;
+    this->_keyId[Arcade::NEXT_GAME] = SDLK_RIGHT;
+    this->_keyId[Arcade::PREV_LIB] = SDLK_DOWN;
+    this->_keyId[Arcade::NEXT_LIB] = SDLK_UP;
+    this->_keyId[Arcade::RESTART] = SDLK_r;
+    this->_keyId[Arcade::HOME_MENU] = SDLK_RETURN;
     this->_keyId[Arcade::EXIT] = SDLK_ESCAPE;
 
     this->_colors.resize(SDL_TOTALCOLOR);
@@ -194,7 +194,7 @@ void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
     t_sdl_color colorU;
     int xSize = 0;
     colorU.full = SDL_SETCOLOR(255, 255, 255, 255);
-    if (color >= SDL_TOTALCOLOR)
+    if (color < SDL_TOTALCOLOR)
         colorU.full = this->_colors[color].full;
     SDL_Color sdlColor = {colorU.rgba[0], colorU.rgba[1], colorU.rgba[2], colorU.rgba[3]};
     SDL_Surface *surface = TTF_RenderText_Solid(this->_font, text.c_str(), sdlColor);

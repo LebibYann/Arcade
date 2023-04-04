@@ -11,7 +11,6 @@ ArcadeLibcaca::ArcadeLibcaca()
 {
     _canva = caca_create_canvas(LIBCACA_MAXX, LIBCACA_MAXY);
     _display = caca_create_display(_canva);
-    (_canva, 8, 16);
     _keys.insert({'z', Arcade::UP_ARROW});
     _keys.insert({'s', Arcade::DOWN_ARROW});
     _keys.insert({'q', Arcade::LEFT_ARROW});
@@ -85,10 +84,12 @@ void ArcadeLibcaca::fill(uint32_t color)
 
 void ArcadeLibcaca::getMousePos(std::vector<int> &coords)
 {
+    coords.resize(2);
 }
 
 void ArcadeLibcaca::getMouseButton(std::vector<bool> &buttons)
 {
+    buttons.resize(3);
 }
 
 void ArcadeLibcaca::getButtons(std::vector<bool> &buttons)

@@ -53,7 +53,7 @@ private:
     void unloadFont(void);
     void handleEvent(void);
     void updateMatchingKey(SDL_Event event, bool toState);
-    int _tileSize = 30;
+    int _tileSize = 20;
     std::vector<t_sdl_color> _colors;
     std::vector<int> _keyId;
     std::vector<bool> _arcadeButtons;
