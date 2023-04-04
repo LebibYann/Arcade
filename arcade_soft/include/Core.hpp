@@ -7,9 +7,17 @@
 
 #pragma once
 
+#include <filesystem>
+#include <iostream>
+#include <cstring>
+#include <memory.h>
+
 #include "IGame.hpp"
 #include "IGraphics.hpp"
 #include "DLLoader.hpp"
+
+#define TILES_X 64
+#define TILES_Y 36
 
 namespace Arcade
 {
@@ -27,9 +35,10 @@ namespace Arcade
         Core();
         ~Core();
 
-        void loadGame(std::string game);
-        std::size_t runGame();
-        void loadGraphics(std::string graphic);
+        void runGame(std::vector<bool> inputs);
+        void runMenu(std::vector<bool> inputs);
+        void loadGame(const std::string &gameLibNamegame);
+        void loadGraphics(const std::string &graphicLibName);
         /**
          * @brief Limit the number of refresh per second.
          * If the code run faster than the time needed for one tick to happen,
@@ -40,10 +49,34 @@ namespace Arcade
          *
          * @param tickPerSecond Number of time the game must refresh per second
          */
-        double setTickRate(double tickPerSecond);
+        //double setTickRate(double tickPerSecond);
+        void getSOFiles(std::vector<std::string> &list, const std::string &path);
+        void getAvailableLib(void);
+        void run(void);
+        void interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr);
+        void fill(const std::shared_ptr<IInstruction> &instr);
+        void drawTile(const std::shared_ptr<IInstruction> &instr);
+        void drawText(const std::shared_ptr<IInstruction> &instr);
+        void initTileData(void);
+        t_tile_data getTileData(int id);
 
     private:
-        std::unique_ptr<IGame> _game;
-        std::unique_ptr<IGraphics> _graphic;
+        void getClickedButton(std::vector<bool> curr, std::vector<bool> prev);
+        std::vector<t_tile_config> _tileCnf;
+        std::vector<t_tile_data> _tileData;
+
+        std::size_t _pickedGraphics = 0;
+        std::size_t _selected = 0;
+        std::string _graphicPath = "./lib/graphic_engine/";
+        std::string _gamePath = "./lib/games/";
+        std::vector<std::string> _gameList;
+        std::vector<std::string> _graphicList;
+        std::shared_ptr<IGame> _game = nullptr;
+        std::shared_ptr<IGraphics> _graphic = nullptr;
+        Arcade::DLLoader _gameLib;
+        Arcade::DLLoader _graphicLib;
+
+        std::vector<bool> _prevButtons;
+        std::vector<bool> _buttonsClicked;
     };
 }
