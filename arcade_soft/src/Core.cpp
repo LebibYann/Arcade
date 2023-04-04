@@ -131,7 +131,6 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
         this->_selected--;
 
     if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
-        std::cout << selectGraph << " " << this->_pickedGraphics - 1 << std::endl;
         if (this->_selected >= this->_gameList.size()) {
             this->_pickedGraphics = selectGraph + 1;
             loadGraphics(_graphicPath + _graphicList[this->_selected - _gameList.size()]);
