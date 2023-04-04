@@ -43,7 +43,7 @@ public:
     void getButtons(std::vector<bool> &input);
     char getKeyboard(void) {return 'c';}
 
-    
+
 private:
     void openWindow(int width, int height);
     void drawUnknownTexture(int x, int y, int width, int height, uint32_t color);

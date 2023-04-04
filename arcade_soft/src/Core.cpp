@@ -23,6 +23,7 @@ Arcade::Core::~Core()
 void Arcade::Core::loadGame(const std::string &gameLibName)
 {
     this->_gameLib.Load(gameLibName);
+    std::cout << "Game lib load OK" << std::endl;
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
     this->_tileCnf = this->_game->getTilesConfig();
     this->initTileData();
@@ -114,8 +115,6 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
     if (buttons[Arcade::RIGHT_ARROW]){
         if (_selected >= _gameList.size())
             loadGraphics(_graphicPath + _graphicList[_selected]);
-        else
-            loadGame(_graphicPath + _graphicList[_selected]);
     }
 }
 

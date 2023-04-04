@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     try
     {
         core.loadGraphics(argv[1]);
+        core.loadGame("./lib/games/snake.so");
     }
     catch(Arcade::DLLoader::BadLibrary& e)
     {
