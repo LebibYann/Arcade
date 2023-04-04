@@ -109,4 +109,13 @@ void ArcadeLibcaca::getButtons(std::vector<bool> &buttons)
 
 char ArcadeLibcaca::getKeyboard(void)
 {
+    std::map<int, int>::iterator pressed;
+    caca_event_t event;
+
+    for (size_t i = 0; i < buttons.size(); i++)
+        buttons[i] = false;
+    if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0){
+        return (caca_get_event_key_ch(&event));
+
+    }
 }
