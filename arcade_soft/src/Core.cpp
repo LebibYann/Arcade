@@ -33,8 +33,8 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
 {
     this->_graphic.reset();
-    std::cout << "Loading lib: " << graphicLibName << std::endl;
     this->_graphicLib.unLoad();
+    std::cout << "Loading lib: " << graphicLibName << std::endl;
     this->_graphicLib.Load(graphicLibName);
     this->_graphic = this->_graphicLib.getInstance<Arcade::IGraphics>("entry_point");
 }
@@ -131,8 +131,8 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
         this->_selected--;
 
     if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
-        if (this->_selected >= this->_gameList.size() &&
-            (this->_pickedGraphics == 0 || selectGraph != this->_pickedGraphics - 1)) {
+        std::cout << selectGraph << " " << this->_pickedGraphics - 1 << std::endl;
+        if (this->_selected >= this->_gameList.size()) {
             this->_pickedGraphics = selectGraph + 1;
             loadGraphics(_graphicPath + _graphicList[this->_selected - _gameList.size()]);
         } else

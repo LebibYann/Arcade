@@ -9,7 +9,7 @@
 
 int reduceTime(t_nibbler_data *game)
 {
-    
+    return (1 - (game->lastEaten / 50* 5));
 }
 
 std::vector<std::shared_ptr<IInstruction>> getMapInstructions(t_nibbler_data *game)
@@ -38,16 +38,20 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std
     std::vector<std::shared_ptr<IInstruction>> instructions;
     int collision = -1;
 
+    if (game == nullptr)
+        game = loadConfig();
     if (game->timer > 0 && collision != 1) {
         moveHandler(game, inputs);
         collision = collisionHandler(game);
         move_snake(game, collision);
+        game->timer -= reduceTime(game);
+        game->lastEaten += 1;
         if (collision == 1 || game->timer <= 0)
             game->gameOver = true;
     }
     if (game->gameOver == false)
         instructions = getMapInstructions(game);
     else
-        instructions.push_back(std::make_shared<InstDrawText>());
+        instructions.push_back(std::make_shared<InstDrawText>(5, 5, WHITE, "Game over !"));
     return (instructions);
 }
