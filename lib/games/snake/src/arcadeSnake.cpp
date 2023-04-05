@@ -20,7 +20,6 @@ ArcadeSnake::ArcadeSnake()
     _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
     _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
     _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
     _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     _window_size.push_back(10);
     _window_size.push_back(10);
