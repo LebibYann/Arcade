@@ -23,7 +23,7 @@ Arcade::Core::~Core()
 void Arcade::Core::loadGame(const std::string &gameLibName)
 {
     if (this->_game != nullptr)
-        core.saveGameScore(this->_score, this->_gameList[this->_selected]);
+        this->saveGameScore(this->_score, this->_gameList[this->_selected]);
     this->_game.reset();
     std::cout << "Loading game lib: " << gameLibName << std::endl;
     this->_gameLib.Load(gameLibName);
