@@ -66,7 +66,7 @@ namespace Arcade
         void drawTile(const std::shared_ptr<IInstruction> &instr);
         void drawText(const std::shared_ptr<IInstruction> &instr);
         void initTileData(void);
-        std::vector<t_score_data> getGameScore(const std::string &gameName);
+        std::vector<t_score_data> loadGameScore(const std::string &gameName);
         void saveGameScore(const std::vector<Arcade::t_score_data> &scoreList, const std::string &gameName);
         void addGameScore(std::vector<Arcade::t_score_data> &scoreList, size_t score, const std::string &gameName);
         t_tile_data getTileData(int id);
