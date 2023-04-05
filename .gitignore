@@ -14,3 +14,4 @@ coding-style*
 # Specific excludes
 arcade
 test_arcade
+score/

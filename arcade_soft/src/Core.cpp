@@ -24,7 +24,8 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
 {
     this->_game.reset();
     this->_gameLib.Load(gameLibName);
-    std::cout << "Game lib load OK" << std::endl;
+    std::cout << "Game lib [" << gameLibName << "] load OK" << std::endl;
+    this->_score = this->getGameScore(gameLibName);
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
     this->_tileCnf = this->_game->getTilesConfig();
     this->initTileData();
@@ -206,4 +207,68 @@ void Arcade::Core::getClickedButton(std::vector<bool> curr, std::vector<bool> pr
     this->_buttonsClicked.resize(curr.size());
     for (size_t i = 0; i < curr.size(); ++i)
         this->_buttonsClicked[i] = (curr[i] && !prev[i]);
+}
+
+std::vector<Arcade::t_score_data> Arcade::Core::getGameScore(const std::string &gameName)
+{
+    size_t nbr_score;
+    std::fstream scoreFile;
+    std::vector<t_score_data> scores;
+
+    scoreFile.open(this->_scoreDir + gameName + ".score", std::ios::in);
+    if (!scoreFile) {
+        std::cout << "No score data found for the game called: " << gameName << std::endl;
+        return (scores);
+    }
+    scoreFile >> nbr_score;
+    std::cout << nbr_score;
+    scoreFile.close();
+    return(scores);
+}
+
+void Arcade::Core::addGameScore(std::vector<Arcade::t_score_data> &scoreList, size_t score, const std::string &playerName)
+{
+    t_score_data scoreData = {score, playerName};
+    std::vector<Arcade::t_score_data>::iterator it;
+
+    if (scoreList.size() == 0) {
+        scoreList.push_back(scoreData);
+    } else {
+        it = scoreList.begin();
+        for (; it != scoreList.end(); ++it) {
+            if (score > it->score) {
+                scoreList.insert(it, scoreData);
+                break;
+            }
+        }
+    }
+    std::cout << scoreList.size() << std::endl;
+}
+
+bool Arcade::Core::checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName)
+{
+    // int fd;
+    std::string fullPath = this->_scoreDir + gameName;
+
+    if (access(this->_scoreDir.c_str(), F_OK) != 0)
+        std::filesystem::create_directories(this->_scoreDir);
+    scoreFile.open(this->_scoreDir + gameName + ".score", std::ios::out);
+    return ((!scoreFile) ? false : true);
+}
+
+void Arcade::Core::saveGameScore(const std::vector<Arcade::t_score_data> &scoreList, const std::string &gameName)
+{
+    std::fstream scoreFile;
+
+    if (!this->checkScoreFileStatus(scoreFile, gameName)) {
+        std::cerr << "Saving score of the game called: " <<
+            gameName << " has failed" << std::endl;
+        return;
+    }
+    scoreFile << scoreList.size() << "\n";
+    for (size_t i = 0; i < scoreList.size(); ++i) {
+        scoreFile << scoreList[i].score << "\n";
+        scoreFile << scoreList[i].name.c_str() << "\n";
+    }
+    scoreFile.close();
 }
