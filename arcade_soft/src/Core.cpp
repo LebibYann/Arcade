@@ -22,6 +22,7 @@ Arcade::Core::~Core()
 
 void Arcade::Core::loadGame(const std::string &gameLibName)
 {
+    this->_game.reset();
     this->_gameLib.Load(gameLibName);
     std::cout << "Game lib load OK" << std::endl;
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
@@ -31,7 +32,9 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
 {
+    this->_graphic.reset();
     this->_graphicLib.unLoad();
+    std::cout << "Loading lib: " << graphicLibName << std::endl;
     this->_graphicLib.Load(graphicLibName);
     this->_graphic = this->_graphicLib.getInstance<Arcade::IGraphics>("entry_point");
 }
@@ -98,23 +101,42 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
 
 void Arcade::Core::runMenu(std::vector<bool> buttons)
 {
-    _graphic->fill(ArcadeColor::MAGENTA);
-    _graphic->drawText("GAMES:", 0, 0, RED);
-    for (size_t i = 1; i < _gameList.size(); i++)
-        _graphic->drawText(_gameList[i], 0, i, BLACK);
-    _graphic->drawText("Graphics:", 0, _gameList.size() + 2, RED);
-    for (size_t i = 0; i < _graphicList.size(); i++)
-        if (i == _selected)
-            _graphic->drawText(_graphicList[i], 0, i + _gameList.size() + 3, WHITE);
+    int colorPick = WHITE;
+    size_t selectGraph = this->_selected - _gameList.size();
+    (void)buttons;
+
+    this->_graphic->fill(ArcadeColor::GREEN);
+
+    this->_graphic->drawText("GAMES:", 0, 0, RED);
+    for (size_t i = 0; i < _gameList.size(); i++) {
+        colorPick = (i == this->_selected && i < _gameList.size()) ? WHITE : BLACK;
+        this->_graphic->drawText(_gameList[i], 0, i + 1, colorPick);
+    }
+
+    _graphic->drawText("DISPLAY:", 0, _gameList.size() + 2, RED);
+    for (size_t i = 0; i < _graphicList.size(); i++) {
+        if (this->_selected >= _gameList.size() && selectGraph == i)
+            colorPick = WHITE;
+        else if (this->_pickedGraphics != 0 && i == this->_pickedGraphics - 1)
+            colorPick = BLUE;
         else
-            _graphic->drawText(_graphicList[i], 0, i + _gameList.size() + 3, BLACK);
-    if (buttons[Arcade::DOWN_ARROW] && _selected < _gameList.size() + _graphicList.size() - 1)
-        _selected++;
-    if (buttons[Arcade::UP_ARROW] && _selected != 0)
-        _selected--;
-    if (buttons[Arcade::RIGHT_ARROW]){
-        if (_selected >= _gameList.size())
-            loadGraphics(_graphicPath + _graphicList[_selected]);
+            colorPick = BLACK;
+        _graphic->drawText(_graphicList[i], 0, i + _gameList.size() + 3, colorPick);
+    }
+
+    if (this->_buttonsClicked[Arcade::DOWN_ARROW] &&
+        this->_selected < this->_gameList.size() + this->_graphicList.size() - 1)
+        this->_selected++;
+    if (this->_buttonsClicked[Arcade::UP_ARROW] && this->_selected != 0)
+        this->_selected--;
+
+    if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
+        std::cout << selectGraph << " " << this->_pickedGraphics - 1 << std::endl;
+        if (this->_selected >= this->_gameList.size()) {
+            this->_pickedGraphics = selectGraph + 1;
+            loadGraphics(_graphicPath + _graphicList[this->_selected - _gameList.size()]);
+        } else
+            loadGame(_gamePath + _gameList[this->_selected]);
     }
 }
 
@@ -122,7 +144,10 @@ void Arcade::Core::run(void)
 {
     std::vector<bool> buttons;
 
-    do{
+    this->_graphic->getButtons(buttons);
+    this->_prevButtons.resize(buttons.size());
+    this->_buttonsClicked.resize(buttons.size());
+    do {
         this->_graphic->getButtons(buttons);
         if (buttons[Arcade::HOME_MENU]) {
             _game = nullptr;
@@ -133,6 +158,8 @@ void Arcade::Core::run(void)
         else
             runMenu(buttons);
         this->_graphic->display();
+        this->getClickedButton(buttons, this->_prevButtons);
+        this->_prevButtons = buttons;
     } while (!buttons[Arcade::EXIT]);
 }
 
@@ -173,4 +200,11 @@ void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
     InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
 
     this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x(), cast_instr->get_y(), cast_instr->get_color());
+}
+
+void Arcade::Core::getClickedButton(std::vector<bool> curr, std::vector<bool> prev)
+{
+    this->_buttonsClicked.resize(curr.size());
+    for (size_t i = 0; i < curr.size(); ++i)
+        this->_buttonsClicked[i] = (curr[i] && !prev[i]);
 }

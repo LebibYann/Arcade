@@ -9,20 +9,19 @@
 
 ArcadeSnake::ArcadeSnake()
 {
-    t_snake_data *game = static_cast<t_snake_data*> (_game_data->data);
-
-    game = new t_snake_data;
-    game->map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 2, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    game->map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    game->map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    initSnake(&_game_data);
+    this->_game_data.score = 0;
+    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 2, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     _window_size.push_back(10);
     _window_size.push_back(10);
     _tiles_config.push_back({0, BLACK, " "});
@@ -44,15 +43,13 @@ std::vector<Arcade::t_tile_config> ArcadeSnake::getTilesConfig(void) const
 
 std::size_t ArcadeSnake::getScore(void) const
 {
-    t_snake_data *game = static_cast<t_snake_data*> (_game_data->data);
-    return (game->score);
+    return (this->_game_data.score);
 }
 
 std::vector<std::shared_ptr<IInstruction>> ArcadeSnake::computeFrame(std::vector<bool> buttons)
 {
     std::vector<std::shared_ptr<IInstruction>> instructions;
-    t_snake_data *game = static_cast<t_snake_data*> (_game_data->data);
 
-    instructions = computeGame(game, buttons);
+    instructions = computeGame(&_game_data, buttons);
     return (instructions);
 }

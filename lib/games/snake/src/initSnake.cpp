@@ -40,10 +40,3 @@ void initSnake(t_snake_data *game_data)
         game_data->snake.body.push_back(pos);
     }
 }
-
-t_snake_data *loadConfig(t_snake_data *game_data)
-{
-    game_data->score = 0;
-    initSnake(game_data);
-    return (game_data);
-}

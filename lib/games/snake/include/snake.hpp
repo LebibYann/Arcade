@@ -62,6 +62,7 @@ std::vector <std::vector<int>> loadMap();
 t_snake_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::vector<bool> inputs);
+void initSnake(t_snake_data *game_data);
 
 class ArcadeSnake: public Arcade::IGame {
 public:
@@ -74,7 +75,7 @@ public:
     std::size_t getScore(void) const;
 
     private:
-        t_game_data *_game_data;
+        t_snake_data _game_data;
         std::vector<Arcade::t_tile_config> _tiles_config;
         std::vector<int> _window_size;
         std::size_t _score;

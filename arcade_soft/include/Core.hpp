@@ -61,17 +61,22 @@ namespace Arcade
         t_tile_data getTileData(int id);
 
     private:
+        void getClickedButton(std::vector<bool> curr, std::vector<bool> prev);
         std::vector<t_tile_config> _tileCnf;
         std::vector<t_tile_data> _tileData;
 
+        std::size_t _pickedGraphics = 0;
+        std::size_t _selected = 0;
         std::string _graphicPath = "./lib/graphic_engine/";
         std::string _gamePath = "./lib/games/";
         std::vector<std::string> _gameList;
         std::vector<std::string> _graphicList;
-        std::size_t _selected;
         std::shared_ptr<IGame> _game = nullptr;
         std::shared_ptr<IGraphics> _graphic = nullptr;
         Arcade::DLLoader _gameLib;
         Arcade::DLLoader _graphicLib;
+
+        std::vector<bool> _prevButtons;
+        std::vector<bool> _buttonsClicked;
     };
 }
