@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 #include <memory>
 #include "Instruction.hpp"
 #include "IGame.hpp"
@@ -67,7 +68,6 @@ void initSnake(t_snake_data *game_data);
 class ArcadeSnake: public Arcade::IGame {
 public:
     ArcadeSnake();
-    ~ArcadeSnake();
 
     std::vector<std::shared_ptr<IInstruction>> computeFrame(std::vector<bool> buttons);
     std::vector<Arcade::t_tile_config> getTilesConfig(void) const;
@@ -75,8 +75,12 @@ public:
     std::size_t getScore(void) const;
 
     private:
+        void accumulateInput(const std::vector<bool> &buttons);
         t_snake_data _game_data;
         std::vector<Arcade::t_tile_config> _tiles_config;
         std::vector<int> _window_size;
         std::size_t _score;
+        int counter = 0;
+        std::vector<std::shared_ptr<IInstruction>> instr;
+        std::vector<bool> _buttons;
 };

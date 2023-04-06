@@ -22,7 +22,8 @@ void moveHandler(t_snake_data *game, std::vector<bool> inputs)
 int get_next_tile(t_snake_data *game)
 {
     if (game->snake.direction == UP)
-        return (game->map[game->snake.headPos[1] - 1][game->snake.headPos[0]]);
+        return (game->map[game->snake.headPos[1] - 1]
+        [game->snake.headPos[0]]);
     else if (game->snake.direction == DOWN)
         return (game->map[game->snake.headPos[1] + 1][game->snake.headPos[0]]);
     else if (game->snake.direction == LEFT)

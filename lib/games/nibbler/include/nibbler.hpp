@@ -12,8 +12,20 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <unistd.h>
 #include "Instruction.hpp"
 #include "IGame.hpp"
+
+typedef enum e_ArcadeColor {
+    BLACK,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYAN,
+    WHITE
+} t_ArcadeColor;
 
 typedef enum e_snake_tiles {
     GROUND = 0,

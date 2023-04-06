@@ -15,7 +15,7 @@
 
 #define TILES_X 64
 #define TILES_Y 36
-#define LIBCACA_MAXX 380
+#define LIBCACA_MAXX 160
 #define LIBCACA_MAXY 90
 
 class ArcadeLibcaca: public Arcade::IGraphics

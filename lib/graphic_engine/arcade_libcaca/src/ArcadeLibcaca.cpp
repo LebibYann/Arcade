@@ -59,8 +59,8 @@ void ArcadeLibcaca::drawTile(int x, int y, uint32_t color)
     if ((found = _color.find(color)) == _color.end())
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
-    caca_put_str(_canva, x, y, "  ");
-    caca_put_str(_canva, x, y + 1, "  ");
+    caca_put_str(_canva, x * 2, y, "  ");
+    caca_put_str(_canva, x * 2, y + 1, "  ");
 }
 
 void ArcadeLibcaca::display(void)
@@ -109,6 +109,7 @@ void ArcadeLibcaca::getButtons(std::vector<bool> &buttons)
 
 char ArcadeLibcaca::getKeyboard(void)
 {
+    return ('c');
     // std::map<int, int>::iterator pressed;
     // caca_event_t event;
 

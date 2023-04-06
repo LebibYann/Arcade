@@ -9,9 +9,7 @@
 
 std::vector <int> findHead(std::vector <std::vector<int>> map)
 {
-    std::vector <int> headPos;
-    headPos.push_back(0);
-    headPos.push_back(0);
+    std::vector <int> headPos = {4, 4};
 
     for (size_t i = 0; i < map.size(); ++i) {
         for (size_t j = 0; j < map[i].size(); ++j) {
@@ -30,7 +28,7 @@ void initSnake(t_snake_data *game_data)
     std::vector <int> pos;
     pos.push_back(0);
     pos.push_back(0);
-    
+
     game_data->snake.headPos = findHead(game_data->map);
     game_data->snake.direction = 0;
     game_data->snake.size = 3;

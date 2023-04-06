@@ -30,7 +30,11 @@ ArcadeNibbler::ArcadeNibbler()
     _tiles_config.push_back({1, WHITE, " "});
     _tiles_config.push_back({2, GREEN, " "});
     _tiles_config.push_back({3, GREEN, " "});
-    _tiles_config.push_back({4, YELLOW, " "});
+    _tiles_config.push_back({4, RED, " "});
+}
+
+ArcadeNibbler::~ArcadeNibbler()
+{
 }
 
 std::vector <int> ArcadeNibbler::getWindowSize(void) const
@@ -53,5 +57,6 @@ std::vector<std::shared_ptr<IInstruction>> ArcadeNibbler::computeFrame(std::vect
     std::vector<std::shared_ptr<IInstruction>> instructions;
 
     instructions = computeGame(&_game_data, buttons);
+    usleep(1.0 / 7.5 * 1e6);
     return (instructions);
 }
