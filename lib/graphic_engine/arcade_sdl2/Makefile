@@ -8,7 +8,7 @@
 
 NAME = arcade_sdl2
 CC = g++
-ROOT =
+ROOT = 
 OUTPUT =
 SRC_FILE_EXT = .cpp
 

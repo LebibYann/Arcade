@@ -11,6 +11,9 @@
 #include <iostream>
 #include <cstring>
 #include <memory.h>
+#include <fstream>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "IGame.hpp"
 #include "IGraphics.hpp"
@@ -28,6 +31,11 @@ namespace Arcade
         void *img;
         int color;
     } t_tile_data;
+
+    typedef struct s_score_data {
+        size_t score;
+        std::string name;
+    } t_score_data;
 
     class Core
     {
@@ -58,10 +66,14 @@ namespace Arcade
         void drawTile(const std::shared_ptr<IInstruction> &instr);
         void drawText(const std::shared_ptr<IInstruction> &instr);
         void initTileData(void);
+        std::vector<t_score_data> loadGameScore(const std::string &gameName);
+        void saveGameScore(const std::vector<Arcade::t_score_data> &scoreList, const std::string &gameName);
+        void addGameScore(std::vector<Arcade::t_score_data> &scoreList, size_t score, const std::string &gameName);
         t_tile_data getTileData(int id);
 
     private:
         void getClickedButton(std::vector<bool> curr, std::vector<bool> prev);
+        bool checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName);
         std::vector<t_tile_config> _tileCnf;
         std::vector<t_tile_data> _tileData;
 
@@ -78,5 +90,8 @@ namespace Arcade
 
         std::vector<bool> _prevButtons;
         std::vector<bool> _buttonsClicked;
+        std::string _scoreFileName;
+        std::string _scoreDir = "score/";
+        std::vector<Arcade::t_score_data> _score;
     };
 }

@@ -26,6 +26,13 @@ int main(int argc, char **argv)
         std::cerr << ".so graphical library you want to use." << std::endl;
         return (84);
     }
+    std::vector<Arcade::t_score_data> score;
+
+    core.addGameScore(score, 10, "BOB");
+    core.addGameScore(score, 5, "LEL");
+    core.addGameScore(score, 30, "YAN");
+    core.addGameScore(score, 20, "JPP");
+    core.saveGameScore(score, "snake.so");
     try {
         core.loadGraphics(argv[1]);
         core.run();
