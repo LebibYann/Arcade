@@ -5,7 +5,7 @@
 ** loadConfig
 */
 
-#include "../include/nibbler.hpp"
+#include "snake.hpp"
 
 std::vector <int> findHead(std::vector <std::vector<int>> map)
 {
@@ -25,7 +25,7 @@ std::vector <int> findHead(std::vector <std::vector<int>> map)
     return (headPos);
 }
 
-void initSnake(t_nibbler_data *game_data)
+void initSnake(t_snake_data *game_data)
 {
     std::vector <int> pos;
     pos.push_back(0);
@@ -39,17 +39,4 @@ void initSnake(t_nibbler_data *game_data)
         pos[1] = game_data->snake.headPos[1] + i;
         game_data->snake.body.push_back(pos);
     }
-}
-
-t_nibbler_data *loadConfig()
-{
-    t_nibbler_data *game_data = new t_nibbler_data;
-
-    game_data->map = loadMap();
-    game_data->score = 0;
-    game_data->timer = 999;
-    game_data->gameOver = false;
-    game_data->lastEaten = 0;
-    initSnake(game_data);
-    return (game_data);
 }

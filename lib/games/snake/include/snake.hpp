@@ -62,6 +62,7 @@ std::vector <std::vector<int>> loadMap();
 t_snake_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::vector<bool> inputs);
+void initSnake(t_snake_data *game_data);
 
 class ArcadeSnake: public Arcade::IGame {
 public:
