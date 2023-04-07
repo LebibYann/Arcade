@@ -49,7 +49,7 @@ void ArcadeLibcaca::drawText(const std::string &text, int x, int y, int color)
     if ((found = _color.find(color)) == _color.end())
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
-    caca_put_str(_canva, x, y, text.c_str());
+    caca_put_str(_canva, x * 2, y, text.c_str());
 }
 
 void ArcadeLibcaca::drawTile(int x, int y, uint32_t color)
@@ -60,7 +60,7 @@ void ArcadeLibcaca::drawTile(int x, int y, uint32_t color)
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
     caca_put_str(_canva, x * 2, y, "  ");
-    caca_put_str(_canva, x * 2, y + 1, "  ");
+    caca_put_str(_canva, x * 2, y * 1, "  ");
 }
 
 void ArcadeLibcaca::display(void)

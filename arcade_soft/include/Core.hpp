@@ -76,6 +76,7 @@ namespace Arcade
         bool checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName);
         void displayScore(int x, int y);
         void displayGames(int x, int y);
+        void pickName();
         std::vector<t_tile_config> _tileCnf;
         std::vector<t_tile_data> _tileData;
 
@@ -90,6 +91,11 @@ namespace Arcade
         std::shared_ptr<IGraphics> _graphic = nullptr;
         Arcade::DLLoader _gameLib;
         Arcade::DLLoader _graphicLib;
+
+        bool _entry;
+        std::string _playerName;
+        std::vector<int> _gameSize;
+        std::vector<int> _gamePadding;
 
         std::vector<bool> _prevButtons;
         std::vector<bool> _buttonsClicked;

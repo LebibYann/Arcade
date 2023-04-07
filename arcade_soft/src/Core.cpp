@@ -7,7 +7,7 @@
 
 #include "Core.hpp"
 
-Arcade::Core::Core() : _selected(0)
+Arcade::Core::Core() : _selected(0), _entry(false), _playerName("")
 {
     this->getAvailableLib();
     this->_score.resize(0);
@@ -34,6 +34,10 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
     this->_tileCnf = this->_game->getTilesConfig();
     // std::cout << "Game init [" << gameLibName << "] OK" << std::endl;
     this->initTileData();
+    _gameSize = _game->getWindowSize();
+    _gamePadding.resize(2);
+    _gamePadding[0] = (TILES_X / 2 - _gameSize[0] / 2);
+    _gamePadding[1] = (TILES_Y / 2 - _gameSize[1] / 2);
 }
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
@@ -103,8 +107,11 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
 {
     std::vector<std::shared_ptr<IInstruction>> inst;
 
+    _graphic->fill(BLACK);
     inst = this->_game->computeFrame(buttons);
     this->interpretInstruction(inst);
+    _graphic->drawText("SCORE: " + std::to_string(_game->getScore()) , _gamePadding[0], _gamePadding[1] - 1, WHITE);
+    _graphic->drawTile(TILES_X, TILES_Y, MAGENTA);
 }
 
 void Arcade::Core::displayScore(int x, int y)
@@ -139,6 +146,19 @@ void Arcade::Core::displayGames(int x, int y)
     }
 }
 
+void Arcade::Core::pickName()
+{
+    char c;
+
+    c = _graphic->getKeyboard();
+    if (c == 0)
+        return;
+    if (c != 127 && _playerName.size() < 8)
+        _playerName += c;
+    else if (_playerName.compare("") != 0 && c == 127)
+        _playerName.pop_back();
+}
+
 void Arcade::Core::runMenu(std::vector<bool> buttons)
 {
     int colorPick = WHITE;
@@ -150,7 +170,6 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
     this->displayScore(20, 0);
     this->displayGames(0, 0);
 
-
     _graphic->drawText("DISPLAY:", 0, _gameList.size() + 2, RED);
     for (size_t i = 0; i < _graphicList.size(); i++) {
         if (this->_selected >= _gameList.size() && selectGraph == i)
@@ -161,20 +180,27 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
             colorPick = BLACK;
         _graphic->drawText(_graphicList[i], 0, i + _gameList.size() + 3, colorPick);
     }
+    if (this->_selected == this->_gameList.size() + this->_graphicList.size())
+        colorPick = WHITE;
+    else
+        colorPick = BLACK;
+    _graphic->drawText("Name: " + _playerName, 0, 15, colorPick);
+    if (_entry){
+        return (pickName());
+    }
     this->_prevSelected = this->_selected;
     if (this->_buttonsClicked[Arcade::DOWN_ARROW] &&
-        this->_selected < this->_gameList.size() + this->_graphicList.size() - 1)
+        this->_selected < this->_gameList.size() + this->_graphicList.size())
         this->_selected++;
     if (this->_buttonsClicked[Arcade::UP_ARROW] && this->_selected != 0)
         this->_selected--;
-
-
-
     if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
-        if (this->_selected >= this->_gameList.size()) {
+        if (this->_selected == this->_gameList.size() + this->_graphicList.size())
+            _entry = true;
+        else if (this->_selected >= this->_gameList.size()) {
             this->_pickedGraphics = selectGraph + 1;
             loadGraphics(_graphicPath + _graphicList[this->_selected - _gameList.size()]);
-        } else {
+        } else if (_playerName.compare("") != 0){
             loadGame(_gamePath + _gameList[this->_selected]);
         }
     }
@@ -188,6 +214,7 @@ void Arcade::Core::run(void)
     this->_prevButtons.resize(buttons.size());
     this->_buttonsClicked.resize(buttons.size());
     do {
+        std::fill(buttons.begin(), buttons.end(), false);
         this->_graphic->getButtons(buttons);
         if (buttons[Arcade::HOME_MENU]) {
             _game = nullptr;
@@ -197,14 +224,14 @@ void Arcade::Core::run(void)
             runGame(buttons);
         else
             runMenu(buttons);
-        if (buttons[Arcade::NEXT_LIB])
-            if (_pickedGraphics <= _graphicList.size()){
+        if (buttons[Arcade::PREV_LIB])
+            if (_pickedGraphics < _graphicList.size()){
                 loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
                 _pickedGraphics++;
             }
-        if (buttons[Arcade::PREV_LIB])
+        if (buttons[Arcade::NEXT_LIB])
             if (_pickedGraphics > 1){
-                loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
+                loadGraphics(_graphicPath + _graphicList[_pickedGraphics - 2]);
                 _pickedGraphics--;
             }
         this->_graphic->display();
@@ -242,7 +269,7 @@ void Arcade::Core::drawTile(const std::shared_ptr<IInstruction> &instr)
     InstDrawTile *cast_instr = dynamic_cast<InstDrawTile*>(instr.get());
     Arcade::t_tile_data tileData = this->getTileData(cast_instr->get_texture());
 
-    this->_graphic->drawTile(cast_instr->get_x(), cast_instr->get_y(), tileData.color);
+    this->_graphic->drawTile(cast_instr->get_x() + _gamePadding[0], cast_instr->get_y() + _gamePadding[1], tileData.color);
 }
 
 void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
