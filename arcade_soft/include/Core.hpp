@@ -74,11 +74,14 @@ namespace Arcade
     private:
         void getClickedButton(std::vector<bool> curr, std::vector<bool> prev);
         bool checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName);
+        void displayScore(int x, int y);
+        void displayGames(int x, int y);
         std::vector<t_tile_config> _tileCnf;
         std::vector<t_tile_data> _tileData;
 
         std::size_t _pickedGraphics = 0;
         std::size_t _selected = 0;
+        std::size_t _prevSelected = 0;
         std::string _graphicPath = "./lib/graphic_engine/";
         std::string _gamePath = "./lib/games/";
         std::vector<std::string> _gameList;
@@ -90,8 +93,12 @@ namespace Arcade
 
         std::vector<bool> _prevButtons;
         std::vector<bool> _buttonsClicked;
+
+
+        // Score
         std::string _scoreFileName;
         std::string _scoreDir = "score/";
         std::vector<Arcade::t_score_data> _score;
+        bool _scoreLoaded = false;
     };
 }
