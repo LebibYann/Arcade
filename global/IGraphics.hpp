@@ -130,6 +130,12 @@ namespace Arcade
          * return the buttons pressed during the call.
          */
         virtual void getButtons(std::vector<bool> &input) = 0;
+        /**
+         ** @brief Get the Keyboard pressed keys and
+         ** return the corresponding characters one by one.
+         **
+         ** @return char the corresponding character or 0 if no keys are pressed
+         */
         virtual char getKeyboard(void) = 0;
     };
 };
