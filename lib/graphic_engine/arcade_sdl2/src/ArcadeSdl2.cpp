@@ -225,7 +225,8 @@ void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
     SDL_Texture *texture = SDL_CreateTextureFromSurface(this->_render, surface);
 
     SDL_QueryTexture(texture, nullptr, nullptr, &xSize, nullptr);
-    this->_rect = {x * this->_tileSize, y * this->_tileSize, xSize, this->_tileSize};
+    this->_rect = {x * this->_tileSize, y * this->_tileSize,
+        xSize, (int) ((double) this->_tileSize * 1.4)};
     SDL_RenderCopy(this->_render, texture, nullptr, &this->_rect);
 
     SDL_FreeSurface(surface);
@@ -276,11 +277,11 @@ void ArcadeSdl2::handleEvent(void)
 {
     std::map<int, char>::iterator search;
 
+    this->_keyQueue.empty();
     while (SDL_PollEvent(&this->_event)) {
         switch (this->_event.type) {
             case SDL_KEYDOWN:
                 this->updateMatchingKey(this->_event, true);
-                this->_keyQueue.empty();
                 search = this->_keyMap.find(this->_event.key.keysym.sym);
                 if (search != this->_keyMap.end()) {
                     this->_keyQueue.push_back(search->second);

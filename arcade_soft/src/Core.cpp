@@ -207,7 +207,6 @@ void Arcade::Core::run(void)
                 loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
                 _pickedGraphics--;
             }
-        std::cout << this->_graphic->getKeyboard() << std::flush;
         this->_graphic->display();
         this->getClickedButton(buttons, this->_prevButtons);
         this->_prevButtons = buttons;
