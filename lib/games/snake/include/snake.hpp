@@ -57,6 +57,7 @@ typedef struct s_snake_data {
     std::vector <std::vector<int>> map;
     t_snake snake;
     int score;
+    int gameOver;
 } t_snake_data;
 
 std::vector <std::vector<int>> loadMap();
