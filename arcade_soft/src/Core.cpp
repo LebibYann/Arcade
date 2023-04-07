@@ -107,26 +107,49 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
     this->interpretInstruction(inst);
 }
 
+void Arcade::Core::displayScore(int x, int y)
+{
+    std::string tmp = "SCORE: ";
+
+    if (this->_prevSelected != this->_selected)
+        this->_scoreLoaded = false;
+
+    if (this->_selected < this->_gameList.size()) {
+        tmp.append(this->_gameList[this->_selected]);
+        if (!this->_scoreLoaded) {
+            this->_score = loadGameScore(this->_gameList[this->_selected]);
+            this->_scoreLoaded = true;
+        }
+        this->_graphic->drawText(tmp, x, y, RED);
+        for (size_t i = 0; i < this->_score.size(); i++) {
+            tmp = std::to_string(this->_score[i].score) + " " + this->_score[i].name;
+            this->_graphic->drawText(tmp, x + 1, i + y + 1, WHITE);
+        }
+    }
+}
+
+void Arcade::Core::displayGames(int x, int y)
+{
+    int colorPick;
+
+    this->_graphic->drawText("GAMES:", x, y, RED);
+    for (size_t i = 0; i < _gameList.size(); i++) {
+        colorPick = (i == this->_selected && i < _gameList.size()) ? WHITE : BLACK;
+        this->_graphic->drawText(_gameList[i], x, i + y + 1, colorPick);
+    }
+}
+
 void Arcade::Core::runMenu(std::vector<bool> buttons)
 {
-    std::string tmp;
     int colorPick = WHITE;
     size_t selectGraph = this->_selected - _gameList.size();
     (void)buttons;
 
     this->_graphic->fill(ArcadeColor::GREEN);
 
-    this->_graphic->drawText("SCORE:", 20, 0, RED);
-    for (size_t i = 0; i < this->_score.size(); i++) {
-        tmp = std::to_string(this->_score[i].score) + " " + this->_score[i].name;
-        this->_graphic->drawText(tmp, 10, i + 1, WHITE);
-    }
+    this->displayScore(20, 0);
+    this->displayGames(0, 0);
 
-    this->_graphic->drawText("GAMES:", 0, 0, RED);
-    for (size_t i = 0; i < _gameList.size(); i++) {
-        colorPick = (i == this->_selected && i < _gameList.size()) ? WHITE : BLACK;
-        this->_graphic->drawText(_gameList[i], 0, i + 1, colorPick);
-    }
 
     _graphic->drawText("DISPLAY:", 0, _gameList.size() + 2, RED);
     for (size_t i = 0; i < _graphicList.size(); i++) {
@@ -138,16 +161,15 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
             colorPick = BLACK;
         _graphic->drawText(_graphicList[i], 0, i + _gameList.size() + 3, colorPick);
     }
+    this->_prevSelected = this->_selected;
     if (this->_buttonsClicked[Arcade::DOWN_ARROW] &&
         this->_selected < this->_gameList.size() + this->_graphicList.size() - 1)
         this->_selected++;
     if (this->_buttonsClicked[Arcade::UP_ARROW] && this->_selected != 0)
         this->_selected--;
 
-    if (this->_selected < this->_gameList.size())
-        this->_score = loadGameScore(this->_gameList[this->_selected]);
-    else
-        this->_score.resize(0);
+
+
     if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
         if (this->_selected >= this->_gameList.size()) {
             this->_pickedGraphics = selectGraph + 1;
