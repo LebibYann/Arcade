@@ -110,8 +110,7 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
     _graphic->fill(BLACK);
     inst = this->_game->computeFrame(buttons);
     this->interpretInstruction(inst);
-    _graphic->drawText("SCORE: " + std::to_string(_game->getScore()) , _gamePadding[0], _gamePadding[1] - 1, WHITE);
-    _graphic->drawTile(TILES_X, TILES_Y, MAGENTA);
+    _graphic->drawText(_playerName + "'s score: " + std::to_string(_game->getScore()) , _gamePadding[0], _gamePadding[1] - 1, WHITE);
 }
 
 void Arcade::Core::displayScore(int x, int y)
@@ -151,10 +150,11 @@ void Arcade::Core::pickName()
     char c;
 
     c = _graphic->getKeyboard();
-    if (c == 0)
-        return;
-    if (c != 127 && _playerName.size() < 8)
-        _playerName += c;
+    if (c == 0);
+    else if (c == '\n')
+        _entry = false;
+    else if (c != 127 && _playerName.size() < 8)
+        _playerName += toupper(c);
     else if (_playerName.compare("") != 0 && c == 127)
         _playerName.pop_back();
 }
