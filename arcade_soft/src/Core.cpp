@@ -314,8 +314,8 @@ void Arcade::Core::saveGameScore(const std::vector<Arcade::t_score_data> &scoreL
     std::fstream scoreFile;
 
     if (!this->checkScoreFileStatus(scoreFile, gameName)) {
-        std::cerr << "Saving score of the game called: " <<
-            gameName << " has failed" << std::endl;
+        // std::cerr << "Saving score of the game called: " <<
+        //     gameName << " has failed" << std::endl;
         return;
     }
     scoreFile << scoreList.size() << "\n";
