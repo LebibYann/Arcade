@@ -207,6 +207,7 @@ void Arcade::Core::run(void)
                 loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
                 _pickedGraphics--;
             }
+        std::cout << this->_graphic->getKeyboard() << std::flush;
         this->_graphic->display();
         this->getClickedButton(buttons, this->_prevButtons);
         this->_prevButtons = buttons;
@@ -314,8 +315,8 @@ void Arcade::Core::saveGameScore(const std::vector<Arcade::t_score_data> &scoreL
     std::fstream scoreFile;
 
     if (!this->checkScoreFileStatus(scoreFile, gameName)) {
-        std::cerr << "Saving score of the game called: " <<
-            gameName << " has failed" << std::endl;
+        // std::cerr << "Saving score of the game called: " <<
+        //     gameName << " has failed" << std::endl;
         return;
     }
     scoreFile << scoreList.size() << "\n";

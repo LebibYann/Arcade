@@ -11,6 +11,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <cstdlib>
 #include <vector>
+#include <map>
+#include <utility>
 #include <memory>
 #include <iomanip>
 #include <iostream>
@@ -41,7 +43,7 @@ public:
     void getMousePos(std::vector<int> &coords);
     void getMouseButton(std::vector<bool> &coord);
     void getButtons(std::vector<bool> &input);
-    char getKeyboard(void) {return 'c';}
+    char getKeyboard(void);
 
 
 private:
@@ -63,4 +65,6 @@ private:
     SDL_Event _event;
     TTF_Font *_font;
     SDL_Rect _rect;
+    std::map<int, char> _keyMap;
+    std::vector<char> _keyQueue;
 };

@@ -68,6 +68,36 @@ ArcadeSdl2::ArcadeSdl2()
     this->_colors[Arcade::CYAN].full = SDL_SETCOLOR(0, 255, 255, 255);
     this->_colors[Arcade::WHITE].full = SDL_SETCOLOR(255, 255, 255, 255);
 
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_a, 'A'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_b, 'B'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_c, 'C'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_d, 'D'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_e, 'E'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_f, 'F'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_g, 'G'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_h, 'H'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_i, 'I'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_j, 'J'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_k, 'K'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_l, 'L'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_m, 'M'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_n, 'N'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_o, 'O'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_p, 'P'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_q, 'Q'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_r, 'R'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_s, 'S'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_t, 'T'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_u, 'U'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_v, 'V'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_w, 'W'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_x, 'X'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_y, 'Y'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_z, 'Z'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_RETURN, '\n'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_RETURN2, '\n'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_BACKSPACE, 127));
+
     this->openWindow(64, 36);
 }
 
@@ -85,8 +115,6 @@ void ArcadeSdl2::openWindow(int width, int height)
         this->_window = SDL_CreateWindow("Arcade SDL2",
                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                         width * this->_tileSize, height * this->_tileSize, 0);
-    // if (this->_surface == nullptr)
-    //     this->_surface = SDL_GetWindowSurface(this->_window);
     if (this->_render == nullptr)
         this->_render = SDL_CreateRenderer(this->_window, -1, 0);
 }
@@ -97,10 +125,6 @@ void ArcadeSdl2::closeWindow(void)
         SDL_DestroyRenderer(this->_render);
         this->_render = nullptr;
     }
-    // if (this->_surface != nullptr) {
-    //     SDL_FreeSurface(this->_surface);
-    //     this->_surface = nullptr;
-    // }
     if (this->_window != nullptr) {
         SDL_DestroyWindow(this->_window);
         this->_window = nullptr;
@@ -250,14 +274,32 @@ void ArcadeSdl2::updateMatchingKey(SDL_Event event, bool toState)
 
 void ArcadeSdl2::handleEvent(void)
 {
+    std::map<int, char>::iterator search;
+
     while (SDL_PollEvent(&this->_event)) {
         switch (this->_event.type) {
             case SDL_KEYDOWN:
                 this->updateMatchingKey(this->_event, true);
+                this->_keyQueue.empty();
+                search = this->_keyMap.find(this->_event.key.keysym.sym);
+                if (search != this->_keyMap.end()) {
+                    this->_keyQueue.push_back(search->second);
+                }
                 break;
             case SDL_KEYUP:
                 this->updateMatchingKey(this->_event, false);
                 break;
         }
     }
+}
+
+char ArcadeSdl2::getKeyboard(void)
+{
+    char c;
+
+    if (this->_keyQueue.size() == 0)
+        return ('\0');
+    c = this->_keyQueue[0];
+    this->_keyQueue.erase(this->_keyQueue.begin());
+    return (c);
 }
