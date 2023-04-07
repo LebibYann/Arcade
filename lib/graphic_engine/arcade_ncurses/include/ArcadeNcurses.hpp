@@ -13,6 +13,8 @@
 #include <memory>
 #include <map>
 
+#define TILES_X 64
+#define TILES_Y 36
 #define NCURSE_MAXX 190
 #define NCURSE_MAXY 45
 

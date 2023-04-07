@@ -38,6 +38,14 @@ void Arcade::DLLoader::Load(const std::string &lib)
         throw BadLibrary(error);
 }
 
+void Arcade::DLLoader::unLoad(void)
+{
+    if (_handle != nullptr){
+        dlclose(_handle);
+        _handle = nullptr;
+    }
+}
+
 Arcade::DLLoader::~DLLoader()
 {
     if (_handle != nullptr)

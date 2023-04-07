@@ -7,27 +7,44 @@
 
 #include "Core.hpp"
 
-Arcade::Core::Core()
+Arcade::Core::Core() : _selected(0)
 {
     this->getAvailableLib();
+    this->_score.resize(0);
 }
 
 Arcade::Core::~Core()
 {
+    _game.reset();
+    _graphic.reset();
+    _gameLib.unLoad();
+    _graphicLib.unLoad();
 }
 
 void Arcade::Core::loadGame(const std::string &gameLibName)
 {
+    if (this->_game != nullptr)
+        this->saveGameScore(this->_score, this->_gameList[this->_selected]);
+    this->_game.reset();
+    // std::cout << "Loading game lib: " << gameLibName << std::endl;
     this->_gameLib.Load(gameLibName);
+    // std::cout << "Game lib [" << gameLibName << "] load OK" << std::endl;
+    this->_score = this->loadGameScore(this->_gameList[this->_selected]);
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
     this->_tileCnf = this->_game->getTilesConfig();
+    // std::cout << "Game init [" << gameLibName << "] OK" << std::endl;
     this->initTileData();
 }
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
 {
+    this->_graphic.reset();
+    this->_graphicLib.unLoad();
+    // std::cout << "Loading display lib: " << graphicLibName << std::endl;
     this->_graphicLib.Load(graphicLibName);
+    // std::cout << "Display lib [" << graphicLibName << "] load OK" << std::endl;
     this->_graphic = this->_graphicLib.getInstance<Arcade::IGraphics>("entry_point");
+    // std::cout << "Display init [" << graphicLibName << "] OK" << std::endl;
 }
 
 void Arcade::Core::getSOFiles(std::vector<std::string> &list, const std::string &path)
@@ -82,24 +99,118 @@ Arcade::t_tile_data Arcade::Core::getTileData(int id)
     return (errorTile);
 }
 
+void Arcade::Core::runGame(std::vector<bool> buttons)
+{
+    std::vector<std::shared_ptr<IInstruction>> inst;
+
+    inst = this->_game->computeFrame(buttons);
+    this->interpretInstruction(inst);
+}
+
+void Arcade::Core::displayScore(int x, int y)
+{
+    std::string tmp = "SCORE: ";
+
+    if (this->_prevSelected != this->_selected)
+        this->_scoreLoaded = false;
+
+    if (this->_selected < this->_gameList.size()) {
+        tmp.append(this->_gameList[this->_selected]);
+        if (!this->_scoreLoaded) {
+            this->_score = loadGameScore(this->_gameList[this->_selected]);
+            this->_scoreLoaded = true;
+        }
+        this->_graphic->drawText(tmp, x, y, RED);
+        for (size_t i = 0; i < this->_score.size(); i++) {
+            tmp = std::to_string(this->_score[i].score) + " " + this->_score[i].name;
+            this->_graphic->drawText(tmp, x + 1, i + y + 1, WHITE);
+        }
+    }
+}
+
+void Arcade::Core::displayGames(int x, int y)
+{
+    int colorPick;
+
+    this->_graphic->drawText("GAMES:", x, y, RED);
+    for (size_t i = 0; i < _gameList.size(); i++) {
+        colorPick = (i == this->_selected && i < _gameList.size()) ? WHITE : BLACK;
+        this->_graphic->drawText(_gameList[i], x, i + y + 1, colorPick);
+    }
+}
+
+void Arcade::Core::runMenu(std::vector<bool> buttons)
+{
+    int colorPick = WHITE;
+    size_t selectGraph = this->_selected - _gameList.size();
+    (void)buttons;
+
+    this->_graphic->fill(ArcadeColor::GREEN);
+
+    this->displayScore(20, 0);
+    this->displayGames(0, 0);
+
+
+    _graphic->drawText("DISPLAY:", 0, _gameList.size() + 2, RED);
+    for (size_t i = 0; i < _graphicList.size(); i++) {
+        if (this->_selected >= _gameList.size() && selectGraph == i)
+            colorPick = WHITE;
+        else if (this->_pickedGraphics != 0 && i == this->_pickedGraphics - 1)
+            colorPick = BLUE;
+        else
+            colorPick = BLACK;
+        _graphic->drawText(_graphicList[i], 0, i + _gameList.size() + 3, colorPick);
+    }
+    this->_prevSelected = this->_selected;
+    if (this->_buttonsClicked[Arcade::DOWN_ARROW] &&
+        this->_selected < this->_gameList.size() + this->_graphicList.size() - 1)
+        this->_selected++;
+    if (this->_buttonsClicked[Arcade::UP_ARROW] && this->_selected != 0)
+        this->_selected--;
+
+
+
+    if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
+        if (this->_selected >= this->_gameList.size()) {
+            this->_pickedGraphics = selectGraph + 1;
+            loadGraphics(_graphicPath + _graphicList[this->_selected - _gameList.size()]);
+        } else {
+            loadGame(_gamePath + _gameList[this->_selected]);
+        }
+    }
+}
+
 void Arcade::Core::run(void)
 {
     std::vector<bool> buttons;
-    std::vector<std::shared_ptr<IInstruction>> inst;
 
-    std::fill(buttons.begin(), buttons.end(), false);
-    while (!buttons[Arcade::EXIT]) {
-        // buttons = this->_graphic->getButtons();
+    this->_graphic->getButtons(buttons);
+    this->_prevButtons.resize(buttons.size());
+    this->_buttonsClicked.resize(buttons.size());
+    do {
         this->_graphic->getButtons(buttons);
-        if (this->_game == nullptr) {
-
-        } else {
-            inst = this->_game->computeFrame(buttons);
-            this->interpretInstruction(inst);
+        if (buttons[Arcade::HOME_MENU]) {
+            _game = nullptr;
+            _gameLib.unLoad();
         }
-        this->interpretInstruction(inst);
+        if (_game != nullptr)
+            runGame(buttons);
+        else
+            runMenu(buttons);
+        if (buttons[Arcade::NEXT_LIB])
+            if (_pickedGraphics <= _graphicList.size()){
+                loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
+                _pickedGraphics++;
+            }
+        if (buttons[Arcade::PREV_LIB])
+            if (_pickedGraphics > 1){
+                loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
+                _pickedGraphics--;
+            }
         this->_graphic->display();
-    }
+        this->getClickedButton(buttons, this->_prevButtons);
+        this->_prevButtons = buttons;
+    } while (!buttons[Arcade::EXIT]);
 }
 
 void Arcade::Core::interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr)
@@ -139,4 +250,78 @@ void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
     InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
 
     this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x(), cast_instr->get_y(), cast_instr->get_color());
+}
+
+void Arcade::Core::getClickedButton(std::vector<bool> curr, std::vector<bool> prev)
+{
+    this->_buttonsClicked.resize(curr.size());
+    for (size_t i = 0; i < curr.size(); ++i)
+        this->_buttonsClicked[i] = (curr[i] && !prev[i]);
+}
+
+std::vector<Arcade::t_score_data> Arcade::Core::loadGameScore(const std::string &gameName)
+{
+    size_t nbr_score;
+    t_score_data scoreData;
+    std::fstream scoreFile;
+    std::vector<t_score_data> scores;
+
+    scoreFile.open(this->_scoreDir + gameName + ".score", std::ios::in);
+    if (!scoreFile) {
+        // std::cout << "No score data found for the game called: " << gameName << std::endl;
+        return (scores);
+    }
+    scoreFile >> nbr_score;
+    for (size_t i = 0; i < nbr_score; ++i) {
+        scoreFile >> scoreData.score;
+        scoreFile >> scoreData.name;
+        scores.push_back(scoreData);
+    }
+    scoreFile.close();
+    return(scores);
+}
+
+void Arcade::Core::addGameScore(std::vector<Arcade::t_score_data> &scoreList, size_t score, const std::string &playerName)
+{
+    bool scorePushed = false;
+    t_score_data scoreData = {score, playerName};
+    std::vector<Arcade::t_score_data>::iterator it;
+
+    it = scoreList.begin();
+    for (; it != scoreList.end(); ++it) {
+        if (score > it->score) {
+            scoreList.insert(it, scoreData);
+            scorePushed = true;
+            break;
+        }
+    }
+    if (!scorePushed)
+        scoreList.push_back(scoreData);
+}
+
+bool Arcade::Core::checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName)
+{
+    std::string fullPath = this->_scoreDir + gameName;
+
+    if (access(this->_scoreDir.c_str(), F_OK) != 0)
+        std::filesystem::create_directories(this->_scoreDir);
+    scoreFile.open(this->_scoreDir + gameName + ".score", std::ios::out);
+    return ((!scoreFile) ? false : true);
+}
+
+void Arcade::Core::saveGameScore(const std::vector<Arcade::t_score_data> &scoreList, const std::string &gameName)
+{
+    std::fstream scoreFile;
+
+    if (!this->checkScoreFileStatus(scoreFile, gameName)) {
+        std::cerr << "Saving score of the game called: " <<
+            gameName << " has failed" << std::endl;
+        return;
+    }
+    scoreFile << scoreList.size() << "\n";
+    for (size_t i = 0; i < scoreList.size(); ++i) {
+        scoreFile << scoreList[i].score << "\n";
+        scoreFile << scoreList[i].name.c_str() << "\n";
+    }
+    scoreFile.close();
 }

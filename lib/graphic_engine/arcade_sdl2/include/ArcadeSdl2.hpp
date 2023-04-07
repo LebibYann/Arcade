@@ -43,7 +43,7 @@ public:
     void getButtons(std::vector<bool> &input);
     char getKeyboard(void) {return 'c';}
 
-    
+
 private:
     void openWindow(int width, int height);
     void drawUnknownTexture(int x, int y, int width, int height, uint32_t color);
@@ -53,7 +53,7 @@ private:
     void unloadFont(void);
     void handleEvent(void);
     void updateMatchingKey(SDL_Event event, bool toState);
-    int _tileSize = 30;
+    int _tileSize = 20;
     std::vector<t_sdl_color> _colors;
     std::vector<int> _keyId;
     std::vector<bool> _arcadeButtons;

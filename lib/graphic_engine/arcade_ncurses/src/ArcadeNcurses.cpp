@@ -36,12 +36,12 @@ ArcadeNcurses::ArcadeNcurses()
     keys.insert({'k', Arcade::BUTTON3});
     keys.insert({'j', Arcade::BUTTON4});
     keys.insert({'r', Arcade::RESTART});
-    keys.insert({KEY_LEFT, Arcade::PREV_GAME});
-    keys.insert({KEY_RIGHT, Arcade::NEXT_GAME});
-    keys.insert({KEY_UP, Arcade::NEXT_LIB});
-    keys.insert({KEY_DOWN, Arcade::PREV_LIB});
-    keys.insert({10, Arcade::HOME_MENU});
+    keys.insert({68, Arcade::PREV_GAME});
+    keys.insert({67, Arcade::NEXT_GAME});
+    keys.insert({65, Arcade::NEXT_LIB});
+    keys.insert({66, Arcade::PREV_LIB});
     keys.insert({27, Arcade::EXIT});
+    keys.insert({10, Arcade::HOME_MENU});
     refresh();
 }
 
@@ -89,15 +89,21 @@ void ArcadeNcurses::getMouseButton(std::vector<bool> &buttons)
     buttons.resize(3);
 }
 
+#include <iostream>
+
 void ArcadeNcurses::getButtons(std::vector<bool> &buttons)
 {
     std::map<int, int>::iterator pressed;
+    int ch;
+    int tmp;
 
     buttons.resize(Arcade::TOTAL_INPUT);
-    for (size_t i = 0; i < buttons.size(); i++)
-        buttons[i] = false;
-    if ((pressed = keys.find(getch())) != keys.end())
+    std::fill(buttons.begin(), buttons.end(), false);
+    for (ch = 0; (tmp = getch()) != ERR; ch = tmp);
+    if ((pressed = keys.find(ch)) != keys.end()){
+
         buttons[pressed->second] = true;
+    }
 }
 
 char ArcadeNcurses::getKeyboard(void)

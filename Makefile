@@ -24,7 +24,10 @@ BLINK 	= 	"\033[1;92m"
 SBLINK	= 	"\033[0m"
 INVERT  =	"\033[7m"
 
-all: core games graphicals
+all:
+	@make core --no-print-directory; \
+	make games --no-print-directory; \
+	make graphicals --no-print-directory;
 
 re: fclean all
 
@@ -48,11 +51,11 @@ graphicals: .FORCE
 clean:
 	@make clean -C $(CORE_SRC) --no-print-directory
 	@for dir in $(GRAPHIC_SRC); do \
-		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
+		$(ECHO) $(BLINK)$(PURPLE)"[CLEANING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make clean -C $$dir --no-print-directory; \
 	done
 	@for dir in $(GAME_SRC); do \
-		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
+		$(ECHO) $(BLINK)$(PURPLE)"[CLEANING GAME $$dir]"$(DEFLT); \
 		make clean -C $$dir --no-print-directory; \
 	done
 

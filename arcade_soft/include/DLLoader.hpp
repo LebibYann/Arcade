@@ -9,6 +9,7 @@
 
 #include <dlfcn.h>
 #include <string>
+#include <functional>
 #include <memory>
 
 namespace Arcade
@@ -40,11 +41,12 @@ namespace Arcade
             sym = dlsym(_handle, symbol.c_str());
             if ((error = dlerror()) != NULL)
                 throw BadLibrary(error);
-            func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym);
+            if ((func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym)) == NULL)
+                return (nullptr);
             return (func());
         }
+        void unLoad(void);
         ~DLLoader();
-
     private:
         void *_handle = NULL;
     };
