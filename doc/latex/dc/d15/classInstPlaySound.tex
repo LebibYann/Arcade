@@ -1,0 +1,71 @@
+\hypertarget{classInstPlaySound}{}\doxysection{Inst\+Play\+Sound Class Reference}
+\label{classInstPlaySound}\index{InstPlaySound@{InstPlaySound}}
+
+
+An unsupported instruction that was supposed to let you play audio.  
+
+
+
+
+{\ttfamily \#include $<$Instruction.\+hpp$>$}
+
+Inheritance diagram for Inst\+Play\+Sound\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{dc/d15/classInstPlaySound}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstPlaySound_a87c40c526e2cbe9ff18c569f2b8de798}\label{classInstPlaySound_a87c40c526e2cbe9ff18c569f2b8de798}} 
+{\bfseries Inst\+Play\+Sound} (std\+::string audio\+Path)
+\item 
+int \mbox{\hyperlink{classInstPlaySound_a6a9a532445df5cc64b6c5f946b74c234}{get\+Id}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstPlaySound_a59901a5cf3a997da16be26ac65351b39}\label{classInstPlaySound_a59901a5cf3a997da16be26ac65351b39}} 
+std\+::string {\bfseries get\+\_\+audio} (void) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIInstruction}{IInstruction}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}{$\sim$\+IInstruction}} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classIInstruction}{IInstruction}} object. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{get\+Id}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstPlaySound_a7e1d539386ccecf298014e2a226dab1e}\label{classInstPlaySound_a7e1d539386ccecf298014e2a226dab1e}} 
+std\+::string {\bfseries \+\_\+audio\+Path}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An unsupported instruction that was supposed to let you play audio. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classInstPlaySound_a6a9a532445df5cc64b6c5f946b74c234}\label{classInstPlaySound_a6a9a532445df5cc64b6c5f946b74c234}} 
+\index{InstPlaySound@{InstPlaySound}!getId@{getId}}
+\index{getId@{getId}!InstPlaySound@{InstPlaySound}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily int Inst\+Play\+Sound\+::get\+Id (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Get the instruction id to let interpretor decide what to do with. 
+
+\begin{DoxyReturn}{Returns}
+int return the instruction id. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{IInstruction}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{Instruction_8hpp}{Instruction.\+hpp}}\end{DoxyCompactItemize}

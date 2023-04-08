@@ -1,0 +1,140 @@
+\hypertarget{classInstDrawTile}{}\doxysection{Inst\+Draw\+Tile Class Reference}
+\label{classInstDrawTile}\index{InstDrawTile@{InstDrawTile}}
+
+
+Use this instruction if you want to place a tile.  
+
+
+
+
+{\ttfamily \#include $<$Instruction.\+hpp$>$}
+
+Inheritance diagram for Inst\+Draw\+Tile\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d9/de3/classInstDrawTile}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classInstDrawTile_a7d4a1bd8eda21ed863aa008bec347a4d}{Inst\+Draw\+Tile}} (int x, int y, int texture\+Id)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classInstDrawTile}{Inst\+Draw\+Tile}} object. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawTile_ab96f8f6d7a39ace16ef53ebd7f01d500}{get\+Id}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawTile_a88297ff708651d8b63f89e9e11bdbe38}{get\+\_\+x}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the X tiled position. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawTile_a4830b49a4dee6de94c99286e41985e5e}{get\+\_\+y}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the Y tiled position. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawTile_a9f84c474c758afc8b22ddcb90cb8c69b}{get\+\_\+texture}} (void) const
+\begin{DoxyCompactList}\small\item\em Gives you an id that you must match with one of t\+\_\+tile\+\_\+config.\+id set by the IGame method\+: get\+Tiles\+Config. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIInstruction}{IInstruction}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}{$\sim$\+IInstruction}} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classIInstruction}{IInstruction}} object. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{get\+Id}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstDrawTile_aa1a2e6db8d7da15742881391a5ece3e8}\label{classInstDrawTile_aa1a2e6db8d7da15742881391a5ece3e8}} 
+int {\bfseries \+\_\+x}
+\item 
+\mbox{\Hypertarget{classInstDrawTile_a03c1f17ffefd5e60ba857e2825aae70e}\label{classInstDrawTile_a03c1f17ffefd5e60ba857e2825aae70e}} 
+int {\bfseries \+\_\+y}
+\item 
+\mbox{\Hypertarget{classInstDrawTile_abd5c65c8483c3c852f842f0b9d2fdc73}\label{classInstDrawTile_abd5c65c8483c3c852f842f0b9d2fdc73}} 
+int {\bfseries \+\_\+texture\+Id}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Use this instruction if you want to place a tile. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classInstDrawTile_a7d4a1bd8eda21ed863aa008bec347a4d}\label{classInstDrawTile_a7d4a1bd8eda21ed863aa008bec347a4d}} 
+\index{InstDrawTile@{InstDrawTile}!InstDrawTile@{InstDrawTile}}
+\index{InstDrawTile@{InstDrawTile}!InstDrawTile@{InstDrawTile}}
+\doxysubsubsection{\texorpdfstring{InstDrawTile()}{InstDrawTile()}}
+{\footnotesize\ttfamily Inst\+Draw\+Tile\+::\+Inst\+Draw\+Tile (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{texture\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \mbox{\hyperlink{classInstDrawTile}{Inst\+Draw\+Tile}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X position of the tile to draw. \\
+\hline
+{\em y} & Y position of the tile to draw. \\
+\hline
+{\em texture\+Id} & The id must match with one of the t\+\_\+tile\+\_\+config.\+id recovered by the program when calling the IGame method\+: get\+Tiles\+Config \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classInstDrawTile_a9f84c474c758afc8b22ddcb90cb8c69b}\label{classInstDrawTile_a9f84c474c758afc8b22ddcb90cb8c69b}} 
+\index{InstDrawTile@{InstDrawTile}!get\_texture@{get\_texture}}
+\index{get\_texture@{get\_texture}!InstDrawTile@{InstDrawTile}}
+\doxysubsubsection{\texorpdfstring{get\_texture()}{get\_texture()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Tile\+::get\+\_\+texture (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives you an id that you must match with one of t\+\_\+tile\+\_\+config.\+id set by the IGame method\+: get\+Tiles\+Config. 
+
+\begin{DoxyReturn}{Returns}
+int An existing t\+\_\+tile\+\_\+config.\+id for the game loaded. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstDrawTile_a88297ff708651d8b63f89e9e11bdbe38}\label{classInstDrawTile_a88297ff708651d8b63f89e9e11bdbe38}} 
+\index{InstDrawTile@{InstDrawTile}!get\_x@{get\_x}}
+\index{get\_x@{get\_x}!InstDrawTile@{InstDrawTile}}
+\doxysubsubsection{\texorpdfstring{get\_x()}{get\_x()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Tile\+::get\+\_\+x (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the X tiled position. 
+
+\begin{DoxyReturn}{Returns}
+int X position of the tile to draw. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstDrawTile_a4830b49a4dee6de94c99286e41985e5e}\label{classInstDrawTile_a4830b49a4dee6de94c99286e41985e5e}} 
+\index{InstDrawTile@{InstDrawTile}!get\_y@{get\_y}}
+\index{get\_y@{get\_y}!InstDrawTile@{InstDrawTile}}
+\doxysubsubsection{\texorpdfstring{get\_y()}{get\_y()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Tile\+::get\+\_\+y (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the Y tiled position. 
+
+\begin{DoxyReturn}{Returns}
+int Y position of the tile to draw. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstDrawTile_ab96f8f6d7a39ace16ef53ebd7f01d500}\label{classInstDrawTile_ab96f8f6d7a39ace16ef53ebd7f01d500}} 
+\index{InstDrawTile@{InstDrawTile}!getId@{getId}}
+\index{getId@{getId}!InstDrawTile@{InstDrawTile}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Tile\+::get\+Id (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Get the instruction id to let interpretor decide what to do with. 
+
+\begin{DoxyReturn}{Returns}
+int return the instruction id. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{IInstruction}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{Instruction_8hpp}{Instruction.\+hpp}}\end{DoxyCompactItemize}
