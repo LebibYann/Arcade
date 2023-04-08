@@ -131,6 +131,20 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
 
     if (this->_buttonsClicked[Arcade::RESTART])
         this->loadGame(_gamePath + this->_gameList[this->_selected]);
+    if (this->_buttonsClicked[Arcade::NEXT_GAME]) {
+        if (this->_selected < _gameList.size() - 1)
+            this->_selected++;
+        else
+            this->_selected = 0;
+        loadGame(_gamePath + _gameList[this->_selected]);
+    }
+    if (this->_buttonsClicked[Arcade::PREV_GAME]) {
+        if (this->_selected != 0)
+            this->_selected--;
+        else
+            this->_selected = _gameList.size() - 1;
+        loadGame(_gamePath + _gameList[this->_selected]);
+    }
     _graphic->fill(BLACK);
     inst = this->_game->computeFrame(buttons);
     this->interpretInstruction(inst);
@@ -247,16 +261,14 @@ void Arcade::Core::run(void)
             runGame(buttons);
         else
             runMenu(buttons);
-        if (buttons[Arcade::PREV_LIB])
-            if (_pickedGraphics < _graphicList.size()){
-                loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
-                _pickedGraphics++;
-            }
-        if (buttons[Arcade::NEXT_LIB])
-            if (_pickedGraphics > 1){
-                loadGraphics(_graphicPath + _graphicList[_pickedGraphics - 2]);
-                _pickedGraphics--;
-            }
+        if (buttons[Arcade::PREV_LIB] && _pickedGraphics < _graphicList.size()) {
+            loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
+            _pickedGraphics++;
+        }
+        if (buttons[Arcade::NEXT_LIB] && _pickedGraphics > 1) {
+            loadGraphics(_graphicPath + _graphicList[_pickedGraphics - 2]);
+            _pickedGraphics--;
+        }
         this->_graphic->display();
         this->getClickedButton(buttons, this->_prevButtons);
         this->_prevButtons = buttons;
