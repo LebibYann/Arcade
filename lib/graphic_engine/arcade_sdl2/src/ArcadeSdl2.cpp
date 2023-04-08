@@ -277,7 +277,7 @@ void ArcadeSdl2::handleEvent(void)
 {
     std::map<int, char>::iterator search;
 
-    this->_keyQueue.empty();
+    this->_keyQueue.resize(0);
     while (SDL_PollEvent(&this->_event)) {
         switch (this->_event.type) {
             case SDL_KEYDOWN:

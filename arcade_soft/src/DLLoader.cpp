@@ -64,6 +64,7 @@ int Arcade::DLLoader::checkLibIntegrity(const std::string &lib)
     sym = dlsym(handle, "get_type");
     if ((error = dlerror()) != NULL)
         return (state);
+    typeFunc = reinterpret_cast<int (*)()>(sym);
     state = typeFunc() + 1;
     dlclose(handle);
     return ((state == 1 || state == 2) * state);

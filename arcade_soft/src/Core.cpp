@@ -36,8 +36,10 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
     this->initTileData();
     _gameSize = _game->getWindowSize();
     _gamePadding.resize(2);
-    _gamePadding[0] = (TILES_X / 2 - _gameSize[0] / 2);
-    _gamePadding[1] = (TILES_Y / 2 - _gameSize[1] / 2);
+    _gamePadding[0] = 0;
+    _gamePadding[1] = 0;
+    // _gamePadding[0] = (TILES_X / 2 - _gameSize[0] / 2);
+    // _gamePadding[1] = (TILES_Y / 2 - _gameSize[1] / 2);
 }
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
