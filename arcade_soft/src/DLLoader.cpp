@@ -48,6 +48,23 @@ void Arcade::DLLoader::unLoad(void)
 
 Arcade::DLLoader::~DLLoader()
 {
-    if (_handle != nullptr)
-        dlclose(_handle);
+    this->unLoad();
+}
+
+int Arcade::DLLoader::checkLibIntegrity(const std::string &lib)
+{
+    int state = 0;
+    void *sym;
+    void *handle = dlopen(lib.c_str(), RTLD_LAZY);
+    char *error;
+    int (*typeFunc)();
+
+    if (dlerror() != NULL)
+        return (state);
+    sym = dlsym(handle, "get_type");
+    if ((error = dlerror()) != NULL)
+        return (state);
+    state = typeFunc() + 1;
+    dlclose(handle);
+    return ((state == 1 || state == 2) * state);
 }

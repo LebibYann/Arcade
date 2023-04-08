@@ -83,8 +83,8 @@ namespace Arcade
         std::size_t _pickedGraphics = 0;
         std::size_t _selected = 0;
         std::size_t _prevSelected = 0;
-        std::string _graphicPath = "./lib/graphic_engine/";
-        std::string _gamePath = "./lib/games/";
+        std::string _graphicPath = "./lib/";
+        std::string _gamePath = "./lib/";
         std::vector<std::string> _gameList;
         std::vector<std::string> _graphicList;
         std::shared_ptr<IGame> _game = nullptr;

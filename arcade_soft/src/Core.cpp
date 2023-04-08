@@ -73,8 +73,21 @@ void Arcade::Core::getSOFiles(std::vector<std::string> &list, const std::string 
 
 void Arcade::Core::getAvailableLib(void)
 {
-    this->getSOFiles(this->_graphicList, this->_graphicPath);
-    this->getSOFiles(this->_gameList, this->_gamePath);
+    Arcade::DLLoader libChecker;
+    std::vector<std::string> libs;
+
+    this->getSOFiles(libs, "./lib/");
+    for (size_t i = 0; i < libs.size(); ++i) {
+        switch (libChecker.checkLibIntegrity("./lib/" + libs[i])) {
+            case 1:
+                this->_gameList.push_back(libs[i]);
+                break;
+            case 2:
+                this->_graphicList.push_back(libs[i]);
+                break;
+
+        }
+    }
 }
 
 void Arcade::Core::initTileData(void)
