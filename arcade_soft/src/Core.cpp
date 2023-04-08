@@ -276,7 +276,7 @@ void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
 {
     InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
 
-    this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x(), cast_instr->get_y(), cast_instr->get_color());
+    this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x() + _gamePadding[0], cast_instr->get_y() + _gamePadding[1], cast_instr->get_color());
 }
 
 void Arcade::Core::getClickedButton(std::vector<bool> curr, std::vector<bool> prev)
