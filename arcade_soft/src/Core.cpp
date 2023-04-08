@@ -347,6 +347,7 @@ void Arcade::Core::addGameScore(std::vector<Arcade::t_score_data> &scoreList, si
     }
     if (!scorePushed)
         scoreList.push_back(scoreData);
+    scoreList.resize(10);
 }
 
 bool Arcade::Core::checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName)

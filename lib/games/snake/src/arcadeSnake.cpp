@@ -82,8 +82,6 @@ std::vector<std::shared_ptr<IInstruction>> ArcadeSnake::computeFrame(std::vector
     std::vector<std::shared_ptr<IInstruction>> instructions;
 
     this->accumulateInput(buttons);
-    if (buttons[RESTART])
-        reset();
     if (this->counter == 0) {
         this->instr = computeGame(&_game_data, this->_buttons);
         std::fill(this->_buttons.begin(), this->_buttons.end(), false);
