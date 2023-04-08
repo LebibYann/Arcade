@@ -53,10 +53,9 @@ clean:
 		-or -name "*~" -delete
 	@find ./arcade_soft/ -name "*.o" -delete \
 		-or -name "*~" -delete
-	$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
+	@$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
 
 fclean: clean
-	$(ECHO) $(GRAPHIC_SRC)
 	@find ./lib/ -name "*.so" -delete
 	@make fclean -C $(CORE_SRC) --no-print-directory
 	@find $(GRAPHIC_SRC) -name "*.so" -delete

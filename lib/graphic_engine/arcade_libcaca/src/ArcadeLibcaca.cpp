@@ -125,4 +125,5 @@ char ArcadeLibcaca::getKeyboard(void)
         else if (ch == CACA_KEY_RETURN)
             return ('\n');
     }
+    return ('\0');
 }

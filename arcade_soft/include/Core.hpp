@@ -46,6 +46,7 @@ namespace Arcade
         void runGame(std::vector<bool> inputs);
         void runMenu(std::vector<bool> inputs);
         void loadGame(const std::string &gameLibNamegame);
+        void unloadGame(void);
         void loadGraphics(const std::string &graphicLibName);
         /**
          * @brief Limit the number of refresh per second.

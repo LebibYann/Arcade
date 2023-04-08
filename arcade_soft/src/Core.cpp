@@ -15,17 +15,26 @@ Arcade::Core::Core() : _selected(0), _entry(false), _playerName("")
 
 Arcade::Core::~Core()
 {
-    _game.reset();
+    this->unloadGame();
     _graphic.reset();
-    _gameLib.unLoad();
     _graphicLib.unLoad();
+}
+
+void Arcade::Core::unloadGame(void)
+{
+    if (this->_game == nullptr)
+        return;
+    this->addGameScore(this->_score, this->_game->getScore(), this->_playerName);
+    this->saveGameScore(this->_score, this->_gameList[this->_selected]);
+    this->_game.reset();
+    this->_game = nullptr;
+    this->_gameLib.unLoad();
 }
 
 void Arcade::Core::loadGame(const std::string &gameLibName)
 {
     if (this->_game != nullptr)
-        this->saveGameScore(this->_score, this->_gameList[this->_selected]);
-    this->_game.reset();
+        this->unloadGame();
     // std::cout << "Loading game lib: " << gameLibName << std::endl;
     this->_gameLib.Load(gameLibName);
     // std::cout << "Game lib [" << gameLibName << "] load OK" << std::endl;
@@ -36,10 +45,8 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
     this->initTileData();
     _gameSize = _game->getWindowSize();
     _gamePadding.resize(2);
-    _gamePadding[0] = 0;
-    _gamePadding[1] = 0;
-    // _gamePadding[0] = (TILES_X / 2 - _gameSize[0] / 2);
-    // _gamePadding[1] = (TILES_Y / 2 - _gameSize[1] / 2);
+    _gamePadding[0] = (TILES_X / 2 - _gameSize[0] / 2);
+    _gamePadding[1] = (TILES_Y / 2 - _gameSize[1] / 2);
 }
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
@@ -122,6 +129,8 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
 {
     std::vector<std::shared_ptr<IInstruction>> inst;
 
+    if (this->_buttonsClicked[Arcade::RESTART])
+        this->loadGame(_gamePath + this->_gameList[this->_selected]);
     _graphic->fill(BLACK);
     inst = this->_game->computeFrame(buttons);
     this->interpretInstruction(inst);
@@ -232,8 +241,7 @@ void Arcade::Core::run(void)
         std::fill(buttons.begin(), buttons.end(), false);
         this->_graphic->getButtons(buttons);
         if (buttons[Arcade::HOME_MENU]) {
-            _game = nullptr;
-            _gameLib.unLoad();
+            this->unloadGame();
         }
         if (_game != nullptr)
             runGame(buttons);

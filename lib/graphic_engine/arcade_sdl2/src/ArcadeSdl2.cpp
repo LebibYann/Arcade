@@ -225,8 +225,12 @@ void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
     SDL_Texture *texture = SDL_CreateTextureFromSurface(this->_render, surface);
 
     SDL_QueryTexture(texture, nullptr, nullptr, &xSize, nullptr);
-    this->_rect = {x * this->_tileSize, y * this->_tileSize,
-        xSize, (int) ((double) this->_tileSize * 1.4)};
+    this->_rect = {
+        (x * this->_tileSize),
+        (y * this->_tileSize) - ((int) (((double) this->_tileSize) * 0.2)),
+        xSize,
+        (int) ((double) this->_tileSize * 1.4)
+    };
     SDL_RenderCopy(this->_render, texture, nullptr, &this->_rect);
 
     SDL_FreeSurface(surface);
