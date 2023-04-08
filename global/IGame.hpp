@@ -18,9 +18,9 @@
 namespace Arcade
 {
     /**
-     ** @brief Gives information about a tile of the game.
+     ** @brief Gives informations about a tile of the game.
      ** Depending on the library and if an image path is given,
-     ** the program will decide if it must draw juste a colored square or display an image.
+     ** the program will decide if it must draw a colored square or display an image.
      **
      */
     typedef struct s_tile_config {
@@ -30,7 +30,7 @@ namespace Arcade
     } t_tile_config;
 
     /**
-     ** @brief This class refer all the method that you should code
+     ** @brief This class refer all methods that you should code
      ** in order to add a new game to the arcade software,
      ** you must inherit of it if possible.
      ** Do not forget to implement the two extern "C" function
@@ -43,13 +43,13 @@ namespace Arcade
          * @brief Call a main equivalent function to compute one frame of the game.
          *
          * @param buttons A bool table which represent the buttons pressed in the current frame.
-         * This buttons are the one referenced in t_arcade_input.
+         * These buttons are referenced in t_arcade_input.
          * @return std::vector<std::shared_ptr<IInstruction>>
-         * List of instructions to execute look in the Instruction section for more information.
+         * For list of instructions to execute, look in the Instruction section.
          */
         virtual std::vector<std::shared_ptr<IInstruction>> computeFrame(std::vector<bool> buttons) = 0;
         /**
-         ** @brief Gives information about the game tiles
+         ** @brief Gives informations about game tiles
          ** their id, color, and potentialy texture.
          **
          ** @return std::vector<t_tile_config>
