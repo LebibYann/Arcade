@@ -9,13 +9,32 @@
 
 ArcadeNibbler::ArcadeNibbler()
 {
+    initSnake(&_game_data);
+    _game_data.score = 0;
+    _game_data.timer = 999;
+    _game_data.gameOver = false;
+    _game_data.lastEaten = 0;
+    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    _game_data.map.push_back({1, 4, 0, 0, 0, 0, 0, 0, 4, 1});
+    _game_data.map.push_back({1, 0, 1, 1, 0, 4, 1, 1, 0, 1});
+    _game_data.map.push_back({1, 0, 1, 1, 0, 0, 1, 1, 0, 1});
+    _game_data.map.push_back({1, 0, 4, 0, 0, 2, 0, 0, 0, 1});
+    _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 4, 0, 1});
+    _game_data.map.push_back({1, 0, 1, 1, 0, 3, 1, 1, 0, 1});
+    _game_data.map.push_back({1, 0, 1, 1, 4, 0, 1, 1, 0, 1});
+    _game_data.map.push_back({1, 4, 0, 0, 0, 0, 0, 0, 4, 1});
+    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     _window_size.push_back(10);
     _window_size.push_back(10);
     _tiles_config.push_back({0, BLACK, " "});
     _tiles_config.push_back({1, WHITE, " "});
     _tiles_config.push_back({2, GREEN, " "});
     _tiles_config.push_back({3, GREEN, " "});
-    _tiles_config.push_back({4, YELLOW, " "});
+    _tiles_config.push_back({4, RED, " "});
+}
+
+ArcadeNibbler::~ArcadeNibbler()
+{
 }
 
 std::vector <int> ArcadeNibbler::getWindowSize(void) const
@@ -30,15 +49,14 @@ std::vector<Arcade::t_tile_config> ArcadeNibbler::getTilesConfig(void) const
 
 std::size_t ArcadeNibbler::getScore(void) const
 {
-    t_nibbler_data *game = static_cast<t_nibbler_data*> (_game_data->data);
-    return (game->score);
+    return (_game_data.score);
 }
 
 std::vector<std::shared_ptr<IInstruction>> ArcadeNibbler::computeFrame(std::vector<bool> buttons)
 {
     std::vector<std::shared_ptr<IInstruction>> instructions;
-    t_nibbler_data *game = static_cast<t_nibbler_data*> (_game_data->data);
 
-    instructions = computeGame(game, buttons);
+    instructions = computeGame(&_game_data, buttons);
+    usleep(1.0 / 7.5 * 1e6);
     return (instructions);
 }

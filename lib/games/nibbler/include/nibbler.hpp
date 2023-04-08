@@ -12,8 +12,20 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <unistd.h>
 #include "Instruction.hpp"
 #include "IGame.hpp"
+
+typedef enum e_ArcadeColor {
+    BLACK,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYAN,
+    WHITE
+} t_ArcadeColor;
 
 typedef enum e_snake_tiles {
     GROUND = 0,
@@ -58,6 +70,7 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std
 void moveHandler(t_nibbler_data *game, std::vector<bool> inputs);
 void move_snake(t_nibbler_data *game, int collision);
 int collisionHandler(t_nibbler_data *game);
+void initSnake(t_nibbler_data *game_data);
 
 class ArcadeNibbler: public Arcade::IGame {
 public:
@@ -70,7 +83,7 @@ public:
     std::size_t getScore(void) const;
 
     private:
-        t_game_data *_game_data;
+        t_nibbler_data _game_data;
         std::vector<Arcade::t_tile_config> _tiles_config;
         std::vector<int> _window_size;
         std::size_t _score;

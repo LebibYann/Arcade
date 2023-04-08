@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 #include <memory>
 #include "Instruction.hpp"
 #include "IGame.hpp"
@@ -39,6 +40,7 @@ typedef enum e_snake_direction {
     DOWN = 1,
     LEFT = 2,
     RIGHT = 3,
+    RESTART = 12
 } t_snake_direction;
 
 typedef struct s_game_data {
@@ -56,17 +58,18 @@ typedef struct s_snake_data {
     std::vector <std::vector<int>> map;
     t_snake snake;
     int score;
+    int gameOver;
 } t_snake_data;
 
 std::vector <std::vector<int>> loadMap();
 t_snake_data *loadConfig();
 std::vector <int> findHead(std::vector <std::vector<int>> map);
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::vector<bool> inputs);
+void initSnake(t_snake_data *game_data);
 
 class ArcadeSnake: public Arcade::IGame {
 public:
     ArcadeSnake();
-    ~ArcadeSnake();
 
     std::vector<std::shared_ptr<IInstruction>> computeFrame(std::vector<bool> buttons);
     std::vector<Arcade::t_tile_config> getTilesConfig(void) const;
@@ -74,8 +77,13 @@ public:
     std::size_t getScore(void) const;
 
     private:
+        void reset();
+        void accumulateInput(const std::vector<bool> &buttons);
         t_snake_data _game_data;
         std::vector<Arcade::t_tile_config> _tiles_config;
         std::vector<int> _window_size;
         std::size_t _score;
+        int counter = 0;
+        std::vector<std::shared_ptr<IInstruction>> instr;
+        std::vector<bool> _buttons;
 };

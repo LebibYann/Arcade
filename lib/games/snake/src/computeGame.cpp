@@ -22,7 +22,8 @@ void moveHandler(t_snake_data *game, std::vector<bool> inputs)
 int get_next_tile(t_snake_data *game)
 {
     if (game->snake.direction == UP)
-        return (game->map[game->snake.headPos[1] - 1][game->snake.headPos[0]]);
+        return (game->map[game->snake.headPos[1] - 1]
+        [game->snake.headPos[0]]);
     else if (game->snake.direction == DOWN)
         return (game->map[game->snake.headPos[1] + 1][game->snake.headPos[0]]);
     else if (game->snake.direction == LEFT)
@@ -128,6 +129,21 @@ std::vector<std::shared_ptr<IInstruction>> getMapInstructions(t_snake_data *game
     return (instructions);
 }
 
+std::vector<std::shared_ptr<IInstruction>> getInstructions(t_snake_data *game)
+{
+    std::vector<std::shared_ptr<IInstruction>> instructions;
+
+    if (game->gameOver == false)
+        instructions = getMapInstructions(game);
+    else {
+        if (game->snake.body.size() > 0)    
+            instructions = getMapInstructions(game);
+        else
+            instructions.push_back(std::make_shared<InstDrawText>(5, 5, WHITE, "Game over !"));
+    }
+    return (instructions);
+}
+
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::vector<bool> inputs)
 {
     std::vector<std::shared_ptr<IInstruction>> instructions;
@@ -140,7 +156,13 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::
         collision = collisionHandler(game);
         move_snake(game, collision);
         addFood(game);
+        if (collision == 0)
+            game->gameOver = true;
+        if (game->gameOver && game->snake.body.size() > 0){
+            game->map[game->snake.body.back()[1]][game->snake.body.back()[0]] = GROUND;
+            game->snake.body.pop_back();
+        }
     }
-    instructions = getMapInstructions(game);
+    instructions = getInstructions(game);
     return (instructions);
 }

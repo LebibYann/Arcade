@@ -24,7 +24,7 @@ ArcadeLibcaca::ArcadeLibcaca()
     _keys.insert({CACA_KEY_RIGHT, Arcade::NEXT_GAME});
     _keys.insert({CACA_KEY_UP, Arcade::NEXT_LIB});
     _keys.insert({CACA_KEY_DOWN, Arcade::PREV_LIB});
-    _keys.insert({10, Arcade::HOME_MENU});
+    _keys.insert({CACA_KEY_RETURN, Arcade::HOME_MENU});
     _keys.insert({CACA_KEY_ESCAPE, Arcade::EXIT});
     _color.insert({Arcade::BLACK, {CACA_WHITE, CACA_BLACK}});
     _color.insert({Arcade::RED, {CACA_WHITE, CACA_RED}});
@@ -44,23 +44,23 @@ ArcadeLibcaca::~ArcadeLibcaca()
 
 void ArcadeLibcaca::drawText(const std::string &text, int x, int y, int color)
 {
-    std::map<int, std::pair <int, int>>::iterator found;
+    std::map<int, std::pair<int, int>>::iterator found;
 
     if ((found = _color.find(color)) == _color.end())
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
-    caca_put_str(_canva, x, y, text.c_str());
+    caca_put_str(_canva, x * 2, y, text.c_str());
 }
 
 void ArcadeLibcaca::drawTile(int x, int y, uint32_t color)
 {
-    std::map<int, std::pair <int, int>>::iterator found;
+    std::map<int, std::pair<int, int>>::iterator found;
 
     if ((found = _color.find(color)) == _color.end())
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
-    caca_put_str(_canva, x, y, "  ");
-    caca_put_str(_canva, x, y + 1, "  ");
+    caca_put_str(_canva, x * 2, y, "  ");
+    caca_put_str(_canva, x * 2, y * 1, "  ");
 }
 
 void ArcadeLibcaca::display(void)
@@ -70,13 +70,14 @@ void ArcadeLibcaca::display(void)
 
 void ArcadeLibcaca::fill(uint32_t color)
 {
-    std::map<int, std::pair <int, int>>::iterator found;
+    std::map<int, std::pair<int, int>>::iterator found;
 
     if ((found = _color.find(color)) == _color.end())
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
     for (size_t i = 0; i < TILES_Y * 2; i += 2)
-        for (size_t j = 0; j < TILES_X * 4; j += 4){
+        for (size_t j = 0; j < TILES_X * 4; j += 4)
+        {
             caca_put_str(_canva, j, i, "    ");
             caca_put_str(_canva, j, i + 1, "    ");
         }
@@ -100,7 +101,8 @@ void ArcadeLibcaca::getButtons(std::vector<bool> &buttons)
     buttons.resize(Arcade::TOTAL_INPUT);
     for (size_t i = 0; i < buttons.size(); i++)
         buttons[i] = false;
-    if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0){
+    if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0)
+    {
         int ch = caca_get_event_key_ch(&event);
         if ((pressed = _keys.find(ch)) != _keys.end())
             buttons[pressed->second] = true;
@@ -109,13 +111,18 @@ void ArcadeLibcaca::getButtons(std::vector<bool> &buttons)
 
 char ArcadeLibcaca::getKeyboard(void)
 {
-    // std::map<int, int>::iterator pressed;
-    // caca_event_t event;
+    std::map<int, int>::iterator pressed;
+    caca_event_t event;
+    int ch;
 
-    // for (size_t i = 0; i < buttons.size(); i++)
-    //     buttons[i] = false;
-    // if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0){
-    //     return (caca_get_event_key_ch(&event));
-
-    // }
+    if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0)
+    {
+        ch = caca_get_event_key_ch(&event);
+        if (ch == CACA_KEY_BACKSPACE)
+            return (127);
+        else if (isalpha(ch))
+            return (ch);
+        else if (ch == CACA_KEY_RETURN)
+            return ('\n');
+    }
 }
