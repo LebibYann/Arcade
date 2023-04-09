@@ -40,6 +40,7 @@ typedef enum e_snake_direction {
     DOWN = 1,
     LEFT = 2,
     RIGHT = 3,
+    RESTART = 12
 } t_snake_direction;
 
 typedef struct s_game_data {
@@ -55,10 +56,12 @@ typedef struct s_snake {
 
 typedef struct s_nibbler_data {
     std::vector <std::vector<int>> map;
+    std::vector <std::vector<std::vector<int>>> maps;
     t_snake snake;
     int timer;
     int score;
     bool gameOver;
+    int level;
     int lastEaten;
 } t_nibbler_data;
 
@@ -71,6 +74,7 @@ void moveHandler(t_nibbler_data *game, std::vector<bool> inputs);
 void move_snake(t_nibbler_data *game, int collision);
 int collisionHandler(t_nibbler_data *game);
 void initSnake(t_nibbler_data *game_data);
+void loadMaps(t_nibbler_data *game_data);
 
 class ArcadeNibbler: public Arcade::IGame {
 public:

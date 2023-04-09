@@ -14,21 +14,14 @@ ArcadeNibbler::ArcadeNibbler()
     _game_data.timer = 999;
     _game_data.gameOver = false;
     _game_data.lastEaten = 0;
-    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-    _game_data.map.push_back({1, 4, 0, 0, 0, 0, 0, 0, 4, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 0, 4, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 0, 0, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 0, 4, 0, 0, 2, 0, 0, 0, 1});
-    _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 4, 0, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 0, 3, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 4, 0, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 4, 0, 0, 0, 0, 0, 0, 4, 1});
-    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-    _window_size.push_back(10);
-    _window_size.push_back(10);
+    _game_data.level = 1;
+    loadMaps(&_game_data);
+    _game_data.map = _game_data.maps[0];
+    _window_size.push_back(19);
+    _window_size.push_back(19);
     _tiles_config.push_back({0, BLACK, " "});
     _tiles_config.push_back({1, WHITE, " "});
-    _tiles_config.push_back({2, GREEN, " "});
+    _tiles_config.push_back({2, YELLOW, " "});
     _tiles_config.push_back({3, GREEN, " "});
     _tiles_config.push_back({4, RED, " "});
 }

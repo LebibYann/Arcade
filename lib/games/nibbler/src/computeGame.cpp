@@ -12,6 +12,29 @@ int reduceTime(t_nibbler_data *game)
     return (1 - (game->lastEaten / 50* 5));
 }
 
+void softReset(t_nibbler_data *game)
+{
+    initSnake(game);
+    game->level += 1;
+    if ((size_t) game->level > game->maps.size())
+        game->level = 1;
+    game->map = game->maps[game->level - 1];
+    game->score += game->timer;
+    game->timer = 999;
+    game->lastEaten = 0;
+}
+
+void isFoodLeft(t_nibbler_data *game)
+{
+    for (size_t i = 0; i < game->map.size(); i++) {
+        for (size_t j = 0; j < game->map[i].size(); j++) {
+            if (game->map[i][j] == FOOD)
+                return;
+        }
+    }
+    softReset(game);
+}
+
 std::vector<std::shared_ptr<IInstruction>> getMapInstructions(t_nibbler_data *game)
 {
     std::vector<std::shared_ptr<IInstruction>> instructions;
@@ -40,10 +63,8 @@ std::vector<std::shared_ptr<IInstruction>> getInstructions(t_nibbler_data *game)
     if (game->gameOver == false)
         instructions = getMapInstructions(game);
     else {
-        if (game->snake.body.size() > 0) {
-            game->snake.body.pop_back();
+        if (game->snake.body.size() > 0)
             instructions = getMapInstructions(game);
-        }
         else
             instructions.push_back(std::make_shared<InstDrawText>(5, 5, WHITE, "Game over !"));
     }
@@ -60,11 +81,18 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std
     if (game->timer > 0 && collision != 1) {
         moveHandler(game, inputs);
         collision = collisionHandler(game);
-        move_snake(game, collision);
-        game->timer -= reduceTime(game);
-        game->lastEaten += 1;
-        if (collision == 1 || game->timer <= 0)
+        if (!game->gameOver) {
+            move_snake(game, collision);
+            game->timer -= reduceTime(game);
+            game->lastEaten += 1;
+            isFoodLeft(game);
+        }
+        if (collision == 3 || game->timer <= 0)
             game->gameOver = true;
+        if (game->gameOver && game->snake.body.size() > 0) {
+            game->map[game->snake.body.back()[1]][game->snake.body.back()[0]] = GROUND;
+            game->snake.body.pop_back();
+        }
     }
     instructions = getInstructions(game);
     return (instructions);
