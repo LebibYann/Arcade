@@ -28,7 +28,7 @@ ArcadeNibbler::ArcadeNibbler()
     _window_size.push_back(10);
     _tiles_config.push_back({0, BLACK, " "});
     _tiles_config.push_back({1, WHITE, " "});
-    _tiles_config.push_back({2, GREEN, " "});
+    _tiles_config.push_back({2, YELLOW, " "});
     _tiles_config.push_back({3, GREEN, " "});
     _tiles_config.push_back({4, RED, " "});
 }
