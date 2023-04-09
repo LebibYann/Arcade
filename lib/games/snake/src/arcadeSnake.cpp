@@ -43,6 +43,25 @@ ArcadeSnake::ArcadeSnake()
     _tiles_config.push_back({4, RED, " "});
 }
 
+void ArcadeSnake::reset()
+{
+    initSnake(&_game_data);
+    this->_game_data.score = 0;
+    _game_data.map = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    };
+    counter = 0;
+}
+
 std::vector <int> ArcadeSnake::getWindowSize(void) const
 {
     return (_window_size);

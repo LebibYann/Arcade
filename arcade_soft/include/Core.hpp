@@ -46,6 +46,7 @@ namespace Arcade
         void runGame(std::vector<bool> inputs);
         void runMenu(std::vector<bool> inputs);
         void loadGame(const std::string &gameLibNamegame);
+        void unloadGame(void);
         void loadGraphics(const std::string &graphicLibName);
         /**
          * @brief Limit the number of refresh per second.
@@ -76,20 +77,26 @@ namespace Arcade
         bool checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName);
         void displayScore(int x, int y);
         void displayGames(int x, int y);
+        void pickName();
         std::vector<t_tile_config> _tileCnf;
         std::vector<t_tile_data> _tileData;
 
         std::size_t _pickedGraphics = 0;
         std::size_t _selected = 0;
         std::size_t _prevSelected = 0;
-        std::string _graphicPath = "./lib/graphic_engine/";
-        std::string _gamePath = "./lib/games/";
+        std::string _graphicPath = "./lib/";
+        std::string _gamePath = "./lib/";
         std::vector<std::string> _gameList;
         std::vector<std::string> _graphicList;
         std::shared_ptr<IGame> _game = nullptr;
         std::shared_ptr<IGraphics> _graphic = nullptr;
         Arcade::DLLoader _gameLib;
         Arcade::DLLoader _graphicLib;
+
+        bool _entry;
+        std::string _playerName;
+        std::vector<int> _gameSize;
+        std::vector<int> _gamePadding;
 
         std::vector<bool> _prevButtons;
         std::vector<bool> _buttonsClicked;

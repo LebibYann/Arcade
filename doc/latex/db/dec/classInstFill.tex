@@ -1,0 +1,100 @@
+\hypertarget{classInstFill}{}\doxysection{Inst\+Fill Class Reference}
+\label{classInstFill}\index{InstFill@{InstFill}}
+
+
+Use this instruction if you want to fill the background.  
+
+
+
+
+{\ttfamily \#include $<$Instruction.\+hpp$>$}
+
+Inheritance diagram for Inst\+Fill\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{db/dec/classInstFill}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classInstFill_abcfc52680d3409947623a56d402714bf}{Inst\+Fill}} (int color)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classInstFill}{Inst\+Fill}} object. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstFill_afd31e31b5593014211016dbbf565a29c}{get\+Id}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstFill_ab24b778b1119e0a078fabf97dda3ce81}{get\+\_\+color}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the color id. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIInstruction}{IInstruction}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}{$\sim$\+IInstruction}} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classIInstruction}{IInstruction}} object. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{get\+Id}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstFill_aea76f2a32fad772729ffc546deb95c75}\label{classInstFill_aea76f2a32fad772729ffc546deb95c75}} 
+int {\bfseries \+\_\+color}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Use this instruction if you want to fill the background. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classInstFill_abcfc52680d3409947623a56d402714bf}\label{classInstFill_abcfc52680d3409947623a56d402714bf}} 
+\index{InstFill@{InstFill}!InstFill@{InstFill}}
+\index{InstFill@{InstFill}!InstFill@{InstFill}}
+\doxysubsubsection{\texorpdfstring{InstFill()}{InstFill()}}
+{\footnotesize\ttfamily Inst\+Fill\+::\+Inst\+Fill (\begin{DoxyParamCaption}\item[{int}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \mbox{\hyperlink{classInstFill}{Inst\+Fill}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & A color based on the enum Arcade\+Color. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classInstFill_ab24b778b1119e0a078fabf97dda3ce81}\label{classInstFill_ab24b778b1119e0a078fabf97dda3ce81}} 
+\index{InstFill@{InstFill}!get\_color@{get\_color}}
+\index{get\_color@{get\_color}!InstFill@{InstFill}}
+\doxysubsubsection{\texorpdfstring{get\_color()}{get\_color()}}
+{\footnotesize\ttfamily int Inst\+Fill\+::get\+\_\+color (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the color id. 
+
+\begin{DoxyReturn}{Returns}
+int A color based on the enum Arcade\+Color. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstFill_afd31e31b5593014211016dbbf565a29c}\label{classInstFill_afd31e31b5593014211016dbbf565a29c}} 
+\index{InstFill@{InstFill}!getId@{getId}}
+\index{getId@{getId}!InstFill@{InstFill}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily int Inst\+Fill\+::get\+Id (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Get the instruction id to let interpretor decide what to do with. 
+
+\begin{DoxyReturn}{Returns}
+int return the instruction id. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{IInstruction}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{Instruction_8hpp}{Instruction.\+hpp}}\end{DoxyCompactItemize}

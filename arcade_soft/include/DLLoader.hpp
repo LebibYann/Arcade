@@ -11,6 +11,9 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <iostream>
+#include "IGame.hpp"
+#include "IGraphics.hpp"
 
 namespace Arcade
 {
@@ -29,6 +32,14 @@ namespace Arcade
 
         DLLoader(std::string lib = "");
         void Load(const std::string &lib);
+        /**
+         ** @brief Verify if a lib is usable by the core without throwing error.
+         **
+         ** @param lib the name of the library to check
+         ** @return 0 if the lib not valid,
+         ** 1 if it's a game and 2 if it's graphic lib.
+         */
+        int checkLibIntegrity(const std::string &lib);
         template <typename T>
         std::shared_ptr<T> getInstance(std::string symbol)
         {
@@ -42,7 +53,7 @@ namespace Arcade
             if ((error = dlerror()) != NULL)
                 throw BadLibrary(error);
             if ((func = reinterpret_cast<std::shared_ptr<T> (*)()>(sym)) == NULL)
-                return (nullptr);
+                throw BadLibrary("Unable to cast the entry point.");
             return (func());
         }
         void unLoad(void);

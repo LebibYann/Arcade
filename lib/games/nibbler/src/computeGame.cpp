@@ -33,6 +33,23 @@ std::vector<std::shared_ptr<IInstruction>> getMapInstructions(t_nibbler_data *ga
     return (instructions);
 }
 
+std::vector<std::shared_ptr<IInstruction>> getInstructions(t_nibbler_data *game)
+{
+    std::vector<std::shared_ptr<IInstruction>> instructions;
+
+    if (game->gameOver == false)
+        instructions = getMapInstructions(game);
+    else {
+        if (game->snake.body.size() > 0) {
+            game->snake.body.pop_back();
+            instructions = getMapInstructions(game);
+        }
+        else
+            instructions.push_back(std::make_shared<InstDrawText>(5, 5, WHITE, "Game over !"));
+    }
+    return (instructions);
+}
+
 std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std::vector<bool> inputs)
 {
     std::vector<std::shared_ptr<IInstruction>> instructions;
@@ -49,9 +66,6 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_nibbler_data *game, std
         if (collision == 1 || game->timer <= 0)
             game->gameOver = true;
     }
-    if (game->gameOver == false)
-        instructions = getMapInstructions(game);
-    else
-        instructions.push_back(std::make_shared<InstDrawText>(5, 5, WHITE, "Game over !"));
+    instructions = getInstructions(game);
     return (instructions);
 }

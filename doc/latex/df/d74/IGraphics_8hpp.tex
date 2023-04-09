@@ -1,0 +1,90 @@
+\hypertarget{IGraphics_8hpp}{}\doxysection{global/\+IGraphics.hpp File Reference}
+\label{IGraphics_8hpp}\index{global/IGraphics.hpp@{global/IGraphics.hpp}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classArcade_1_1IGraphics}{Arcade\+::\+IGraphics}}
+\begin{DoxyCompactList}\small\item\em This class refer all the method that you should code in order to add a new graphic library to the arcade software, you must inherit of it if possible. Do not forget to implement the two extern \char`\"{}\+C\char`\"{} function which are entry\+\_\+point and get\+\_\+type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}{Arcade\+::e\+\_\+arcade\+\_\+input}} \mbox{\hyperlink{IGraphics_8hpp_ab176ca666b482533a75efaa22f8a240b}{Arcade\+::t\+\_\+arcade\+\_\+input}}
+\begin{DoxyCompactList}\small\item\em Refers all the buttons. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}{Arcade\+::e\+\_\+arcade\+\_\+input}} \{ \newline
+{\bfseries UP\+\_\+\+ARROW}
+, {\bfseries DOWN\+\_\+\+ARROW}
+, {\bfseries LEFT\+\_\+\+ARROW}
+, {\bfseries RIGHT\+\_\+\+ARROW}
+, \newline
+{\bfseries BUTTON1}
+, {\bfseries BUTTON2}
+, {\bfseries BUTTON3}
+, {\bfseries BUTTON4}
+, \newline
+{\bfseries PREV\+\_\+\+GAME}
+, {\bfseries NEXT\+\_\+\+GAME}
+, {\bfseries PREV\+\_\+\+LIB}
+, {\bfseries NEXT\+\_\+\+LIB}
+, \newline
+{\bfseries RESTART}
+, {\bfseries HOME\+\_\+\+MENU}
+, {\bfseries EXIT}
+, {\bfseries TOTAL\+\_\+\+INPUT}
+ \}
+\begin{DoxyCompactList}\small\item\em Refers all the buttons. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{IGraphics_8hpp_aa20d7395f63fdb437cf51def72ff49cf}{Arcade\+::\+Arcade\+Color}} \{ \newline
+{\bfseries BLACK}
+, {\bfseries RED}
+, {\bfseries GREEN}
+, {\bfseries YELLOW}
+, \newline
+{\bfseries BLUE}
+, {\bfseries MAGENTA}
+, {\bfseries CYAN}
+, {\bfseries WHITE}
+ \}
+\begin{DoxyCompactList}\small\item\em These are all the supported color by the arcade. Any color that goes outside the range of this enum must be ignoried or handled (it\textquotesingle{}s up to you) but must not make the program crash or throw an error. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+EPITECH PROJECT, 2023 IGraphics File description\+: The header contains the class IGraphics. 
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{IGraphics_8hpp_ab176ca666b482533a75efaa22f8a240b}\label{IGraphics_8hpp_ab176ca666b482533a75efaa22f8a240b}} 
+\index{IGraphics.hpp@{IGraphics.hpp}!t\_arcade\_input@{t\_arcade\_input}}
+\index{t\_arcade\_input@{t\_arcade\_input}!IGraphics.hpp@{IGraphics.hpp}}
+\doxysubsubsection{\texorpdfstring{t\_arcade\_input}{t\_arcade\_input}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}{Arcade\+::e\+\_\+arcade\+\_\+input}} \mbox{\hyperlink{IGraphics_8hpp_ab176ca666b482533a75efaa22f8a240b}{Arcade\+::t\+\_\+arcade\+\_\+input}}}
+
+
+
+Refers all the buttons. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{IGraphics_8hpp_aa20d7395f63fdb437cf51def72ff49cf}\label{IGraphics_8hpp_aa20d7395f63fdb437cf51def72ff49cf}} 
+\index{IGraphics.hpp@{IGraphics.hpp}!ArcadeColor@{ArcadeColor}}
+\index{ArcadeColor@{ArcadeColor}!IGraphics.hpp@{IGraphics.hpp}}
+\doxysubsubsection{\texorpdfstring{ArcadeColor}{ArcadeColor}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{IGraphics_8hpp_aa20d7395f63fdb437cf51def72ff49cf}{Arcade\+::\+Arcade\+Color}}}
+
+
+
+These are all the supported color by the arcade. Any color that goes outside the range of this enum must be ignoried or handled (it\textquotesingle{}s up to you) but must not make the program crash or throw an error. 
+
+\mbox{\Hypertarget{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}\label{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}} 
+\index{IGraphics.hpp@{IGraphics.hpp}!e\_arcade\_input@{e\_arcade\_input}}
+\index{e\_arcade\_input@{e\_arcade\_input}!IGraphics.hpp@{IGraphics.hpp}}
+\doxysubsubsection{\texorpdfstring{e\_arcade\_input}{e\_arcade\_input}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}{Arcade\+::e\+\_\+arcade\+\_\+input}}}
+
+
+
+Refers all the buttons. 
+

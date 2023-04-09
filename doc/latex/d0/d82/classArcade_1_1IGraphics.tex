@@ -1,0 +1,216 @@
+\hypertarget{classArcade_1_1IGraphics}{}\doxysection{Arcade\+::IGraphics Class Reference}
+\label{classArcade_1_1IGraphics}\index{Arcade::IGraphics@{Arcade::IGraphics}}
+
+
+This class refer all the method that you should code in order to add a new graphic library to the arcade software, you must inherit of it if possible. Do not forget to implement the two extern \char`\"{}\+C\char`\"{} function which are entry\+\_\+point and get\+\_\+type.  
+
+
+
+
+{\ttfamily \#include $<$IGraphics.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void $\ast$ \mbox{\hyperlink{classArcade_1_1IGraphics_a260902069747286f0e284e85c6356889}{load\+Image}} (const std\+::string \&path)=0
+\begin{DoxyCompactList}\small\item\em Loads an image. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_ae4a1be6ca79b6185c394e45a0159faf6}{load\+Font}} (const std\+::string \&path)=0
+\begin{DoxyCompactList}\small\item\em Loads a font. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_af06d6e8ce5da4ddfbd388c8a6f90789e}{fill}} (uint32\+\_\+t color)=0
+\begin{DoxyCompactList}\small\item\em Fill the windows with a single color. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_a8d653568f35001e22bf0ad77d903cf59}{draw\+Tile}} (int x, int y, uint32\+\_\+t color)=0
+\begin{DoxyCompactList}\small\item\em Draws a tile a the specified position with the specified color. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_ab7b58c3c8d52a8fc46df6497fcf2b9f1}{draw\+Image}} (int x, int y, void $\ast$img)=0
+\begin{DoxyCompactList}\small\item\em Draws an image at the specified position. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_afe5202e1c3908270946343cd951fb512}{draw\+Text}} (const std\+::string \&text, int x, int y, int color)=0
+\begin{DoxyCompactList}\small\item\em Draw text at the specified position. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_afa305e3d0d369e7b8e11e9743a4cf7f5}{display}} (void)=0
+\begin{DoxyCompactList}\small\item\em Refresh the window and display with every element that have been drawn with any draw function before the call of this function. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_af8d58033d51068ffba081fe952e9a77b}{get\+Mouse\+Pos}} (std\+::vector$<$ int $>$ \&coords)=0
+\begin{DoxyCompactList}\small\item\em Get the Mouse Button in an int table. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_a6b271ddf099df6cf8e5cb47dc95fa6c2}{get\+Mouse\+Button}} (std\+::vector$<$ bool $>$ \&coord)=0
+\begin{DoxyCompactList}\small\item\em Get the mouse Buttons in a bool table. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classArcade_1_1IGraphics_acc4ab11ee750e381b21b85bef43e8fd2}{get\+Buttons}} (std\+::vector$<$ bool $>$ \&input)=0
+\begin{DoxyCompactList}\small\item\em Get the Buttons in a bool table. All the button must be mapped, it\textquotesingle{}s up to you to choose which button triggers what. You can look a the buttons on the t\+\_\+arcade\+\_\+input enum. \end{DoxyCompactList}\item 
+virtual char \mbox{\hyperlink{classArcade_1_1IGraphics_aaf750c8548d6cd7c774937b338513865}{get\+Keyboard}} (void)=0
+\begin{DoxyCompactList}\small\item\em Get the Keyboard pressed keys and return the corresponding characters one by one. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class refer all the method that you should code in order to add a new graphic library to the arcade software, you must inherit of it if possible. Do not forget to implement the two extern \char`\"{}\+C\char`\"{} function which are entry\+\_\+point and get\+\_\+type. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_afa305e3d0d369e7b8e11e9743a4cf7f5}\label{classArcade_1_1IGraphics_afa305e3d0d369e7b8e11e9743a4cf7f5}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!display@{display}}
+\index{display@{display}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::display (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Refresh the window and display with every element that have been drawn with any draw function before the call of this function. 
+
+\mbox{\Hypertarget{classArcade_1_1IGraphics_ab7b58c3c8d52a8fc46df6497fcf2b9f1}\label{classArcade_1_1IGraphics_ab7b58c3c8d52a8fc46df6497fcf2b9f1}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!drawImage@{drawImage}}
+\index{drawImage@{drawImage}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{drawImage()}{drawImage()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::draw\+Image (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{void $\ast$}]{img }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Draws an image at the specified position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X position of the tile to draw. \\
+\hline
+{\em y} & Y position of the tile to draw. \\
+\hline
+{\em img} & The object that contains an image to draw \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_afe5202e1c3908270946343cd951fb512}\label{classArcade_1_1IGraphics_afe5202e1c3908270946343cd951fb512}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!drawText@{drawText}}
+\index{drawText@{drawText}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{drawText()}{drawText()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::draw\+Text (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Draw text at the specified position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The text to draw \\
+\hline
+{\em x} & X position of the tile to draw. \\
+\hline
+{\em y} & Y position of the tile to draw. \\
+\hline
+{\em color} & A color based on the enum Arcade\+Color. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_a8d653568f35001e22bf0ad77d903cf59}\label{classArcade_1_1IGraphics_a8d653568f35001e22bf0ad77d903cf59}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!drawTile@{drawTile}}
+\index{drawTile@{drawTile}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{drawTile()}{drawTile()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::draw\+Tile (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{uint32\+\_\+t}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Draws a tile a the specified position with the specified color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X position of the tile to draw. \\
+\hline
+{\em y} & Y position of the tile to draw. \\
+\hline
+{\em color} & A color based on the enum Arcade\+Color. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_af06d6e8ce5da4ddfbd388c8a6f90789e}\label{classArcade_1_1IGraphics_af06d6e8ce5da4ddfbd388c8a6f90789e}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!fill@{fill}}
+\index{fill@{fill}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{fill()}{fill()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::fill (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Fill the windows with a single color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & A color based on the enum Arcade\+Color. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_acc4ab11ee750e381b21b85bef43e8fd2}\label{classArcade_1_1IGraphics_acc4ab11ee750e381b21b85bef43e8fd2}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!getButtons@{getButtons}}
+\index{getButtons@{getButtons}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{getButtons()}{getButtons()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::get\+Buttons (\begin{DoxyParamCaption}\item[{std\+::vector$<$ bool $>$ \&}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the Buttons in a bool table. All the button must be mapped, it\textquotesingle{}s up to you to choose which button triggers what. You can look a the buttons on the t\+\_\+arcade\+\_\+input enum. 
+
+\begin{DoxyReturn}{Returns}
+An bool table of TOTAL\+\_\+\+INPUT occurences which return the buttons pressed during the call. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_aaf750c8548d6cd7c774937b338513865}\label{classArcade_1_1IGraphics_aaf750c8548d6cd7c774937b338513865}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!getKeyboard@{getKeyboard}}
+\index{getKeyboard@{getKeyboard}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{getKeyboard()}{getKeyboard()}}
+{\footnotesize\ttfamily virtual char Arcade\+::\+IGraphics\+::get\+Keyboard (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the Keyboard pressed keys and return the corresponding characters one by one. 
+
+\begin{DoxyReturn}{Returns}
+char the corresponding character or, 0 if no keys are pressed or the key is ignored. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_a6b271ddf099df6cf8e5cb47dc95fa6c2}\label{classArcade_1_1IGraphics_a6b271ddf099df6cf8e5cb47dc95fa6c2}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!getMouseButton@{getMouseButton}}
+\index{getMouseButton@{getMouseButton}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{getMouseButton()}{getMouseButton()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::get\+Mouse\+Button (\begin{DoxyParamCaption}\item[{std\+::vector$<$ bool $>$ \&}]{coord }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the mouse Buttons in a bool table. 
+
+\begin{DoxyReturn}{Returns}
+An bool table of 3 occurences, where the first occurence is the left click, the second the middle click and the third is the right click. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_af8d58033d51068ffba081fe952e9a77b}\label{classArcade_1_1IGraphics_af8d58033d51068ffba081fe952e9a77b}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!getMousePos@{getMousePos}}
+\index{getMousePos@{getMousePos}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{getMousePos()}{getMousePos()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::get\+Mouse\+Pos (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$ \&}]{coords }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the Mouse Button in an int table. 
+
+\begin{DoxyReturn}{Returns}
+An int table of 2 occurences, where the first occurence is the x position and the second the y position. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_ae4a1be6ca79b6185c394e45a0159faf6}\label{classArcade_1_1IGraphics_ae4a1be6ca79b6185c394e45a0159faf6}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!loadFont@{loadFont}}
+\index{loadFont@{loadFont}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{loadFont()}{loadFont()}}
+{\footnotesize\ttfamily virtual void Arcade\+::\+IGraphics\+::load\+Font (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Loads a font. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path of the image to load \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classArcade_1_1IGraphics_a260902069747286f0e284e85c6356889}\label{classArcade_1_1IGraphics_a260902069747286f0e284e85c6356889}} 
+\index{Arcade::IGraphics@{Arcade::IGraphics}!loadImage@{loadImage}}
+\index{loadImage@{loadImage}!Arcade::IGraphics@{Arcade::IGraphics}}
+\doxysubsubsection{\texorpdfstring{loadImage()}{loadImage()}}
+{\footnotesize\ttfamily virtual void $\ast$ Arcade\+::\+IGraphics\+::load\+Image (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Loads an image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path of the image to load \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return an object that contains an image depending on the graphic library, it can also return a nullptr if the loading failed or the library doesn\textquotesingle{}t support image loading. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{IGraphics_8hpp}{IGraphics.\+hpp}}\end{DoxyCompactItemize}

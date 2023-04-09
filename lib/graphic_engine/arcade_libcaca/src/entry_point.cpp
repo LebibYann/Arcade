@@ -11,3 +11,8 @@ extern "C" std::shared_ptr<ArcadeLibcaca> entry_point()
 {
     return (std::make_shared<ArcadeLibcaca>());
 }
+
+extern "C" int get_type(void)
+{
+    return (1);
+}
