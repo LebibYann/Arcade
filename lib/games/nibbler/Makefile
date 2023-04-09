@@ -6,7 +6,7 @@
 ## that you don't need to modify this variable.
 ##
 
-NAME = nibbler
+NAME = arcade_nibbler
 CC = g++
 ROOT =
 OUTPUT =

@@ -87,8 +87,12 @@ public:
     std::size_t getScore(void) const;
 
     private:
+        void accumulateInput(const std::vector<bool> &buttons);
         t_nibbler_data _game_data;
         std::vector<Arcade::t_tile_config> _tiles_config;
         std::vector<int> _window_size;
         std::size_t _score;
+        int counter = 0;
+        std::vector<std::shared_ptr<IInstruction>> instr;
+        std::vector<bool> _buttons;
 };

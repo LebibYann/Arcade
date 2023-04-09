@@ -14,6 +14,8 @@ int reduceTime(t_nibbler_data *game)
 
 void softReset(t_nibbler_data *game)
 {
+    while (game->snake.body.size() > 0)
+        game->snake.body.pop_back()
     initSnake(game);
     game->level += 1;
     if ((size_t) game->level > game->maps.size())

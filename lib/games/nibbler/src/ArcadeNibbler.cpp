@@ -49,7 +49,20 @@ std::vector<std::shared_ptr<IInstruction>> ArcadeNibbler::computeFrame(std::vect
 {
     std::vector<std::shared_ptr<IInstruction>> instructions;
 
-    instructions = computeGame(&_game_data, buttons);
-    usleep(1.0 / 7.5 * 1e6);
-    return (instructions);
+    this->accumulateInput(buttons);
+    if (this->counter == 0) {
+        this->instr = computeGame(&_game_data, this->_buttons);
+        std::fill(this->_buttons.begin(), this->_buttons.end(), false);
+    }
+    usleep(1.0 / 30.0 * 1e6);
+    ++counter;
+    counter = counter % 5;
+    return (this->instr);
+}
+
+void ArcadeNibbler::accumulateInput(const std::vector<bool> &buttons)
+{
+    this->_buttons.resize(buttons.size());
+    for (size_t i = 0; i < this->_buttons.size(); ++i)
+        this->_buttons[i] = (buttons[i] || this->_buttons[i]);
 }
