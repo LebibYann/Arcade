@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <Instruction.hpp>
+#include "Instruction.hpp"
 
 #include <cstddef>
 #include <vector>
