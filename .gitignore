@@ -10,8 +10,10 @@ vgcore*
 *.gcda
 *.gcov
 coding-style*
+*.zip
 
 # Specific excludes
 arcade
+valentin
 test_arcade
 score/

@@ -38,29 +38,25 @@ games: .FORCE
 	@for dir in $(GAME_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GAME $$dir]"$(DEFLT); \
 		make so -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
+		cp $$dir/*.so ./lib; \
 	done
 
 graphicals: .FORCE
 	@for dir in $(GRAPHIC_SRC); do \
 		$(ECHO) $(BLINK)$(PURPLE)"[COMPILING GRAPHIC ENGINE $$dir]"$(DEFLT); \
 		make so -C $$dir --no-print-directory; \
-		cp $$dir/*.so $$dir/../; \
+		cp $$dir/*.so ./lib; \
 	done
 
 clean:
-	@make clean -C $(CORE_SRC) --no-print-directory
-	@for dir in $(GRAPHIC_SRC); do \
-		$(ECHO) $(BLINK)$(PURPLE)"[CLEANING GRAPHIC ENGINE $$dir]"$(DEFLT); \
-		make clean -C $$dir --no-print-directory; \
-	done
-	@for dir in $(GAME_SRC); do \
-		$(ECHO) $(BLINK)$(PURPLE)"[CLEANING GAME $$dir]"$(DEFLT); \
-		make clean -C $$dir --no-print-directory; \
-	done
+	@find ./lib/ -name "*.o" -delete \
+		-or -name "*~" -delete
+	@find ./arcade_soft/ -name "*.o" -delete \
+		-or -name "*~" -delete
+	@$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
 
-fclean:
-	$(ECHO) $(GRAPHIC_SRC)
+fclean: clean
+	@find ./lib/ -name "*.so" -delete
 	@make fclean -C $(CORE_SRC) --no-print-directory
 	@find $(GRAPHIC_SRC) -name "*.so" -delete
 	@for dir in $(GRAPHIC_SRC); do \

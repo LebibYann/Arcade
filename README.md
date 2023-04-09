@@ -11,3 +11,8 @@
   - `DOCS` Writting or updating code documentation.
   - `TEST` Adding of test.
   - `UPDATE` When the purpose of a merge is only to recovers latest feature of another branch.
+
+
+## Group collab
+valetin.maurel@epitech.eu
+enzo.pfeiffer@epitech.eu

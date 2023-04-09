@@ -1,0 +1,148 @@
+\hypertarget{classInstDrawText}{}\doxysection{Inst\+Draw\+Text Class Reference}
+\label{classInstDrawText}\index{InstDrawText@{InstDrawText}}
+
+
+Use this instruction if you want to write text.  
+
+
+
+
+{\ttfamily \#include $<$Instruction.\+hpp$>$}
+
+Inheritance diagram for Inst\+Draw\+Text\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{dd/dd6/classInstDrawText}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classInstDrawText_ae5c9729b02bc2ff4799305ae2d37b25e}{Inst\+Draw\+Text}} (int x, int y, int color, std\+::string text)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classInstDrawText}{Inst\+Draw\+Text}} object. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawText_af4985e890466d9c3f986822de4e114bf}{get\+Id}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawText_abd72196c2041ca5df2f09a3722294c35}{get\+\_\+x}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the X tiled position. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawText_ae312c1968a155df1cebe88305276d339}{get\+\_\+y}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the Y tiled position. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classInstDrawText_aa036a51f2242fb868a07b3e967ecd0fc}{get\+\_\+color}} (void) const
+\begin{DoxyCompactList}\small\item\em Get the color id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstDrawText_aa296dcab821aa951977d88b0a7cbd469}\label{classInstDrawText_aa296dcab821aa951977d88b0a7cbd469}} 
+std\+::string {\bfseries get\+\_\+text} (void) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIInstruction}{IInstruction}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}{$\sim$\+IInstruction}} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classIInstruction}{IInstruction}} object. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{get\+Id}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstDrawText_a77e1627b5d5c4e8cbc04e03a58084ef5}\label{classInstDrawText_a77e1627b5d5c4e8cbc04e03a58084ef5}} 
+int {\bfseries \+\_\+color}
+\item 
+\mbox{\Hypertarget{classInstDrawText_a35105d895f65f4e028ca6afa0f587428}\label{classInstDrawText_a35105d895f65f4e028ca6afa0f587428}} 
+int {\bfseries \+\_\+x}
+\item 
+\mbox{\Hypertarget{classInstDrawText_ae2b8c51655bffb278650d6e66368f045}\label{classInstDrawText_ae2b8c51655bffb278650d6e66368f045}} 
+int {\bfseries \+\_\+y}
+\item 
+\mbox{\Hypertarget{classInstDrawText_aa1028110ef8764cb1941f98f5288e43c}\label{classInstDrawText_aa1028110ef8764cb1941f98f5288e43c}} 
+std\+::string {\bfseries \+\_\+text}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Use this instruction if you want to write text. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classInstDrawText_ae5c9729b02bc2ff4799305ae2d37b25e}\label{classInstDrawText_ae5c9729b02bc2ff4799305ae2d37b25e}} 
+\index{InstDrawText@{InstDrawText}!InstDrawText@{InstDrawText}}
+\index{InstDrawText@{InstDrawText}!InstDrawText@{InstDrawText}}
+\doxysubsubsection{\texorpdfstring{InstDrawText()}{InstDrawText()}}
+{\footnotesize\ttfamily Inst\+Draw\+Text\+::\+Inst\+Draw\+Text (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{color,  }\item[{std\+::string}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \mbox{\hyperlink{classInstDrawText}{Inst\+Draw\+Text}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X position of the tile to draw. \\
+\hline
+{\em y} & Y position of the tile to draw. \\
+\hline
+{\em color} & A color based on the enum Arcade\+Color. \\
+\hline
+{\em text} & The text you want the instruction gives to the interpretor. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classInstDrawText_aa036a51f2242fb868a07b3e967ecd0fc}\label{classInstDrawText_aa036a51f2242fb868a07b3e967ecd0fc}} 
+\index{InstDrawText@{InstDrawText}!get\_color@{get\_color}}
+\index{get\_color@{get\_color}!InstDrawText@{InstDrawText}}
+\doxysubsubsection{\texorpdfstring{get\_color()}{get\_color()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Text\+::get\+\_\+color (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the color id. 
+
+\begin{DoxyReturn}{Returns}
+int A color based on the enum Arcade\+Color. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstDrawText_abd72196c2041ca5df2f09a3722294c35}\label{classInstDrawText_abd72196c2041ca5df2f09a3722294c35}} 
+\index{InstDrawText@{InstDrawText}!get\_x@{get\_x}}
+\index{get\_x@{get\_x}!InstDrawText@{InstDrawText}}
+\doxysubsubsection{\texorpdfstring{get\_x()}{get\_x()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Text\+::get\+\_\+x (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the X tiled position. 
+
+\begin{DoxyReturn}{Returns}
+int X position of the tile to draw. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstDrawText_ae312c1968a155df1cebe88305276d339}\label{classInstDrawText_ae312c1968a155df1cebe88305276d339}} 
+\index{InstDrawText@{InstDrawText}!get\_y@{get\_y}}
+\index{get\_y@{get\_y}!InstDrawText@{InstDrawText}}
+\doxysubsubsection{\texorpdfstring{get\_y()}{get\_y()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Text\+::get\+\_\+y (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the Y tiled position. 
+
+\begin{DoxyReturn}{Returns}
+int Y position of the tile to draw. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classInstDrawText_af4985e890466d9c3f986822de4e114bf}\label{classInstDrawText_af4985e890466d9c3f986822de4e114bf}} 
+\index{InstDrawText@{InstDrawText}!getId@{getId}}
+\index{getId@{getId}!InstDrawText@{InstDrawText}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily int Inst\+Draw\+Text\+::get\+Id (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Get the instruction id to let interpretor decide what to do with. 
+
+\begin{DoxyReturn}{Returns}
+int return the instruction id. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{IInstruction}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{Instruction_8hpp}{Instruction.\+hpp}}\end{DoxyCompactItemize}

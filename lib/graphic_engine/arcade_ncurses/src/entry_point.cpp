@@ -11,3 +11,8 @@ extern "C" std::shared_ptr<ArcadeNcurses> entry_point()
 {
     return (std::make_shared<ArcadeNcurses>());
 }
+
+extern "C" int get_type(void)
+{
+    return (1);
+}
