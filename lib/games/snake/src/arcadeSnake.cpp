@@ -11,16 +11,6 @@ ArcadeSnake::ArcadeSnake()
 {
     initSnake(&_game_data);
     this->_game_data.score = 0;
-    // _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 2, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 0, 0, 0, 0, 0, 0, 0, 0, 1});
-    // _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     _game_data.map = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -38,7 +28,7 @@ ArcadeSnake::ArcadeSnake()
     _window_size.push_back(10);
     _tiles_config.push_back({0, BLACK, " "});
     _tiles_config.push_back({1, WHITE, " "});
-    _tiles_config.push_back({2, GREEN, " "});
+    _tiles_config.push_back({2, YELLOW, " "});
     _tiles_config.push_back({3, GREEN, " "});
     _tiles_config.push_back({4, RED, " "});
 }

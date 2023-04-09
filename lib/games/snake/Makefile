@@ -6,7 +6,7 @@
 ## that you don't need to modify this variable.
 ##
 
-NAME = snake
+NAME = arcade_snake
 CC = g++
 ROOT =
 OUTPUT =

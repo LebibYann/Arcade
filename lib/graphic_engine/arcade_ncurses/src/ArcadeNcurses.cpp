@@ -110,7 +110,7 @@ char ArcadeNcurses::getKeyboard(void)
 {
     int c = getch();
 
-    if ((isalpha(c) && c != ' ') || c == 127 || c == '\n')
+    if (isalpha(c) || c == 127 || c == '\n')
         return (c);
     return (0);
 }

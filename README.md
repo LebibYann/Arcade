@@ -14,5 +14,5 @@
 
 
 ## Group collab
-valetin.maurel@epitech.eu
-enzo.pfeiffer@epitech.eu
+  - valentin.maurel@epitech.eu
+  - enzo.pfeiffer@epitech.eu
