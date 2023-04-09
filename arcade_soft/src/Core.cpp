@@ -200,6 +200,7 @@ void Arcade::Core::pickName()
 void Arcade::Core::runMenu(std::vector<bool> buttons)
 {
     int colorPick = WHITE;
+    (void)colorPick;
     size_t selectGraph = this->_selected - _gameList.size();
     (void)buttons;
 
@@ -246,7 +247,7 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
 
 void Arcade::Core::run(void)
 {
-    std::vector<bool> buttons;
+    std::vector<bool> buttons(TOTAL_INPUT);
 
     this->_graphic->getButtons(buttons);
     this->_prevButtons.resize(buttons.size());
