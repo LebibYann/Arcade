@@ -75,4 +75,5 @@ void loadMaps(t_nibbler_data *game_data)
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
+    game_data->maps.push_back(tempMap);
 }
