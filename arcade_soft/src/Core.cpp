@@ -24,7 +24,8 @@ void Arcade::Core::unloadGame(void)
 {
     if (this->_game == nullptr)
         return;
-    this->addGameScore(this->_score, this->_game->getScore(), this->_playerName);
+    if (this->_game->getScore() != 0)
+        this->addGameScore(this->_score, this->_game->getScore(), this->_playerName);
     this->saveGameScore(this->_score, this->_gameList[this->_selected]);
     this->_game.reset();
     this->_game = nullptr;
@@ -132,6 +133,7 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
     if (this->_buttonsClicked[Arcade::RESTART])
         this->loadGame(_gamePath + this->_gameList[this->_selected]);
     if (this->_buttonsClicked[Arcade::NEXT_GAME]) {
+        this->unloadGame();
         if (this->_selected < _gameList.size() - 1)
             this->_selected++;
         else
@@ -139,6 +141,7 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
         loadGame(_gamePath + _gameList[this->_selected]);
     }
     if (this->_buttonsClicked[Arcade::PREV_GAME]) {
+        this->unloadGame();
         if (this->_selected != 0)
             this->_selected--;
         else
@@ -360,7 +363,8 @@ void Arcade::Core::addGameScore(std::vector<Arcade::t_score_data> &scoreList, si
     }
     if (!scorePushed)
         scoreList.push_back(scoreData);
-    scoreList.resize(10);
+    if (scoreList.size() > 10)
+        scoreList.resize(10);
 }
 
 bool Arcade::Core::checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName)
