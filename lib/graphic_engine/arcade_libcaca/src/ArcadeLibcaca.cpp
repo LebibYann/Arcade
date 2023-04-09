@@ -122,7 +122,7 @@ char ArcadeLibcaca::getKeyboard(void)
             return (127);
         else if (isalpha(ch))
             return (ch);
-        else if (ch == CACA_KEY_RETURN)
+        else if (ch == CACA_KEY_RETURN || ch == ' ')
             return ('\n');
     }
     return ('\0');

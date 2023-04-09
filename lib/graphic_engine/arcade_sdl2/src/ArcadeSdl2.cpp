@@ -96,6 +96,7 @@ ArcadeSdl2::ArcadeSdl2()
     this->_keyMap.insert(std::pair<const int, char>(SDLK_z, 'Z'));
     this->_keyMap.insert(std::pair<const int, char>(SDLK_RETURN, '\n'));
     this->_keyMap.insert(std::pair<const int, char>(SDLK_RETURN2, '\n'));
+    this->_keyMap.insert(std::pair<const int, char>(SDLK_SPACE, ' '));
     this->_keyMap.insert(std::pair<const int, char>(SDLK_BACKSPACE, 127));
 
     this->openWindow(64, 36);
