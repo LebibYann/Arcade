@@ -16,7 +16,7 @@ void softReset(t_nibbler_data *game)
 {
     initSnake(game);
     game->level += 1;
-    if (game->level > game->maps.size())
+    if ((size_t) game->level > game->maps.size())
         game->level = 1;
     game->map = game->maps[game->level - 1];
     game->score += game->timer;
