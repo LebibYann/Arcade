@@ -40,6 +40,7 @@ typedef enum e_snake_direction {
     DOWN = 1,
     LEFT = 2,
     RIGHT = 3,
+    RESTART = 12
 } t_snake_direction;
 
 typedef struct s_game_data {

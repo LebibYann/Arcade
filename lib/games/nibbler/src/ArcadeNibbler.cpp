@@ -14,16 +14,18 @@ ArcadeNibbler::ArcadeNibbler()
     _game_data.timer = 999;
     _game_data.gameOver = false;
     _game_data.lastEaten = 0;
-    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-    _game_data.map.push_back({1, 4, 0, 0, 0, 0, 0, 0, 4, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 0, 4, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 0, 0, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 0, 4, 0, 0, 2, 0, 0, 0, 1});
-    _game_data.map.push_back({1, 0, 0, 0, 0, 3, 0, 4, 0, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 0, 3, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 0, 1, 1, 4, 0, 1, 1, 0, 1});
-    _game_data.map.push_back({1, 4, 0, 0, 0, 0, 0, 0, 4, 1});
-    _game_data.map.push_back({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    _game_data.map = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 4, 0, 0, 0, 0, 0, 0, 4, 1},
+        {1, 0, 1, 1, 0, 0, 1, 1, 0, 1},
+        {1, 0, 1, 1, 0, 0, 1, 1, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 1, 1, 0, 0, 1, 1, 0, 1},
+        {1, 0, 1, 1, 0, 0, 1, 1, 0, 1},
+        {1, 4, 0, 0, 0, 0, 0, 0, 4, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    };
     _window_size.push_back(10);
     _window_size.push_back(10);
     _tiles_config.push_back({0, BLACK, " "});
