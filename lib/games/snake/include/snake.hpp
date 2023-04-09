@@ -40,6 +40,7 @@ typedef enum e_snake_direction {
     DOWN = 1,
     LEFT = 2,
     RIGHT = 3,
+    RESTART = 12
 } t_snake_direction;
 
 typedef struct s_game_data {
@@ -76,6 +77,7 @@ public:
     std::size_t getScore(void) const;
 
     private:
+        void reset();
         void accumulateInput(const std::vector<bool> &buttons);
         t_snake_data _game_data;
         std::vector<Arcade::t_tile_config> _tiles_config;

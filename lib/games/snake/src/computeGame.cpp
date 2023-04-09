@@ -136,10 +136,8 @@ std::vector<std::shared_ptr<IInstruction>> getInstructions(t_snake_data *game)
     if (game->gameOver == false)
         instructions = getMapInstructions(game);
     else {
-        if (game->snake.body.size() > 0) {
-            game->snake.body.pop_back();
+        if (game->snake.body.size() > 0)    
             instructions = getMapInstructions(game);
-        }
         else
             instructions.push_back(std::make_shared<InstDrawText>(5, 5, WHITE, "Game over !"));
     }
@@ -160,6 +158,10 @@ std::vector<std::shared_ptr<IInstruction>> computeGame(t_snake_data *game, std::
         addFood(game);
         if (collision == 0)
             game->gameOver = true;
+        if (game->gameOver && game->snake.body.size() > 0){
+            game->map[game->snake.body.back()[1]][game->snake.body.back()[0]] = GROUND;
+            game->snake.body.pop_back();
+        }
     }
     instructions = getInstructions(game);
     return (instructions);
