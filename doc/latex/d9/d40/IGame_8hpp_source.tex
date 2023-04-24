@@ -1,0 +1,33 @@
+\hypertarget{IGame_8hpp_source}{}\doxysection{IGame.\+hpp}
+\label{IGame_8hpp_source}\index{global/IGame.hpp@{global/IGame.hpp}}
+\mbox{\hyperlink{IGame_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{Instruction_8hpp}{Instruction.hpp}}>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }Arcade}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structArcade_1_1s__tile__config}{s\_tile\_config}}\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ id;\ \textcolor{comment}{//\ Same\ id\ as\ the\ one\ InstDrawTile}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ color;\ \textcolor{comment}{//\ Correspond\ to\ color\ fixed\ in\ the\ enum\ ArcadeColor}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ std::string\ path;\ \textcolor{comment}{//\ The\ path\ of\ the\ texture\ if\ needed.}}
+\DoxyCodeLine{00030\ \ \ \ \ \}\ t\_tile\_config;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classArcade_1_1IGame}{IGame}}}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<std::shared\_ptr<IInstruction>>\ \mbox{\hyperlink{classArcade_1_1IGame_a380440450d97a23432a696bc007c60b8}{computeFrame}}(std::vector<bool>\ buttons)\ =\ 0;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<t\_tile\_config>\ \mbox{\hyperlink{classArcade_1_1IGame_a4f49f89ee8ea4db55ad2f16bf8d26cfa}{getTilesConfig}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<int>\ \mbox{\hyperlink{classArcade_1_1IGame_a71ca60ab0f7446476d521ba4e9a70cc5}{getWindowSize}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::size\_t\ \mbox{\hyperlink{classArcade_1_1IGame_a511d3de270f3b17e3c8ae517499510b0}{getScore}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00072\ \ \ \ \ \};}
+\DoxyCodeLine{00073\ \};}
+
+\end{DoxyCode}

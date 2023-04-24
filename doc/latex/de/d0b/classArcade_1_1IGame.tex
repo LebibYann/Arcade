@@ -1,0 +1,90 @@
+\hypertarget{classArcade_1_1IGame}{}\doxysection{Arcade\+::IGame Class Reference}
+\label{classArcade_1_1IGame}\index{Arcade::IGame@{Arcade::IGame}}
+
+
+This class refer all the method that you should code in order to add a new game to the arcade software, you must inherit of it if possible. Do not forget to implement the two extern \char`\"{}\+C\char`\"{} function which are entry\+\_\+point and get\+\_\+type.  
+
+
+
+
+{\ttfamily \#include $<$IGame.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classIInstruction}{IInstruction}} $>$ $>$ \mbox{\hyperlink{classArcade_1_1IGame_a380440450d97a23432a696bc007c60b8}{compute\+Frame}} (std\+::vector$<$ bool $>$ buttons)=0
+\begin{DoxyCompactList}\small\item\em Call a main equivalent function to compute one frame of the game. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ \mbox{\hyperlink{IGame_8hpp_a0b480442795b8d48d0fb326877117c54}{t\+\_\+tile\+\_\+config}} $>$ \mbox{\hyperlink{classArcade_1_1IGame_a4f49f89ee8ea4db55ad2f16bf8d26cfa}{get\+Tiles\+Config}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Gives information about the game tiles their id, color, and potentialy texture. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ int $>$ \mbox{\hyperlink{classArcade_1_1IGame_a71ca60ab0f7446476d521ba4e9a70cc5}{get\+Window\+Size}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Gives informations about the number of tiles in width and height required by the game. \end{DoxyCompactList}\item 
+virtual std\+::size\+\_\+t \mbox{\hyperlink{classArcade_1_1IGame_a511d3de270f3b17e3c8ae517499510b0}{get\+Score}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Get the game\textquotesingle{}s score. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class refer all the method that you should code in order to add a new game to the arcade software, you must inherit of it if possible. Do not forget to implement the two extern \char`\"{}\+C\char`\"{} function which are entry\+\_\+point and get\+\_\+type. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classArcade_1_1IGame_a380440450d97a23432a696bc007c60b8}\label{classArcade_1_1IGame_a380440450d97a23432a696bc007c60b8}} 
+\index{Arcade::IGame@{Arcade::IGame}!computeFrame@{computeFrame}}
+\index{computeFrame@{computeFrame}!Arcade::IGame@{Arcade::IGame}}
+\doxysubsubsection{\texorpdfstring{computeFrame()}{computeFrame()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classIInstruction}{IInstruction}} $>$ $>$ Arcade\+::\+IGame\+::compute\+Frame (\begin{DoxyParamCaption}\item[{std\+::vector$<$ bool $>$}]{buttons }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Call a main equivalent function to compute one frame of the game. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buttons} & A bool table which represent the buttons pressed in the current frame. This buttons are the one referenced in t\+\_\+arcade\+\_\+input. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$std\+::shared\+\_\+ptr$<$\+IInstruction$>$$>$ List of instructions to execute look in the Instruction section for more information. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGame_a511d3de270f3b17e3c8ae517499510b0}\label{classArcade_1_1IGame_a511d3de270f3b17e3c8ae517499510b0}} 
+\index{Arcade::IGame@{Arcade::IGame}!getScore@{getScore}}
+\index{getScore@{getScore}!Arcade::IGame@{Arcade::IGame}}
+\doxysubsubsection{\texorpdfstring{getScore()}{getScore()}}
+{\footnotesize\ttfamily virtual std\+::size\+\_\+t Arcade\+::\+IGame\+::get\+Score (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the game\textquotesingle{}s score. 
+
+\begin{DoxyReturn}{Returns}
+int return the game score. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGame_a4f49f89ee8ea4db55ad2f16bf8d26cfa}\label{classArcade_1_1IGame_a4f49f89ee8ea4db55ad2f16bf8d26cfa}} 
+\index{Arcade::IGame@{Arcade::IGame}!getTilesConfig@{getTilesConfig}}
+\index{getTilesConfig@{getTilesConfig}!Arcade::IGame@{Arcade::IGame}}
+\doxysubsubsection{\texorpdfstring{getTilesConfig()}{getTilesConfig()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$ \mbox{\hyperlink{IGame_8hpp_a0b480442795b8d48d0fb326877117c54}{t\+\_\+tile\+\_\+config}} $>$ Arcade\+::\+IGame\+::get\+Tiles\+Config (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Gives information about the game tiles their id, color, and potentialy texture. 
+
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$t\+\_\+tile\+\_\+config$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classArcade_1_1IGame_a71ca60ab0f7446476d521ba4e9a70cc5}\label{classArcade_1_1IGame_a71ca60ab0f7446476d521ba4e9a70cc5}} 
+\index{Arcade::IGame@{Arcade::IGame}!getWindowSize@{getWindowSize}}
+\index{getWindowSize@{getWindowSize}!Arcade::IGame@{Arcade::IGame}}
+\doxysubsubsection{\texorpdfstring{getWindowSize()}{getWindowSize()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$ int $>$ Arcade\+::\+IGame\+::get\+Window\+Size (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Gives informations about the number of tiles in width and height required by the game. 
+
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$int$>$ The first occurence is the width and the second occurrence is the height 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{IGame_8hpp}{IGame.\+hpp}}\end{DoxyCompactItemize}

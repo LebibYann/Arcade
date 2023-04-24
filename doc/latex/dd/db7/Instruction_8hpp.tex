@@ -1,0 +1,62 @@
+\hypertarget{Instruction_8hpp}{}\doxysection{global/\+Instruction.hpp File Reference}
+\label{Instruction_8hpp}\index{global/Instruction.hpp@{global/Instruction.hpp}}
+{\ttfamily \#include $<$string$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classIInstruction}{IInstruction}}
+\begin{DoxyCompactList}\small\item\em Generic class that helps to containing various class of instructions. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classInstFill}{Inst\+Fill}}
+\begin{DoxyCompactList}\small\item\em Use this instruction if you want to fill the background. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classInstDrawTile}{Inst\+Draw\+Tile}}
+\begin{DoxyCompactList}\small\item\em Use this instruction if you want to place a tile. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classInstDrawText}{Inst\+Draw\+Text}}
+\begin{DoxyCompactList}\small\item\em Use this instruction if you want to write text. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classInstPlaySound}{Inst\+Play\+Sound}}
+\begin{DoxyCompactList}\small\item\em An unsupported instruction that was supposed to let you play audio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}{e\+\_\+instruction\+\_\+id}} \mbox{\hyperlink{Instruction_8hpp_a9d012513b4d7f842e453de39872b4727}{t\+\_\+instruction\+\_\+id}}
+\begin{DoxyCompactList}\small\item\em This enum is used to recognize the different instructions at the interpretation time when they\textquotesingle{}re all contained in a std\+::vector$<$std\+::shared\+\_\+ptr$<$\+IInstruction$>$$>$. If the instruction id isn\textquotesingle{}t in the range of this enum it will be ignored. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}{e\+\_\+instruction\+\_\+id}} \{ \newline
+{\bfseries INST\+\_\+\+FILL}
+, {\bfseries INST\+\_\+\+DRAW\+\_\+\+TILE}
+, {\bfseries INST\+\_\+\+DRAW\+\_\+\+TEXT}
+, {\bfseries INST\+\_\+\+PLAY\+\_\+\+SOUND}
+, \newline
+{\bfseries INST\+\_\+\+TOTAL}
+ \}
+\begin{DoxyCompactList}\small\item\em This enum is used to recognize the different instructions at the interpretation time when they\textquotesingle{}re all contained in a std\+::vector$<$std\+::shared\+\_\+ptr$<$\+IInstruction$>$$>$. If the instruction id isn\textquotesingle{}t in the range of this enum it will be ignored. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+EPITECH PROJECT, 2023 B-\/\+OOP-\/400-\/\+PAR-\/4-\/1-\/arcade-\/yann.\+lebib File description\+: Instruction 
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{Instruction_8hpp_a9d012513b4d7f842e453de39872b4727}\label{Instruction_8hpp_a9d012513b4d7f842e453de39872b4727}} 
+\index{Instruction.hpp@{Instruction.hpp}!t\_instruction\_id@{t\_instruction\_id}}
+\index{t\_instruction\_id@{t\_instruction\_id}!Instruction.hpp@{Instruction.hpp}}
+\doxysubsubsection{\texorpdfstring{t\_instruction\_id}{t\_instruction\_id}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}{e\+\_\+instruction\+\_\+id}} \mbox{\hyperlink{Instruction_8hpp_a9d012513b4d7f842e453de39872b4727}{t\+\_\+instruction\+\_\+id}}}
+
+
+
+This enum is used to recognize the different instructions at the interpretation time when they\textquotesingle{}re all contained in a std\+::vector$<$std\+::shared\+\_\+ptr$<$\+IInstruction$>$$>$. If the instruction id isn\textquotesingle{}t in the range of this enum it will be ignored. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}\label{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}} 
+\index{Instruction.hpp@{Instruction.hpp}!e\_instruction\_id@{e\_instruction\_id}}
+\index{e\_instruction\_id@{e\_instruction\_id}!Instruction.hpp@{Instruction.hpp}}
+\doxysubsubsection{\texorpdfstring{e\_instruction\_id}{e\_instruction\_id}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}{e\+\_\+instruction\+\_\+id}}}
+
+
+
+This enum is used to recognize the different instructions at the interpretation time when they\textquotesingle{}re all contained in a std\+::vector$<$std\+::shared\+\_\+ptr$<$\+IInstruction$>$$>$. If the instruction id isn\textquotesingle{}t in the range of this enum it will be ignored. 
+

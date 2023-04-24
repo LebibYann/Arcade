@@ -1,0 +1,67 @@
+\hypertarget{classIInstruction}{}\doxysection{IInstruction Class Reference}
+\label{classIInstruction}\index{IInstruction@{IInstruction}}
+
+
+Generic class that helps to containing various class of instructions.  
+
+
+
+
+{\ttfamily \#include $<$Instruction.\+hpp$>$}
+
+Inheritance diagram for IInstruction\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d8/dd9/classIInstruction}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}{$\sim$\+IInstruction}} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classIInstruction}{IInstruction}} object. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{get\+Id}} (void) const =0
+\begin{DoxyCompactList}\small\item\em Get the instruction id to let interpretor decide what to do with. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Generic class that helps to containing various class of instructions. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}\label{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}} 
+\index{IInstruction@{IInstruction}!````~IInstruction@{$\sim$IInstruction}}
+\index{````~IInstruction@{$\sim$IInstruction}!IInstruction@{IInstruction}}
+\doxysubsubsection{\texorpdfstring{$\sim$IInstruction()}{~IInstruction()}}
+{\footnotesize\ttfamily virtual IInstruction\+::$\sim$\+IInstruction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+Destroy the \mbox{\hyperlink{classIInstruction}{IInstruction}} object. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}\label{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}} 
+\index{IInstruction@{IInstruction}!getId@{getId}}
+\index{getId@{getId}!IInstruction@{IInstruction}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily virtual int IInstruction\+::get\+Id (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the instruction id to let interpretor decide what to do with. 
+
+\begin{DoxyReturn}{Returns}
+int return the instruction id. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classInstFill_afd31e31b5593014211016dbbf565a29c}{Inst\+Fill}}, \mbox{\hyperlink{classInstDrawTile_ab96f8f6d7a39ace16ef53ebd7f01d500}{Inst\+Draw\+Tile}}, \mbox{\hyperlink{classInstDrawText_af4985e890466d9c3f986822de4e114bf}{Inst\+Draw\+Text}}, and \mbox{\hyperlink{classInstPlaySound_a6a9a532445df5cc64b6c5f946b74c234}{Inst\+Play\+Sound}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+global/\mbox{\hyperlink{Instruction_8hpp}{Instruction.\+hpp}}\end{DoxyCompactItemize}

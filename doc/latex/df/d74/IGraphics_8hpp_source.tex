@@ -1,0 +1,62 @@
+\hypertarget{IGraphics_8hpp_source}{}\doxysection{IGraphics.\+hpp}
+\label{IGraphics_8hpp_source}\index{global/IGraphics.hpp@{global/IGraphics.hpp}}
+\mbox{\hyperlink{IGraphics_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }Arcade}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{IGraphics_8hpp_a756975f4f807e0da2562bbc0a1c90636}{e\_arcade\_input}}}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ UP\_ARROW,\ \textcolor{comment}{//\ Move\ (usually:\ Z)}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ DOWN\_ARROW,\ \textcolor{comment}{//\ Move\ down\ (usually:\ S)}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ LEFT\_ARROW,\ \textcolor{comment}{//\ Move\ left\ (usually:\ Q)}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ RIGHT\_ARROW,\ \textcolor{comment}{//\ Move\ right\ (usually:\ D)}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ BUTTON1,\ \textcolor{comment}{//\ (usually:\ I)}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ BUTTON2,\ \textcolor{comment}{//\ (usually:\ J)}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ BUTTON3,\ \textcolor{comment}{//\ (usually:\ K)}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ BUTTON4,\ \textcolor{comment}{//\ (usually:\ L)}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ PREV\_GAME,\ \textcolor{comment}{//\ Previous\ game\ (usually:\ LEFT\_ARROW)}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ NEXT\_GAME,\ \textcolor{comment}{//\ Next\ game\ (usually:\ RIGHT\_ARROW)}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ PREV\_LIB,\ \textcolor{comment}{//\ Previous\ graphical\ library\ (usually:\ DOWN\_ARROW)}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ NEXT\_LIB,\ \textcolor{comment}{//\ Next\ graphical\ library\ (usually:\ UP\_ARROW)}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ RESTART,\ \textcolor{comment}{//\ Restart\ the\ current\ loaded\ game\ (usually:\ R)}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ HOME\_MENU,\ \textcolor{comment}{//\ Restart\ the\ current\ loaded\ game\ (usually:\ RETURN)}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ EXIT,\ \textcolor{comment}{//\ Quit\ the\ program\ (usually:\ ESCAPE)}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ TOTAL\_INPUT\ \textcolor{comment}{//\ Not\ a\ key\ just\ a\ way\ to\ know\ the\ size\ of\ the\ std::vector<bool>\ of\ getButton\ method.}}
+\DoxyCodeLine{00038\ \ \ \ \ \}\ t\_arcade\_input;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{IGraphics_8hpp_aa20d7395f63fdb437cf51def72ff49cf}{ArcadeColor}}}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ BLACK,}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ RED,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ GREEN,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ YELLOW,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ BLUE,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ MAGENTA,}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ CYAN,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ WHITE}
+\DoxyCodeLine{00057\ \ \ \ \ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classArcade_1_1IGraphics}{IGraphics}}}
+\DoxyCodeLine{00067\ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{classArcade_1_1IGraphics_a260902069747286f0e284e85c6356889}{loadImage}}(\textcolor{keyword}{const}\ std::string\ \&path)\ =\ 0;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_ae4a1be6ca79b6185c394e45a0159faf6}{loadFont}}(\textcolor{keyword}{const}\ std::string\ \&path)\ =\ 0;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_af06d6e8ce5da4ddfbd388c8a6f90789e}{fill}}(uint32\_t\ color)\ =\ 0;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_a8d653568f35001e22bf0ad77d903cf59}{drawTile}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ uint32\_t\ color)\ =\ 0;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_ab7b58c3c8d52a8fc46df6497fcf2b9f1}{drawImage}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{void}\ *img)\ =\ 0;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_afe5202e1c3908270946343cd951fb512}{drawText}}(\textcolor{keyword}{const}\ std::string\ \&text,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ color)\ =\ 0;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_afa305e3d0d369e7b8e11e9743a4cf7f5}{display}}(\textcolor{keywordtype}{void})\ =\ 0;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_af8d58033d51068ffba081fe952e9a77b}{getMousePos}}(std::vector<int>\ \&coords)\ =\ 0;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_a6b271ddf099df6cf8e5cb47dc95fa6c2}{getMouseButton}}(std::vector<bool>\ \&coord)\ =\ 0;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classArcade_1_1IGraphics_acc4ab11ee750e381b21b85bef43e8fd2}{getButtons}}(std::vector<bool>\ \&input)\ =\ 0;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{classArcade_1_1IGraphics_aaf750c8548d6cd7c774937b338513865}{getKeyboard}}(\textcolor{keywordtype}{void})\ =\ 0;}
+\DoxyCodeLine{00158\ \ \ \ \ \};}
+\DoxyCodeLine{00159\ \};}
+
+\end{DoxyCode}

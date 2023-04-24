@@ -1,0 +1,70 @@
+\hypertarget{Instruction_8hpp_source}{}\doxysection{Instruction.\+hpp}
+\label{Instruction_8hpp_source}\index{global/Instruction.hpp@{global/Instruction.hpp}}
+\mbox{\hyperlink{Instruction_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{Instruction_8hpp_ad35f81a342bccff9df37c39e9b2489b2}{e\_instruction\_id}}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ INST\_FILL,\ \textcolor{comment}{//\ Indicates\ that\ the\ instruction\ is\ made\ for\ fill\ drawing}}
+\DoxyCodeLine{00022\ \ \ \ \ INST\_DRAW\_TILE,\ \textcolor{comment}{//\ Indicates\ that\ the\ instruction\ is\ made\ for\ tile\ drawing}}
+\DoxyCodeLine{00023\ \ \ \ \ INST\_DRAW\_TEXT,\ \textcolor{comment}{//\ Indicates\ that\ the\ instruction\ is\ made\ for\ text\ drawing}}
+\DoxyCodeLine{00024\ \ \ \ \ INST\_PLAY\_SOUND,\ \textcolor{comment}{//\ Not\ supported/ignored\ by\ the\ interpreter}}
+\DoxyCodeLine{00025\ \ \ \ \ INST\_TOTAL\ \textcolor{comment}{//\ Not\ an\ instruction\ onlya\ way\ to\ know\ the\ total\ number\ of\ instruction}}
+\DoxyCodeLine{00026\ \}\ \mbox{\hyperlink{Instruction_8hpp_a9d012513b4d7f842e453de39872b4727}{t\_instruction\_id}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIInstruction}{IInstruction}}\ \{}
+\DoxyCodeLine{00033\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classIInstruction_a5290e1bcc3038ba0f6ff37e5b9ba1cac}{\string~IInstruction}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classIInstruction_a9dacd277d9b7ef0e882c26119bb6494a}{getId}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classInstFill}{InstFill}}:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIInstruction}{IInstruction}}\ \{}
+\DoxyCodeLine{00052\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{classInstFill_abcfc52680d3409947623a56d402714bf}{InstFill}}(\textcolor{keywordtype}{int}\ color)\ \{\_color\ =\ color;\};}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstFill_afd31e31b5593014211016dbbf565a29c}{getId}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ (INST\_FILL);\};}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstFill_ab24b778b1119e0a078fabf97dda3ce81}{get\_color}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_color;\};}
+\DoxyCodeLine{00066\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \_color;}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classInstDrawTile}{InstDrawTile}}:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIInstruction}{IInstruction}}\ \{}
+\DoxyCodeLine{00075\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{classInstDrawTile_a7d4a1bd8eda21ed863aa008bec347a4d}{InstDrawTile}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ textureId)\ \{\_x\ =\ x;\ \_y\ =\ y;\ \_textureId\ =\ textureId;\};}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawTile_ab96f8f6d7a39ace16ef53ebd7f01d500}{getId}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ (INST\_DRAW\_TILE);\};}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawTile_a88297ff708651d8b63f89e9e11bdbe38}{get\_x}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_x;\};}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawTile_a4830b49a4dee6de94c99286e41985e5e}{get\_y}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_y;\};}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawTile_a9f84c474c758afc8b22ddcb90cb8c69b}{get\_texture}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_textureId;\};}
+\DoxyCodeLine{00106\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{int}\ \_x;}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{int}\ \_y;}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \_textureId;}
+\DoxyCodeLine{00110\ \};}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00116\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classInstDrawText}{InstDrawText}}:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIInstruction}{IInstruction}}\ \{}
+\DoxyCodeLine{00117\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{classInstDrawText_ae5c9729b02bc2ff4799305ae2d37b25e}{InstDrawText}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ color,\ std::string\ text)\ \{\_x\ =\ x;\ \_y\ =\ y;\ \_color\ =\ color;\ \_text\ =\ text;\};}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawText_af4985e890466d9c3f986822de4e114bf}{getId}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ (INST\_DRAW\_TEXT);\};}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawText_abd72196c2041ca5df2f09a3722294c35}{get\_x}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_x;\};}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawText_ae312c1968a155df1cebe88305276d339}{get\_y}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_y;\};}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstDrawText_aa036a51f2242fb868a07b3e967ecd0fc}{get\_color}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_color;\};}
+\DoxyCodeLine{00146\ \ \ \ \ std::string\ get\_text(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_text;\};}
+\DoxyCodeLine{00147\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{int}\ \_color;}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{int}\ \_x;}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{int}\ \_y;}
+\DoxyCodeLine{00151\ \ \ \ \ std::string\ \_text;}
+\DoxyCodeLine{00152\ \};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00158\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classInstPlaySound}{InstPlaySound}}:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIInstruction}{IInstruction}}\ \{}
+\DoxyCodeLine{00159\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00160\ \ \ \ \ \mbox{\hyperlink{classInstPlaySound}{InstPlaySound}}(std::string\ audioPath)\ \{\_audioPath\ =\ audioPath;\};}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classInstPlaySound_a6a9a532445df5cc64b6c5f946b74c234}{getId}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ (INST\_PLAY\_SOUND);\};}
+\DoxyCodeLine{00162\ \ \ \ \ std::string\ get\_audio(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \_audioPath;\};}
+\DoxyCodeLine{00163\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00164\ \ \ \ \ std::string\ \_audioPath;}
+\DoxyCodeLine{00165\ \};}
+
+\end{DoxyCode}
