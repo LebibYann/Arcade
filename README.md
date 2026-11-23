@@ -28,6 +28,7 @@ The core never knows which game or renderer it runs. It only talks to two interf
 arcade_soft/          core program (Core, DLLoader, Main)
 global/               shared interfaces (IGame, IGraphics, Instruction)
 lib/common/           snake logic shared by Snake and Nibbler
+tests/                unit and graphics tests
 lib/games/            snake, nibbler
 lib/graphic_engine/   arcade_ncurses, arcade_sdl2, arcade_libcaca
 doc/                  Doxygen documentation (HTML and LaTeX)
@@ -40,10 +41,10 @@ Requires a Linux system with `g++` (C++17), `make`, ncurses, SDL2, SDL2_ttf and 
 ```bash
 sudo apt install g++ make libncurses-dev libsdl2-dev libsdl2-ttf-dev libcaca-dev
 make
-./arcade ./lib/arcade_ncurses.so
+./arcade arcade_sdl2.so
 ```
 
-The argument is the graphics library to start with. If a back end's dependency is missing, `make` reports an error for that library but still builds the other ones.
+The argument is the graphics library to start with: a path to a `.so`, or the name of one in `lib/`. The arcade finds `lib/`, `assets/` and `score/` next to the executable, so it can be run from any directory. For ncurses, use a terminal of at least 128 x 36 characters to see the whole game area. If a back end's dependency is missing, `make` reports an error for that library but still builds the other ones.
 
 | Key | Action |
 |---|---|
@@ -56,6 +57,17 @@ The argument is the graphics library to start with. If a back end's dependency i
 | Escape | Quit |
 
 The keys follow an AZERTY layout. Enter a name before launching a game.
+
+## Tests
+
+```bash
+make tests_run
+```
+
+This builds the project, then runs two test programs with no extra dependency:
+
+- unit tests of the library loader, the score board and both games, played through the `IGame` interface
+- graphics tests that load and switch the graphics libraries, including a regression test for a crash when ncurses was loaded after libcaca. They run in a terminal created by `script`, without a screen (SDL2 dummy driver, libcaca ncurses driver)
 
 ## Documentation
 
