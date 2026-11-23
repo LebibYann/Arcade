@@ -76,7 +76,6 @@ std::vector<std::shared_ptr<IInstruction>> ArcadeSnake::computeFrame(std::vector
         this->instr = computeGame(&_game_data, this->_buttons);
         std::fill(this->_buttons.begin(), this->_buttons.end(), false);
     }
-    usleep(1.0 / 30.0 * 1e6);
     ++counter;
     counter = counter % 5;
     return (this->instr);

@@ -60,7 +60,6 @@ void ArcadeLibcaca::drawTile(int x, int y, uint32_t color)
         return;
     caca_set_color_ansi(_canva, found->second.first, found->second.second);
     caca_put_str(_canva, x * 2, y, "  ");
-    caca_put_str(_canva, x * 2, y * 1, "  ");
 }
 
 void ArcadeLibcaca::display(void)
@@ -99,31 +98,29 @@ void ArcadeLibcaca::getButtons(std::vector<bool> &buttons)
     caca_event_t event;
 
     buttons.resize(Arcade::TOTAL_INPUT);
-    for (size_t i = 0; i < buttons.size(); i++)
-        buttons[i] = false;
-    if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0)
-    {
+    std::fill(buttons.begin(), buttons.end(), false);
+    _typed.clear();
+    while (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0) {
         int ch = caca_get_event_key_ch(&event);
+
         if ((pressed = _keys.find(ch)) != _keys.end())
             buttons[pressed->second] = true;
+        if (ch == CACA_KEY_BACKSPACE)
+            _typed.push_back(127);
+        else if (ch < 128 && isalpha(ch))
+            _typed.push_back(ch);
+        else if (ch == CACA_KEY_RETURN || ch == ' ')
+            _typed.push_back('\n');
     }
 }
 
 char ArcadeLibcaca::getKeyboard(void)
 {
-    std::map<int, int>::iterator pressed;
-    caca_event_t event;
-    int ch;
+    char c;
 
-    if (caca_get_event(_display, CACA_EVENT_KEY_PRESS, &event, 0) > 0)
-    {
-        ch = caca_get_event_key_ch(&event);
-        if (ch == CACA_KEY_BACKSPACE)
-            return (127);
-        else if (isalpha(ch))
-            return (ch);
-        else if (ch == CACA_KEY_RETURN || ch == ' ')
-            return ('\n');
-    }
-    return ('\0');
+    if (_typed.empty())
+        return ('\0');
+    c = _typed.front();
+    _typed.pop_front();
+    return (c);
 }

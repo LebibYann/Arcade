@@ -7,6 +7,8 @@
 
 #include "Core.hpp"
 
+#include <thread>
+
 Arcade::Core::Core() : _selected(0), _entry(false), _playerName("")
 {
     this->getAvailableLib();
@@ -57,6 +59,38 @@ void Arcade::Core::loadGraphics(const std::string &graphicLibName)
     this->_graphicLib.unLoad();
     this->_graphicLib.Load(graphicLibName);
     this->_graphic = this->_graphicLib.getInstance<Arcade::IGraphics>("entry_point");
+    auto found = std::find(_graphicList.begin(), _graphicList.end(),
+        std::filesystem::path(graphicLibName).filename().string());
+    this->_graphicIndex = (found == _graphicList.end()) ?
+        std::string::npos : (std::size_t)(found - _graphicList.begin());
+}
+
+void Arcade::Core::switchGraphics(int step)
+{
+    std::size_t size = this->_graphicList.size();
+    std::size_t next;
+
+    if (size == 0)
+        return;
+    if (this->_graphicIndex == std::string::npos)
+        next = (step > 0) ? 0 : size - 1;
+    else
+        next = (this->_graphicIndex + size + step) % size;
+    if (next != this->_graphicIndex)
+        this->loadGraphics(_graphicPath + this->_graphicList[next]);
+}
+
+void Arcade::Core::waitNextTick(double tickPerSecond)
+{
+    auto tick = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+        std::chrono::duration<double>(1.0 / tickPerSecond));
+    auto now = std::chrono::steady_clock::now();
+
+    if (this->_nextTick > now)
+        std::this_thread::sleep_until(this->_nextTick);
+    else
+        this->_nextTick = now;
+    this->_nextTick += tick;
 }
 
 void Arcade::Core::getSOFiles(std::vector<std::string> &list, const std::string &path)
@@ -182,22 +216,23 @@ void Arcade::Core::pickName()
 {
     char c;
 
-    c = _graphic->getKeyboard();
-    if (c == 0);
-    else if (c == '\n' || c == ' ')
-        _entry = false;
-    else if (c != 127 && _playerName.size() < 8)
-        _playerName += toupper(c);
-    else if (_playerName.compare("") != 0 && c == 127)
-        _playerName.pop_back();
+    while (_entry && (c = _graphic->getKeyboard()) != 0) {
+        if (c == '\n' || c == ' ')
+            _entry = false;
+        else if (c == 127) {
+            if (!_playerName.empty())
+                _playerName.pop_back();
+        } else if (_playerName.size() < 8)
+            _playerName += toupper(c);
+    }
 }
 
 void Arcade::Core::runMenu(std::vector<bool> buttons)
 {
     int offset = 0;
     int colorPick = WHITE;
-    (void)colorPick;
-    size_t selectGraph = this->_selected - _gameList.size();
+    bool onGraphics = this->_selected >= _gameList.size();
+    size_t selectGraph = onGraphics ? this->_selected - _gameList.size() : 0;
     (void)buttons;
 
     this->_graphic->fill(ArcadeColor::GREEN);
@@ -208,11 +243,11 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
     _graphic->drawText("DISPLAY:", 0, _gameList.size() + 2, RED);
     for (size_t i = 0; i < _graphicList.size(); i++) {
         offset = 0;
-        if (this->_selected >= _gameList.size() && selectGraph == i) {
+        if (onGraphics && selectGraph == i) {
             offset = 1;
             colorPick = WHITE;
         }
-        else if (this->_pickedGraphics != 0 && i == this->_pickedGraphics - 1)
+        else if (i == this->_graphicIndex)
             colorPick = BLUE;
         else
             colorPick = BLACK;
@@ -235,9 +270,8 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
     if (this->_buttonsClicked[Arcade::RIGHT_ARROW]){
         if (this->_selected == this->_gameList.size() + this->_graphicList.size())
             _entry = true;
-        else if (this->_selected >= this->_gameList.size()) {
-            this->_pickedGraphics = selectGraph + 1;
-            loadGraphics(_graphicPath + _graphicList[this->_selected - _gameList.size()]);
+        else if (onGraphics) {
+            loadGraphics(_graphicPath + _graphicList[selectGraph]);
         } else if (_playerName.compare("") != 0){
             loadGame(_gamePath + _gameList[this->_selected]);
         }
@@ -248,12 +282,15 @@ void Arcade::Core::run(void)
 {
     std::vector<bool> buttons(TOTAL_INPUT);
 
-    this->_graphic->getButtons(buttons);
-    this->_prevButtons.resize(buttons.size());
-    this->_buttonsClicked.resize(buttons.size());
+    this->_prevButtons.assign(TOTAL_INPUT, false);
+    this->_buttonsClicked.assign(TOTAL_INPUT, false);
+    this->_nextTick = std::chrono::steady_clock::now();
     do {
         std::fill(buttons.begin(), buttons.end(), false);
         this->_graphic->getButtons(buttons);
+        buttons.resize(TOTAL_INPUT, false);
+        this->getClickedButton(buttons, this->_prevButtons);
+        this->_prevButtons = buttons;
         if (buttons[Arcade::HOME_MENU]) {
             this->unloadGame();
         }
@@ -261,17 +298,12 @@ void Arcade::Core::run(void)
             runGame(buttons);
         else
             runMenu(buttons);
-        if (buttons[Arcade::PREV_LIB] && _pickedGraphics < _graphicList.size()) {
-            loadGraphics(_graphicPath + _graphicList[_pickedGraphics]);
-            _pickedGraphics++;
-        }
-        if (buttons[Arcade::NEXT_LIB] && _pickedGraphics > 1) {
-            loadGraphics(_graphicPath + _graphicList[_pickedGraphics - 2]);
-            _pickedGraphics--;
-        }
+        if (this->_buttonsClicked[Arcade::NEXT_LIB])
+            this->switchGraphics(1);
+        else if (this->_buttonsClicked[Arcade::PREV_LIB])
+            this->switchGraphics(-1);
         this->_graphic->display();
-        this->getClickedButton(buttons, this->_prevButtons);
-        this->_prevButtons = buttons;
+        this->waitNextTick(TICK_RATE);
     } while (!buttons[Arcade::EXIT]);
 }
 
@@ -314,7 +346,7 @@ void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
     this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x() + _gamePadding[0], cast_instr->get_y() + _gamePadding[1], cast_instr->get_color());
 }
 
-void Arcade::Core::getClickedButton(std::vector<bool> curr, std::vector<bool> prev)
+void Arcade::Core::getClickedButton(const std::vector<bool> &curr, const std::vector<bool> &prev)
 {
     this->_buttonsClicked.resize(curr.size());
     for (size_t i = 0; i < curr.size(); ++i)

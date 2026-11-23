@@ -7,35 +7,33 @@
 
 #include "ArcadeSdl2.hpp"
 
-static std::string getTermFont(void)
-{
-    char buffer[128];
-    std::string termFontPath = "";
-    std::string termFont = std::getenv("TERM");
-    std::string command = "fc-match --format=%{file} ";
+#define SDL_FONT_PATH "./assets/arial.ttf"
 
-    command.append(termFont);
-    FILE* pipe = popen(command.c_str(), "r");
+// Path of the system sans-serif font, used when the bundled one is missing
+static std::string getSystemFont(void)
+{
+    char buffer[256];
+    std::string fontPath = "";
+    FILE *pipe = popen("fc-match --format=%{file} sans-serif 2>/dev/null", "r");
+
     if (!pipe)
-        return (termFontPath);
-    while (!feof(pipe)) {
-        if (fgets(buffer, 128, pipe) != NULL)
-            termFontPath += buffer;
-    }
+        return (fontPath);
+    while (fgets(buffer, sizeof(buffer), pipe) != NULL)
+        fontPath += buffer;
     pclose(pipe);
-    return (termFontPath);
+    return (fontPath);
 }
 
 ArcadeSdl2::ArcadeSdl2()
 {
-    std::string termFontPath = getTermFont();
-
-
     TTF_Init();
-    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
     this->_font = nullptr;
-    if (termFontPath.c_str() != nullptr)
-        this->loadFont(termFontPath);
+    this->loadFont(SDL_FONT_PATH);
+    if (this->_font == nullptr)
+        this->loadFont(getSystemFont());
+    if (this->_font == nullptr)
+        std::cerr << "arcade_sdl2: no font found, text will not be drawn" << std::endl;
 
     this->_arcadeButtons.resize(Arcade::TOTAL_INPUT);
     std::fill(this->_arcadeButtons.begin(), this->_arcadeButtons.end(), false);
@@ -218,11 +216,16 @@ void ArcadeSdl2::drawText(const std::string &text, int x, int y, int color)
 {
     t_sdl_color colorU;
     int xSize = 0;
+
+    if (this->_font == nullptr || text.empty())
+        return;
     colorU.full = SDL_SETCOLOR(255, 255, 255, 255);
-    if (color < SDL_TOTALCOLOR)
+    if (color >= 0 && color < SDL_TOTALCOLOR)
         colorU.full = this->_colors[color].full;
     SDL_Color sdlColor = {colorU.rgba[0], colorU.rgba[1], colorU.rgba[2], colorU.rgba[3]};
     SDL_Surface *surface = TTF_RenderText_Solid(this->_font, text.c_str(), sdlColor);
+    if (surface == nullptr)
+        return;
     SDL_Texture *texture = SDL_CreateTextureFromSurface(this->_render, surface);
 
     SDL_QueryTexture(texture, nullptr, nullptr, &xSize, nullptr);
@@ -294,6 +297,9 @@ void ArcadeSdl2::handleEvent(void)
                 break;
             case SDL_KEYUP:
                 this->updateMatchingKey(this->_event, false);
+                break;
+            case SDL_QUIT:
+                this->_arcadeButtons[Arcade::EXIT] = true;
                 break;
         }
     }

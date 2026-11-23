@@ -10,6 +10,8 @@
 #include "IGraphics.hpp"
 
 #include <ncurses.h>
+#include <algorithm>
+#include <deque>
 #include <memory>
 #include <map>
 
@@ -35,8 +37,8 @@ public:
     void getButtons(std::vector<bool> &buttons);
     char getKeyboard(void);
 private:
-    int _width;
-    int _height;
     WINDOW *_win;
     std::map<int, int> keys;
+    // Characters typed since the last getButtons call, for getKeyboard
+    std::deque<char> _typed;
 };

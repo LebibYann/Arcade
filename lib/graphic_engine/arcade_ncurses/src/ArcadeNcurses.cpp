@@ -27,6 +27,15 @@ ArcadeNcurses::ArcadeNcurses()
     noecho();
     curs_set(FALSE);
     nodelay(stdscr, TRUE);
+    // Let ncurses decode arrow keys, and only wait 25 ms to tell a lone
+    // Escape from the start of an arrow key sequence
+    keypad(stdscr, TRUE);
+    set_escdelay(25);
+    // Some terminals send the normal mode arrow sequences anyway
+    define_key("\033[A", KEY_UP);
+    define_key("\033[B", KEY_DOWN);
+    define_key("\033[C", KEY_RIGHT);
+    define_key("\033[D", KEY_LEFT);
     keys.insert({'z', Arcade::UP_ARROW});
     keys.insert({'s', Arcade::DOWN_ARROW});
     keys.insert({'q', Arcade::LEFT_ARROW});
@@ -36,10 +45,10 @@ ArcadeNcurses::ArcadeNcurses()
     keys.insert({'k', Arcade::BUTTON3});
     keys.insert({'j', Arcade::BUTTON4});
     keys.insert({'r', Arcade::RESTART});
-    keys.insert({68, Arcade::PREV_GAME});
-    keys.insert({67, Arcade::NEXT_GAME});
-    keys.insert({65, Arcade::NEXT_LIB});
-    keys.insert({66, Arcade::PREV_LIB});
+    keys.insert({KEY_LEFT, Arcade::PREV_GAME});
+    keys.insert({KEY_RIGHT, Arcade::NEXT_GAME});
+    keys.insert({KEY_UP, Arcade::NEXT_LIB});
+    keys.insert({KEY_DOWN, Arcade::PREV_LIB});
     keys.insert({27, Arcade::EXIT});
     keys.insert({10, Arcade::HOME_MENU});
     refresh();
@@ -52,7 +61,6 @@ ArcadeNcurses::~ArcadeNcurses()
 
 void ArcadeNcurses::drawText(const std::string &text, int x, int y, int color)
 {
-    mvwprintw(_win, y, x * 2, "%s", text.c_str());
     wattron(_win, COLOR_PAIR(color));
     mvwprintw(_win, y, x * 2, "%s", text.c_str());
     wattroff(_win, COLOR_PAIR(color));
@@ -89,28 +97,31 @@ void ArcadeNcurses::getMouseButton(std::vector<bool> &buttons)
     buttons.resize(3);
 }
 
-#include <iostream>
-
 void ArcadeNcurses::getButtons(std::vector<bool> &buttons)
 {
     std::map<int, int>::iterator pressed;
     int ch;
-    int tmp;
 
     buttons.resize(Arcade::TOTAL_INPUT);
     std::fill(buttons.begin(), buttons.end(), false);
-    for (ch = 0; (tmp = getch()) != ERR; ch = tmp);
-    if ((pressed = keys.find(ch)) != keys.end()){
-
-        buttons[pressed->second] = true;
+    _typed.clear();
+    while ((ch = getch()) != ERR) {
+        if ((pressed = keys.find(ch)) != keys.end())
+            buttons[pressed->second] = true;
+        if (ch == KEY_BACKSPACE || ch == 8)
+            ch = 127;
+        if ((ch < 128 && isalpha(ch)) || ch == 127 || ch == '\n' || ch == ' ')
+            _typed.push_back(ch);
     }
 }
 
 char ArcadeNcurses::getKeyboard(void)
 {
-    int c = getch();
+    char c;
 
-    if (isalpha(c) || c == 127 || c == '\n')
-        return (c);
-    return (0);
+    if (_typed.empty())
+        return (0);
+    c = _typed.front();
+    _typed.pop_front();
+    return (c);
 }

@@ -9,6 +9,8 @@
 
 #include "IGraphics.hpp"
 
+#include <algorithm>
+#include <deque>
 #include <memory>
 #include <map>
 #include <caca.h>
@@ -35,10 +37,10 @@ public:
     void getButtons(std::vector<bool> &buttons);
     char getKeyboard(void);
 private:
-    int _width;
-    int _height;
     caca_canvas_t *_canva;
     caca_display_t *_display;
     std::map<int, int> _keys;
     std::map<int, std::pair<int, int>> _color;
+    // Characters typed since the last getButtons call, for getKeyboard
+    std::deque<char> _typed;
 };
