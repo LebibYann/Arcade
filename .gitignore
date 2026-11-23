@@ -1,6 +1,7 @@
 # General excludes
 .vscode/
 *.o
+*.d
 *.a
 *.so
 *~

@@ -51,9 +51,9 @@ graphicals: .FORCE
 	done
 
 clean:
-	@find ./lib/ -name "*.o" -delete \
+	@find ./lib/ -name "*.o" -delete -or -name "*.d" -delete \
 		-or -name "*~" -delete
-	@find ./arcade_soft/ -name "*.o" -delete \
+	@find ./arcade_soft/ -name "*.o" -delete -or -name "*.d" -delete \
 		-or -name "*~" -delete
 	@$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
 

@@ -22,7 +22,7 @@ INCLUDE_DIRS_REC = include/ ../../../global/
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++17 \
+FLAGS = -MMD -MP -g -g3 -Wextra -Wall -Werror -W -std=c++17 \
 -shared -fPIC -g -g3
 LDLIBS = -lSDL2 -lSDL2_ttf
 
@@ -181,7 +181,7 @@ compil:
 
 
 clean:
-	@find . -name "*.o" $(_FIND_LIB_EXCL_DIRS) -delete \
+	@find . \( -name "*.o" -or -name "*.d" \) $(_FIND_LIB_EXCL_DIRS) -delete \
 		-or -name "*~" -delete && \
 	$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
 
@@ -299,3 +299,6 @@ show_all: show show_file
 
 
 FORCE:
+
+# Rebuild objects when a header they include changes
+-include $(_OBJ:.o=.d)
