@@ -14,11 +14,14 @@
 
 /**
  ** @brief Do not forget to add extern "C" before the function itself.
- ** Since this function is made for both IGraphics and IGame you must put
- ** the correct type between the <>.
+ ** It returns a new instance allocated with new: Arcade::IGame * for a game
+ ** library, Arcade::IGraphics * for a graphics library.
+ ** The core takes ownership of it and deletes it before closing the library.
+ ** A raw pointer is used because a C++ class such as std::shared_ptr
+ ** cannot cross an extern "C" boundary safely.
  **
  */
-extern "C" std::shared_ptr<Arcade::IGraphics> entry_point();
+extern "C" Arcade::IGraphics *entry_point();
 
 /**
  ** @brief Do not forget to add extern "C" before the function itself.

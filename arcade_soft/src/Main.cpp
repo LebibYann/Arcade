@@ -16,8 +16,6 @@
 
 int main(int argc, char **argv)
 {
-    Arcade::Core core;
-
     if (argc < 2) {
         std::cerr << "USAGE:\n";
         std::cerr << "\t./arcade [Graphic library]\n\n";
@@ -27,10 +25,12 @@ int main(int argc, char **argv)
         return (84);
     }
     try {
+        Arcade::Core core;
+
         core.loadGraphics(argv[1]);
         core.run();
     }
-    catch(Arcade::DLLoader::BadLibrary& e) {
+    catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
         return (84);
     }

@@ -67,6 +67,7 @@ namespace Arcade
     class IGraphics
     {
     public:
+        virtual ~IGraphics() = default;
         /**
          * @brief Loads an image.
          *

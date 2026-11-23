@@ -36,13 +36,12 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
 {
     if (this->_game != nullptr)
         this->unloadGame();
-    // std::cout << "Loading game lib: " << gameLibName << std::endl;
+    if (this->_gameLib.checkLibIntegrity(gameLibName) != 1)
+        throw DLLoader::BadLibrary(gameLibName + " is not an arcade game library");
     this->_gameLib.Load(gameLibName);
-    // std::cout << "Game lib [" << gameLibName << "] load OK" << std::endl;
     this->_score = this->loadGameScore(this->_gameList[this->_selected]);
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
     this->_tileCnf = this->_game->getTilesConfig();
-    // std::cout << "Game init [" << gameLibName << "] OK" << std::endl;
     this->initTileData();
     _gameSize = _game->getWindowSize();
     _gamePadding.resize(2);
@@ -52,33 +51,24 @@ void Arcade::Core::loadGame(const std::string &gameLibName)
 
 void Arcade::Core::loadGraphics(const std::string &graphicLibName)
 {
+    if (this->_graphicLib.checkLibIntegrity(graphicLibName) != 2)
+        throw DLLoader::BadLibrary(graphicLibName + " is not an arcade graphics library");
     this->_graphic.reset();
     this->_graphicLib.unLoad();
-    // std::cout << "Loading display lib: " << graphicLibName << std::endl;
     this->_graphicLib.Load(graphicLibName);
-    // std::cout << "Display lib [" << graphicLibName << "] load OK" << std::endl;
     this->_graphic = this->_graphicLib.getInstance<Arcade::IGraphics>("entry_point");
-    // std::cout << "Display init [" << graphicLibName << "] OK" << std::endl;
 }
 
 void Arcade::Core::getSOFiles(std::vector<std::string> &list, const std::string &path)
 {
-    list.clear();
-    std::filesystem::path fpath = path;
-    std::string tmp;
-    std::string libName;
+    std::error_code error;
 
-    for (const auto& entry : std::filesystem::directory_iterator(fpath)) {
-        tmp = entry.path();
-        if (strcmp(".so", &tmp.c_str()[tmp.length() - 3]) == 0) {
-            libName = strrchr(tmp.c_str(), '/');
-            if (libName.c_str() == nullptr)
-                list.push_back(tmp);
-            else {
-                list.push_back(&libName.c_str()[1]);
-            }
-        }
+    list.clear();
+    for (const auto &entry : std::filesystem::directory_iterator(path, error)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".so")
+            list.push_back(entry.path().filename().string());
     }
+    std::sort(list.begin(), list.end());
 }
 
 void Arcade::Core::getAvailableLib(void)

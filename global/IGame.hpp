@@ -39,6 +39,7 @@ namespace Arcade
     class IGame
     {
     public:
+        virtual ~IGame() = default;
         /**
          * @brief Call a main equivalent function to compute one frame of the game.
          *
