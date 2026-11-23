@@ -23,7 +23,8 @@ INCLUDE_DIRS =
 
 #FLAGS
 FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++17 \
--shared -fPIC -lSDL2 -lSDL2_ttf -g -g3
+-shared -fPIC -g -g3
+LDLIBS = -lSDL2 -lSDL2_ttf
 
 #EXCLUDED
 GLOB_EXCL_DIRS = ./bonus/
@@ -160,7 +161,7 @@ build_a:
 	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).a;
 
 build_so:
-	@g++ $(FLAGS) -o $(ROOT)$(NAME).so $(_OBJ) && \
+	@g++ $(FLAGS) -o $(ROOT)$(NAME).so $(_OBJ) $(LDLIBS) && \
 	($(CLS_LINE) ; $(ECHO) $(BLINK)" [OK]"$(DEFLT) $(NAME).so) || \
 	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).so;
 
