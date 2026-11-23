@@ -48,12 +48,23 @@ The API documentation is generated with Doxygen (`Doxyfile`) and committed in [`
 
 ## Team
 
-Team project of 3 at Epitech (2023):
+Team project of 3 at Epitech (March to April 2023):
 
-- [Yann Lebib](https://github.com/LebibYann)
-- Valentin Maurel
-- Enzo Pfeiffer
+- [Yann Lebib](https://github.com/LebibYann): core, library loader, menu, ncurses and libcaca back ends
+- [Lenny Vigeon](https://github.com/Linnchoeuh): instruction system, instruction interpreter, scores, SDL2 back end, documentation
+- Jean-Pierre Janopoulos: Snake and Nibbler games
 
-<!-- TODO (Yann): add a "My contribution" section with the parts you wrote -->
+The shared interfaces in [`global/`](global) were agreed with the groups of Valentin Maurel and Enzo Pfeiffer, so that games and graphics libraries work across both projects.
+
+## My contribution
+
+The full commit history is kept in this repository. My part:
+
+- **Dynamic library loader** (`DLLoader`): loading, reloading and unloading `.so` files, and moving from `unique_ptr` to `shared_ptr` instances so that a library can be swapped at runtime
+- **First version of the core** and of the `IGame` / `IGraphics` interfaces
+- **Menu**: game and graphics selection, switching the graphics library from the menu, player name entry in every back end, and centering the game in the window
+- **Graphics back ends**: libcaca, and the first ncurses version
+- **Build**: library directory layout and the Makefiles
+- **Fixes**: death and restart in Snake, spawn and death animation in Nibbler
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the commit convention.
