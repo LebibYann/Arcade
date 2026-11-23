@@ -43,12 +43,21 @@ namespace Arcade
     class Core
     {
     public:
-        Core();
+        /**
+         * @param rootDir Directory that holds lib/ and score/. By default,
+         * the directory of the arcade executable, so that it can be run
+         * from anywhere.
+         */
+        Core(const std::string &rootDir = "");
         ~Core();
 
         void runGame(std::vector<bool> inputs);
         void runMenu(std::vector<bool> inputs);
-        void loadGame(const std::string &gameLibNamegame);
+        /**
+         * @brief Load the game at this index of the game list, after
+         * unloading the current one.
+         */
+        void loadGame(std::size_t gameIndex);
         void unloadGame(void);
         void loadGraphics(const std::string &graphicLibName);
         void getSOFiles(std::vector<std::string> &list, const std::string &path);
@@ -63,6 +72,10 @@ namespace Arcade
         void saveGameScore(const std::vector<Arcade::t_score_data> &scoreList, const std::string &gameName);
         void addGameScore(std::vector<Arcade::t_score_data> &scoreList, size_t score, const std::string &gameName);
         t_tile_data getTileData(int id);
+        const std::vector<std::string> &getGameList(void) const { return (_gameList); }
+        const std::vector<std::string> &getGraphicList(void) const { return (_graphicList); }
+        const std::string &getLibDir(void) const { return (_libDir); }
+        const std::string &getScoreDir(void) const { return (_scoreDir); }
 
     private:
         /**
@@ -88,10 +101,12 @@ namespace Arcade
         // Index in _graphicList of the loaded graphics library
         std::size_t _graphicIndex = std::string::npos;
         std::chrono::steady_clock::time_point _nextTick;
+        // Menu cursor: games first, then graphics libraries, then the name
         std::size_t _selected = 0;
         std::size_t _prevSelected = 0;
-        std::string _graphicPath = "./lib/";
-        std::string _gamePath = "./lib/";
+        // Index in _gameList of the loaded game
+        std::size_t _currentGame = 0;
+        std::string _libDir;
         std::vector<std::string> _gameList;
         std::vector<std::string> _graphicList;
         std::shared_ptr<IGame> _game = nullptr;
@@ -109,8 +124,7 @@ namespace Arcade
 
 
         // Score
-        std::string _scoreFileName;
-        std::string _scoreDir = "score/";
+        std::string _scoreDir;
         std::vector<Arcade::t_score_data> _score;
         bool _scoreLoaded = false;
     };

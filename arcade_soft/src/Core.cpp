@@ -9,8 +9,23 @@
 
 #include <thread>
 
-Arcade::Core::Core() : _selected(0), _entry(false), _playerName("")
+// Directory of the running executable, or the current one if unknown
+static std::filesystem::path executableDir(void)
 {
+    std::error_code error;
+    std::filesystem::path exe = std::filesystem::read_symlink("/proc/self/exe", error);
+
+    if (error || exe.empty())
+        return (std::filesystem::current_path());
+    return (exe.parent_path());
+}
+
+Arcade::Core::Core(const std::string &rootDir) : _selected(0), _entry(false), _playerName("")
+{
+    std::filesystem::path root = rootDir.empty() ? executableDir() : std::filesystem::path(rootDir);
+
+    this->_libDir = (root / "lib").string() + "/";
+    this->_scoreDir = (root / "score").string() + "/";
     this->getAvailableLib();
     this->_score.resize(0);
 }
@@ -28,20 +43,27 @@ void Arcade::Core::unloadGame(void)
         return;
     if (this->_game->getScore() != 0)
         this->addGameScore(this->_score, this->_game->getScore(), this->_playerName);
-    this->saveGameScore(this->_score, this->_gameList[this->_selected]);
+    this->saveGameScore(this->_score, this->_gameList[this->_currentGame]);
+    this->_scoreLoaded = false;
     this->_game.reset();
     this->_game = nullptr;
     this->_gameLib.unLoad();
 }
 
-void Arcade::Core::loadGame(const std::string &gameLibName)
+void Arcade::Core::loadGame(std::size_t gameIndex)
 {
+    std::string gameLibName;
+
+    if (gameIndex >= this->_gameList.size())
+        return;
     if (this->_game != nullptr)
         this->unloadGame();
+    gameLibName = this->_libDir + this->_gameList[gameIndex];
     if (this->_gameLib.checkLibIntegrity(gameLibName) != 1)
         throw DLLoader::BadLibrary(gameLibName + " is not an arcade game library");
     this->_gameLib.Load(gameLibName);
-    this->_score = this->loadGameScore(this->_gameList[this->_selected]);
+    this->_currentGame = gameIndex;
+    this->_score = this->loadGameScore(this->_gameList[gameIndex]);
     this->_game = this->_gameLib.getInstance<Arcade::IGame>("entry_point");
     this->_tileCnf = this->_game->getTilesConfig();
     this->initTileData();
@@ -77,7 +99,7 @@ void Arcade::Core::switchGraphics(int step)
     else
         next = (this->_graphicIndex + size + step) % size;
     if (next != this->_graphicIndex)
-        this->loadGraphics(_graphicPath + this->_graphicList[next]);
+        this->loadGraphics(_libDir + this->_graphicList[next]);
 }
 
 void Arcade::Core::waitNextTick(double tickPerSecond)
@@ -110,9 +132,9 @@ void Arcade::Core::getAvailableLib(void)
     Arcade::DLLoader libChecker;
     std::vector<std::string> libs;
 
-    this->getSOFiles(libs, "./lib/");
+    this->getSOFiles(libs, this->_libDir);
     for (size_t i = 0; i < libs.size(); ++i) {
-        switch (libChecker.checkLibIntegrity("./lib/" + libs[i])) {
+        switch (libChecker.checkLibIntegrity(this->_libDir + libs[i])) {
             case 1:
                 this->_gameList.push_back(libs[i]);
                 break;
@@ -154,24 +176,14 @@ void Arcade::Core::runGame(std::vector<bool> buttons)
 {
     std::vector<std::shared_ptr<IInstruction>> inst;
 
+    std::size_t count = this->_gameList.size();
+
     if (this->_buttonsClicked[Arcade::RESTART])
-        this->loadGame(_gamePath + this->_gameList[this->_selected]);
-    if (this->_buttonsClicked[Arcade::NEXT_GAME]) {
-        this->unloadGame();
-        if (this->_selected < _gameList.size() - 1)
-            this->_selected++;
-        else
-            this->_selected = 0;
-        loadGame(_gamePath + _gameList[this->_selected]);
-    }
-    if (this->_buttonsClicked[Arcade::PREV_GAME]) {
-        this->unloadGame();
-        if (this->_selected != 0)
-            this->_selected--;
-        else
-            this->_selected = _gameList.size() - 1;
-        loadGame(_gamePath + _gameList[this->_selected]);
-    }
+        this->loadGame(this->_currentGame);
+    else if (this->_buttonsClicked[Arcade::NEXT_GAME])
+        this->loadGame((this->_currentGame + 1) % count);
+    else if (this->_buttonsClicked[Arcade::PREV_GAME])
+        this->loadGame((this->_currentGame + count - 1) % count);
     _graphic->fill(BLACK);
     inst = this->_game->computeFrame(buttons);
     this->interpretInstruction(inst);
@@ -271,9 +283,9 @@ void Arcade::Core::runMenu(std::vector<bool> buttons)
         if (this->_selected == this->_gameList.size() + this->_graphicList.size())
             _entry = true;
         else if (onGraphics) {
-            loadGraphics(_graphicPath + _graphicList[selectGraph]);
+            loadGraphics(_libDir + _graphicList[selectGraph]);
         } else if (_playerName.compare("") != 0){
-            loadGame(_gamePath + _gameList[this->_selected]);
+            loadGame(this->_selected);
         }
     }
 }
@@ -291,7 +303,9 @@ void Arcade::Core::run(void)
         buttons.resize(TOTAL_INPUT, false);
         this->getClickedButton(buttons, this->_prevButtons);
         this->_prevButtons = buttons;
-        if (buttons[Arcade::HOME_MENU]) {
+        if (buttons[Arcade::HOME_MENU] && this->_game != nullptr) {
+            // Back to the menu with the cursor on the game just played
+            this->_selected = this->_currentGame;
             this->unloadGame();
         }
         if (_game != nullptr)
@@ -409,8 +423,6 @@ void Arcade::Core::addGameScore(std::vector<Arcade::t_score_data> &scoreList, si
 
 bool Arcade::Core::checkScoreFileStatus(std::fstream &scoreFile, const std::string &gameName)
 {
-    std::string fullPath = this->_scoreDir + gameName;
-
     if (access(this->_scoreDir.c_str(), F_OK) != 0)
         std::filesystem::create_directories(this->_scoreDir);
     scoreFile.open(this->_scoreDir + gameName + ".score", std::ios::out);

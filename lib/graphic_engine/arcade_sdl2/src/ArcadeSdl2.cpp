@@ -7,7 +7,20 @@
 
 #include "ArcadeSdl2.hpp"
 
-#define SDL_FONT_PATH "./assets/arial.ttf"
+#include <dlfcn.h>
+#include <filesystem>
+
+// Font bundled with the arcade, in assets/ next to the lib/ directory
+static std::string bundledFont(void)
+{
+    Dl_info info;
+
+    if (dladdr(reinterpret_cast<void *>(&bundledFont), &info) == 0 ||
+        info.dli_fname == nullptr)
+        return ("./assets/arial.ttf");
+    return ((std::filesystem::path(info.dli_fname).parent_path().parent_path()
+        / "assets" / "arial.ttf").string());
+}
 
 // Path of the system sans-serif font, used when the bundled one is missing
 static std::string getSystemFont(void)
@@ -29,7 +42,7 @@ ArcadeSdl2::ArcadeSdl2()
     TTF_Init();
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
     this->_font = nullptr;
-    this->loadFont(SDL_FONT_PATH);
+    this->loadFont(bundledFont());
     if (this->_font == nullptr)
         this->loadFont(getSystemFont());
     if (this->_font == nullptr)
