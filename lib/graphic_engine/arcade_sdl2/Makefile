@@ -23,7 +23,7 @@ INCLUDE_DIRS =
 
 #FLAGS
 FLAGS = -MMD -MP -g -g3 -Wextra -Wall -Werror -W -std=c++17 \
--shared -fPIC -g -g3
+-shared -fPIC -fno-gnu-unique -g -g3
 LDLIBS = -lSDL2 -lSDL2_ttf
 
 #EXCLUDED
