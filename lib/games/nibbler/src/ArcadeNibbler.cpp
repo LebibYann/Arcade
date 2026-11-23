@@ -7,61 +7,58 @@
 
 #include "nibbler.hpp"
 
+// The core runs at 30 frames per second: the snake moves 6 times per second
+#define NIBBLER_FRAMES_PER_STEP 5
+
 ArcadeNibbler::ArcadeNibbler()
+    : GridSnake::Game(NIBBLER_FRAMES_PER_STEP), _maps(loadMaps())
 {
-    initSnake(&_game_data);
-    _game_data.score = 0;
-    _game_data.timer = 999;
-    _game_data.gameOver = false;
-    _game_data.lastEaten = 0;
-    _game_data.level = 1;
-    loadMaps(&_game_data);
-    _game_data.map = _game_data.maps[0];
-    _window_size.push_back(19);
-    _window_size.push_back(19);
-    _tiles_config.push_back({0, BLACK, " "});
-    _tiles_config.push_back({1, WHITE, " "});
-    _tiles_config.push_back({2, YELLOW, " "});
-    _tiles_config.push_back({3, GREEN, " "});
-    _tiles_config.push_back({4, RED, " "});
+    startLevel();
 }
 
-ArcadeNibbler::~ArcadeNibbler()
+void ArcadeNibbler::startLevel(void)
 {
+    _map = _maps[_level];
+    _timer = NIBBLER_START_TIMER;
+    spawn({10, 17}, Arcade::RIGHT_ARROW, 3);
 }
 
-std::vector <int> ArcadeNibbler::getWindowSize(void) const
+std::vector<int> ArcadeNibbler::getWindowSize(void) const
 {
-    return (_window_size);
+    // One more row under the maze for the level and the timer
+    return {width(), height() + 1};
 }
 
-std::vector<Arcade::t_tile_config> ArcadeNibbler::getTilesConfig(void) const
+void ArcadeNibbler::step(const std::vector<bool> &inputs)
 {
-    return (_tiles_config);
-}
+    int next;
 
-std::size_t ArcadeNibbler::getScore(void) const
-{
-    return (_game_data.score);
-}
-
-std::vector<std::shared_ptr<IInstruction>> ArcadeNibbler::computeFrame(std::vector<bool> buttons)
-{
-    std::vector<std::shared_ptr<IInstruction>> instructions;
-
-    this->accumulateInput(buttons);
-    if (this->counter == 0) {
-        this->instr = computeGame(&_game_data, this->_buttons);
-        std::fill(this->_buttons.begin(), this->_buttons.end(), false);
+    if (_gameOver)
+        return (removeTail());
+    steer(inputs);
+    next = tileAt(nextCell());
+    if (next == GridSnake::BODY)
+        return (die());
+    if (next != GridSnake::WALL) {
+        if (next == GridSnake::FOOD)
+            _score += 10;
+        advance(next == GridSnake::FOOD);
     }
-    ++counter;
-    counter = counter % 5;
-    return (this->instr);
+    _timer -= 1;
+    if (!hasTile(GridSnake::FOOD)) {
+        _score += _timer;
+        _level = (_level + 1) % _maps.size();
+        return (startLevel());
+    }
+    if (_timer <= 0)
+        die();
 }
 
-void ArcadeNibbler::accumulateInput(const std::vector<bool> &buttons)
+std::vector<std::shared_ptr<IInstruction>> ArcadeNibbler::draw(void) const
 {
-    this->_buttons.resize(buttons.size());
-    for (size_t i = 0; i < this->_buttons.size(); ++i)
-        this->_buttons[i] = (buttons[i] || this->_buttons[i]);
+    std::vector<std::shared_ptr<IInstruction>> instructions = GridSnake::Game::draw();
+
+    instructions.push_back(std::make_shared<InstDrawText>(0, height(), Arcade::WHITE,
+        "Level " + std::to_string(_level + 1) + "   Time " + std::to_string(_timer)));
+    return (instructions);
 }

@@ -2,16 +2,18 @@
 ** EPITECH PROJECT, 2023
 ** snake
 ** File description:
-** getAction
+** ArcadeSnake
 */
 
 #include "snake.hpp"
 
+// The core runs at 30 frames per second: the snake moves 6 times per second
+#define SNAKE_FRAMES_PER_STEP 5
+
 ArcadeSnake::ArcadeSnake()
+    : GridSnake::Game(SNAKE_FRAMES_PER_STEP), _rng(std::random_device{}())
 {
-    initSnake(&_game_data);
-    this->_game_data.score = 0;
-    _game_data.map = {
+    _map = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -23,67 +25,41 @@ ArcadeSnake::ArcadeSnake()
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-
-    _window_size.push_back(10);
-    _window_size.push_back(10);
-    _tiles_config.push_back({0, BLACK, " "});
-    _tiles_config.push_back({1, WHITE, " "});
-    _tiles_config.push_back({2, YELLOW, " "});
-    _tiles_config.push_back({3, GREEN, " "});
-    _tiles_config.push_back({4, RED, " "});
+    spawn({4, 4}, Arcade::UP_ARROW, 3);
+    placeFood();
 }
 
-void ArcadeSnake::reset()
+void ArcadeSnake::step(const std::vector<bool> &inputs)
 {
-    initSnake(&_game_data);
-    this->_game_data.score = 0;
-    _game_data.map = {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-    };
-    counter = 0;
+    int next;
+
+    if (_gameOver)
+        return (removeTail());
+    steer(inputs);
+    next = tileAt(nextCell());
+    if (next == GridSnake::WALL || next == GridSnake::BODY)
+        return (die());
+    if (next == GridSnake::FOOD)
+        _score += 1;
+    advance(next == GridSnake::FOOD);
+    if (!placeFood())
+        die();
 }
 
-std::vector <int> ArcadeSnake::getWindowSize(void) const
+bool ArcadeSnake::placeFood(void)
 {
-    return (_window_size);
-}
+    std::vector<GridSnake::Cell> freeCells;
 
-std::vector<Arcade::t_tile_config> ArcadeSnake::getTilesConfig(void) const
-{
-    return (_tiles_config);
-}
-
-std::size_t ArcadeSnake::getScore(void) const
-{
-    return (this->_game_data.score);
-}
-
-std::vector<std::shared_ptr<IInstruction>> ArcadeSnake::computeFrame(std::vector<bool> buttons)
-{
-    std::vector<std::shared_ptr<IInstruction>> instructions;
-
-    this->accumulateInput(buttons);
-    if (this->counter == 0) {
-        this->instr = computeGame(&_game_data, this->_buttons);
-        std::fill(this->_buttons.begin(), this->_buttons.end(), false);
-    }
-    ++counter;
-    counter = counter % 5;
-    return (this->instr);
-}
-
-void ArcadeSnake::accumulateInput(const std::vector<bool> &buttons)
-{
-    this->_buttons.resize(buttons.size());
-    for (size_t i = 0; i < this->_buttons.size(); ++i)
-        this->_buttons[i] = (buttons[i] || this->_buttons[i]);
+    if (hasTile(GridSnake::FOOD))
+        return (true);
+    for (int y = 0; y < height(); ++y)
+        for (int x = 0; x < (int)_map[y].size(); ++x)
+            if (_map[y][x] == GridSnake::GROUND)
+                freeCells.push_back({x, y});
+    if (freeCells.empty())
+        return (false);
+    GridSnake::Cell food = freeCells[std::uniform_int_distribution<std::size_t>(
+        0, freeCells.size() - 1)(_rng)];
+    _map[food.y][food.x] = GridSnake::FOOD;
+    return (true);
 }

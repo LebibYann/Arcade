@@ -7,9 +7,11 @@
 
 #include "nibbler.hpp"
 
-void loadMaps(t_nibbler_data *game_data)
+std::vector<GridSnake::Map> loadMaps(void)
 {
-    std::vector <std::vector <int>> tempMap;
+    std::vector<GridSnake::Map> maps;
+    GridSnake::Map tempMap;
+
     tempMap = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 1},
@@ -31,7 +33,7 @@ void loadMaps(t_nibbler_data *game_data)
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-    game_data->maps.push_back(tempMap);
+    maps.push_back(tempMap);
     tempMap = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 1},
@@ -53,7 +55,7 @@ void loadMaps(t_nibbler_data *game_data)
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-    game_data->maps.push_back(tempMap);
+    maps.push_back(tempMap);
     tempMap = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 1},
@@ -75,5 +77,6 @@ void loadMaps(t_nibbler_data *game_data)
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-    game_data->maps.push_back(tempMap);
+    maps.push_back(tempMap);
+    return (maps);
 }
