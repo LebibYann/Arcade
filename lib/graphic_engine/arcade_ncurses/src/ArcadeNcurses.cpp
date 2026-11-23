@@ -75,8 +75,16 @@ ArcadeNcurses::~ArcadeNcurses()
     signal(SIGINT, _oldSigint);
 }
 
+// IGraphics: a color outside ArcadeColor must be ignored, not crash
+static bool isArcadeColor(long color)
+{
+    return (color >= Arcade::BLACK && color <= Arcade::WHITE);
+}
+
 void ArcadeNcurses::drawText(const std::string &text, int x, int y, int color)
 {
+    if (!isArcadeColor(color))
+        color = Arcade::WHITE;
     wattron(_win, COLOR_PAIR(color));
     mvwprintw(_win, y, x * 2, "%s", text.c_str());
     wattroff(_win, COLOR_PAIR(color));
@@ -84,6 +92,8 @@ void ArcadeNcurses::drawText(const std::string &text, int x, int y, int color)
 
 void ArcadeNcurses::drawTile(int x, int y, uint32_t color)
 {
+    if (!isArcadeColor(color))
+        return;
     wattron(_win, COLOR_PAIR(color));
     mvwprintw(_win, y, x * 2, "  ");
     wattroff(_win, COLOR_PAIR(color));
@@ -96,6 +106,8 @@ void ArcadeNcurses::display(void)
 
 void ArcadeNcurses::fill(uint32_t color)
 {
+    if (!isArcadeColor(color))
+        return;
     wattron(_win, COLOR_PAIR(color));
     for (size_t i = 0; i < TILES_Y; i++)
         for (size_t j = 0; j < TILES_X * 2; j += 2)

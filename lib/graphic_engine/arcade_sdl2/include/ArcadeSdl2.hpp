@@ -19,7 +19,8 @@
 
 #include "IGraphics.hpp"
 
-#define SDL_SETCOLOR(r, g, b, a) (r | (g << 8) | (b << 16) | (a << 24))
+#define SDL_SETCOLOR(r, g, b, a) ((uint32_t)(r) | ((uint32_t)(g) << 8) | \
+    ((uint32_t)(b) << 16) | ((uint32_t)(a) << 24))
 #define SDL_TOTALCOLOR 8
 
 typedef union u_sdl_color {

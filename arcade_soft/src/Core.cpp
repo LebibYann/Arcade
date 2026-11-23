@@ -310,6 +310,8 @@ void Arcade::Core::run(void)
 void Arcade::Core::interpretInstruction(const std::vector<std::shared_ptr<IInstruction>> &instr)
 {
     for (size_t i = 0; i < instr.size(); ++i) {
+        if (instr[i] == nullptr)
+            continue;
         switch (instr[i]->getId()) {
             case INST_FILL:
                 this->fill(instr[i]);
@@ -328,14 +330,21 @@ void Arcade::Core::fill(const std::shared_ptr<IInstruction> &instr)
 {
     InstFill *cast_instr = dynamic_cast<InstFill*>(instr.get());
 
+    if (cast_instr == nullptr)
+        return;
     this->_graphic->fill(cast_instr->get_color());
 }
 
 void Arcade::Core::drawTile(const std::shared_ptr<IInstruction> &instr)
 {
     InstDrawTile *cast_instr = dynamic_cast<InstDrawTile*>(instr.get());
-    Arcade::t_tile_data tileData = this->getTileData(cast_instr->get_texture());
+    Arcade::t_tile_data tileData;
 
+    if (cast_instr == nullptr)
+        return;
+    tileData = this->getTileData(cast_instr->get_texture());
+    if (tileData.id == -1)
+        return;
     this->_graphic->drawTile(cast_instr->get_x() + _gamePadding[0], cast_instr->get_y() + _gamePadding[1], tileData.color);
 }
 
@@ -343,6 +352,8 @@ void Arcade::Core::drawText(const std::shared_ptr<IInstruction> &instr)
 {
     InstDrawText *cast_instr = dynamic_cast<InstDrawText*>(instr.get());
 
+    if (cast_instr == nullptr)
+        return;
     this->_graphic->drawText(cast_instr->get_text(), cast_instr->get_x() + _gamePadding[0], cast_instr->get_y() + _gamePadding[1], cast_instr->get_color());
 }
 
@@ -365,10 +376,11 @@ std::vector<Arcade::t_score_data> Arcade::Core::loadGameScore(const std::string 
         // std::cout << "No score data found for the game called: " << gameName << std::endl;
         return (scores);
     }
-    scoreFile >> nbr_score;
-    for (size_t i = 0; i < nbr_score; ++i) {
-        scoreFile >> scoreData.score;
-        scoreFile >> scoreData.name;
+    if (!(scoreFile >> nbr_score))
+        return (scores);
+    for (size_t i = 0; i < nbr_score && i < 10; ++i) {
+        if (!(scoreFile >> scoreData.score >> scoreData.name))
+            break;
         scores.push_back(scoreData);
     }
     scoreFile.close();

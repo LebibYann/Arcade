@@ -7,10 +7,17 @@
 
 #include "ArcadeLibcaca.hpp"
 
+#include <stdexcept>
+
 ArcadeLibcaca::ArcadeLibcaca()
 {
     _canva = caca_create_canvas(LIBCACA_MAXX, LIBCACA_MAXY);
-    _display = caca_create_display(_canva);
+    _display = (_canva == nullptr) ? nullptr : caca_create_display(_canva);
+    if (_display == nullptr) {
+        if (_canva != nullptr)
+            caca_free_canvas(_canva);
+        throw std::runtime_error("arcade_libcaca: unable to open a display");
+    }
     _keys.insert({'z', Arcade::UP_ARROW});
     _keys.insert({'s', Arcade::DOWN_ARROW});
     _keys.insert({'q', Arcade::LEFT_ARROW});
