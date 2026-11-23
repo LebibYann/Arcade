@@ -22,7 +22,7 @@ INCLUDE_DIRS_REC = include/ ../global
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W -ldl
+FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++17 -ldl
 
 #LIB
 LIB_DIRS =
@@ -60,7 +60,7 @@ BLINK 	= 	"\033[1;92m"
 SBLINK	= 	"\033[0m"
 INVERT  =	"\033[7m"
 
-SHELL := /bin/sh
+SHELL := /bin/bash
 _ERROR_LOG_EXT_NAME = .errlog
 
 # ---------------------- AUTO GENERATED DATA, DON'T TOUCH ----------------------

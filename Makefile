@@ -5,6 +5,8 @@
 ## Makefile
 ##
 
+SHELL := /bin/bash
+
 CORE_SRC = ./arcade_soft
 GAME_SRC = $(shell find ./lib/games/ -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
 GRAPHIC_SRC = $(shell find ./lib/graphic_engine/ -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
