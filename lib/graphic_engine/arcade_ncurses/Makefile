@@ -24,7 +24,7 @@ INCLUDE_DIRS =
 #FLAGS
 FLAGS = -MMD -MP -g -g3 -Wextra -Wall -Werror -W -std=c++17 \
 -shared -fPIC -g -g3
-LDLIBS = -lncurses
+LDLIBS = -lncursesw
 
 #EXCLUDED
 GLOB_EXCL_DIRS = ./bonus/

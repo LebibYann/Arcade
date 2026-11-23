@@ -6,12 +6,21 @@
 */
 
 #include "ArcadeNcurses.hpp"
-#include <signal.h>
+
+#include <stdexcept>
 
 ArcadeNcurses::ArcadeNcurses()
 {
-    signal(SIGINT, SIG_IGN);
-    initscr();
+    _oldSigint = signal(SIGINT, SIG_IGN);
+    // newterm instead of initscr: initscr only sets the terminal up once per
+    // process, and the ncurses state (kept in libtinfo) outlives this library
+    // when the core unloads it and loads it again later.
+    _screen = newterm(nullptr, stdout, stdin);
+    if (_screen == nullptr) {
+        signal(SIGINT, _oldSigint);
+        throw std::runtime_error("arcade_ncurses: unable to set up the terminal");
+    }
+    set_term(_screen);
     noecho();
     start_color();
     init_pair(Arcade::BLACK, COLOR_WHITE, COLOR_BLACK);
@@ -22,7 +31,10 @@ ArcadeNcurses::ArcadeNcurses()
     init_pair(Arcade::MAGENTA, COLOR_WHITE, COLOR_MAGENTA);
     init_pair(Arcade::CYAN, COLOR_WHITE, COLOR_CYAN);
     init_pair(Arcade::WHITE, COLOR_BLACK, COLOR_WHITE);
-    _win = newwin(NCURSE_MAXY, NCURSE_MAXX, (NCURSE_MAXY - TILES_Y) / 2, (NCURSE_MAXX - TILES_X * 2) / 2);
+    // Center the game area in the terminal, cut to the terminal size if it is
+    // smaller (newwin fails when the window does not fit)
+    _win = newwin(std::min(TILES_Y, LINES), std::min(TILES_X * 2, COLS),
+        std::max(0, (LINES - TILES_Y) / 2), std::max(0, (COLS - TILES_X * 2) / 2));
     cbreak();
     noecho();
     curs_set(FALSE);
@@ -56,7 +68,11 @@ ArcadeNcurses::ArcadeNcurses()
 
 ArcadeNcurses::~ArcadeNcurses()
 {
+    if (_win != nullptr)
+        delwin(_win);
     endwin();
+    delscreen(_screen);
+    signal(SIGINT, _oldSigint);
 }
 
 void ArcadeNcurses::drawText(const std::string &text, int x, int y, int color)
