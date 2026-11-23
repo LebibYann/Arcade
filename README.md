@@ -10,22 +10,24 @@ Arcade is a small game console written in C++. Games and graphics back ends are 
 
 ## Features
 
-- Games: **Snake** and **Nibbler**, with their maps in [`game_files/`](game_files)
+- Games: **Snake**, and **Nibbler** with three mazes and a timer
 - Graphics back ends: **ncurses**, **SDL2** and **libcaca**
 - Switch game or renderer at runtime; each library only depends on the shared interfaces
+- Player name and a top 10 score board per game, saved in `score/`
 
 ## Architecture
 
 The core never knows which game or renderer it runs. It only talks to two interfaces in [`global/`](global):
 
-- `IGame`: game logic, which reads player instructions and produces what to draw
+- `IGame`: game logic, which reads the pressed buttons and returns a list of drawing instructions
 - `IGraphics`: rendering and input for one back end
 
-`DLLoader` opens a `.so`, finds its extern "C" entry point and returns an instance of the interface. Adding a new game or renderer means writing one library, with no change to the core.
+`DLLoader` opens a `.so`, calls its extern "C" `entry_point` and takes ownership of the instance it returns. Adding a new game or renderer means writing one library, with no change to the core. The core runs the loop at 30 frames per second.
 
 ```
 arcade_soft/          core program (Core, DLLoader, Main)
 global/               shared interfaces (IGame, IGraphics, Instruction)
+lib/common/           snake logic shared by Snake and Nibbler
 lib/games/            snake, nibbler
 lib/graphic_engine/   arcade_ncurses, arcade_sdl2, arcade_libcaca
 doc/                  Doxygen documentation (HTML and LaTeX)
@@ -33,14 +35,27 @@ doc/                  Doxygen documentation (HTML and LaTeX)
 
 ## Build and run
 
-Requires a Linux system with `g++`, `make`, ncurses, SDL2 and libcaca.
+Requires a Linux system with `g++` (C++17), `make`, ncurses, SDL2, SDL2_ttf and libcaca. On Debian or Ubuntu:
 
 ```bash
+sudo apt install g++ make libncurses-dev libsdl2-dev libsdl2-ttf-dev libcaca-dev
 make
 ./arcade ./lib/arcade_ncurses.so
 ```
 
-The argument is the graphics library to start with.
+The argument is the graphics library to start with. If a back end's dependency is missing, `make` reports an error for that library but still builds the other ones.
+
+| Key | Action |
+|---|---|
+| Z Q S D | Move (and navigate the menu) |
+| D in the menu | Select: launch a game, load a renderer, edit the name |
+| ← → | Previous / next game |
+| ↑ ↓ | Next / previous graphics library |
+| R | Restart the game |
+| Enter | Back to the menu |
+| Escape | Quit |
+
+The keys follow an AZERTY layout. Enter a name before launching a game.
 
 ## Documentation
 
