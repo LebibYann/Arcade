@@ -10,13 +10,14 @@
 #include "IGraphics.hpp"
 
 #include <ncurses.h>
+#include <signal.h>
+#include <algorithm>
+#include <deque>
 #include <memory>
 #include <map>
 
 #define TILES_X 64
 #define TILES_Y 36
-#define NCURSE_MAXX 190
-#define NCURSE_MAXY 45
 
 class ArcadeNcurses : public Arcade::IGraphics
 {
@@ -35,8 +36,10 @@ public:
     void getButtons(std::vector<bool> &buttons);
     char getKeyboard(void);
 private:
-    int _width;
-    int _height;
+    SCREEN *_screen;
     WINDOW *_win;
+    void (*_oldSigint)(int);
     std::map<int, int> keys;
+    // Characters typed since the last getButtons call, for getKeyboard
+    std::deque<char> _typed;
 };

@@ -7,9 +7,9 @@
 
 #include "ArcadeNcurses.hpp"
 
-extern "C" std::shared_ptr<ArcadeNcurses> entry_point()
+extern "C" Arcade::IGraphics *entry_point()
 {
-    return (std::make_shared<ArcadeNcurses>());
+    return (new ArcadeNcurses());
 }
 
 extern "C" int get_type(void)

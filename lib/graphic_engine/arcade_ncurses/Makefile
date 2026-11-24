@@ -22,8 +22,9 @@ INCLUDE_DIRS_REC = include/ ../../../global/
 INCLUDE_DIRS =
 
 #FLAGS
-FLAGS = -g -g3 -Wextra -Wall -Werror -W -std=c++14 \
--shared -fPIC -lSDL2 -lSDL2_ttf -lSDL2_image -g -g3 -lncurses
+FLAGS = -MMD -MP -g -g3 -Wextra -Wall -Werror -W -std=c++17 \
+-shared -fPIC -fno-gnu-unique -g -g3
+LDLIBS = -lncursesw
 
 #EXCLUDED
 GLOB_EXCL_DIRS = ./bonus/
@@ -56,7 +57,7 @@ BLINK 	= 	"\033[1;92m"
 SBLINK	= 	"\033[0m"
 INVERT  =	"\033[7m"
 
-SHELL := /bin/sh
+SHELL := /bin/bash
 _ERROR_LOG_EXT_NAME = .errlog
 
 # ---------------------- AUTO GENERATED DATA, DON'T TOUCH ----------------------
@@ -160,7 +161,7 @@ build_a:
 	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).a;
 
 build_so:
-	@g++ $(FLAGS) -o $(ROOT)$(NAME).so $(_OBJ) && \
+	@g++ $(FLAGS) -o $(ROOT)$(NAME).so $(_OBJ) $(LDLIBS) && \
 	($(CLS_LINE) ; $(ECHO) $(BLINK)" [OK]"$(DEFLT) $(NAME).so) || \
 	$(ECHO) $(RED) "[KO]"$(DEFLT) $(NAME).so;
 
@@ -180,7 +181,7 @@ compil:
 
 
 clean:
-	@find . -name "*.o" $(_FIND_LIB_EXCL_DIRS) -delete \
+	@find . \( -name "*.o" -or -name "*.d" \) $(_FIND_LIB_EXCL_DIRS) -delete \
 		-or -name "*~" -delete && \
 	$(ECHO) $(BLINK) "[CLEAN DONE]" $(DEFLT)
 
@@ -298,3 +299,6 @@ show_all: show show_file
 
 
 FORCE:
+
+# Rebuild objects when a header they include changes
+-include $(_OBJ:.o=.d)

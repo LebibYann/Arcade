@@ -7,9 +7,9 @@
 
 #include "nibbler.hpp"
 
-extern "C" std::shared_ptr<ArcadeNibbler> entry_point()
+extern "C" Arcade::IGame *entry_point()
 {
-    return (std::make_shared<ArcadeNibbler>());
+    return (new ArcadeNibbler());
 }
 
 extern "C" int get_type(void)

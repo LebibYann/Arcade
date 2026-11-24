@@ -7,9 +7,9 @@
 
 #include "snake.hpp"
 
-extern "C" std::shared_ptr<ArcadeSnake> entry_point()
+extern "C" Arcade::IGame *entry_point()
 {
-    return (std::make_shared<ArcadeSnake>());
+    return (new ArcadeSnake());
 }
 
 extern "C" int get_type(void)

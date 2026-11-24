@@ -7,9 +7,9 @@
 
 #include "ArcadeLibcaca.hpp"
 
-extern "C" std::shared_ptr<ArcadeLibcaca> entry_point()
+extern "C" Arcade::IGraphics *entry_point()
 {
-    return (std::make_shared<ArcadeLibcaca>());
+    return (new ArcadeLibcaca());
 }
 
 extern "C" int get_type(void)
